@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Banca extends Model
+{
+    use HasFactory;
+    protected $guarded = ['id'];
+
+    public function agendamento()
+    {
+        return $this->belongsTo(Agendamento::class);
+    }
+
+    //Função para devolver valores de select
+    public static function presidenteOptions(){
+        return [
+            'Sim',
+            'Não'
+        ];
+    }
+}
