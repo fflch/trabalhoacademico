@@ -1,8 +1,8 @@
 @extends('laravel-usp-theme::master')
 
-@section('javascripts_head')
+@section('javascripts_bottom')
   <script src="{{asset('/js/app.js')}}"></script>
-@endsection('javascript_head')
+@endsection('javascripts_bottom')
 
 @section('content')
     @include('flash')
@@ -55,7 +55,7 @@
             <tr>
                 <td>{{ $agendamento->codpes }}</td>
                 <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->nome }}</a></td>
-                <td>{{ Carbon\Carbon::parse($agendamento->data_horario)->format('d/m/Y') }}</td>
+                <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
                 <td>{{ $agendamento->nome_do_orientador}}</td>
                 <td>
                     <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>

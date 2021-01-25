@@ -2,22 +2,26 @@
             <div class="card-header"><b>Dados Pessoais</b></div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nome">Nome</label>
+                    <label for="nome"><b>Nome</b></label>
                     <input type="text" class="form-control" name="nome" value="{{ old('nome', $agendamento->nome) }}">
                 </div>
+                <div class="form-group">
+                    <label for="codpes"><b>Número USP</b></label>
+                    <input type="text" class="form-control" name="codpes" value="{{ old('codpes', $agendamento->codpes) }}">
+                </div>
                 <div class="card form-group">
-                    <div class="card-header">E-mails</div>
+                    <div class="card-header"><b>E-mails</b></div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="e_mail_usp">E-mail USP</label>
+                            <label for="e_mail_usp"><b>E-mail USP</b></label>
                             <input type="text" class="form-control" name="e_mail_usp" value="{{ old('e_mail_usp', $agendamento->e_mail_usp) }}">
                         </div>
                         <div class="form-group">
-                            <label for="outro_recomendado_">Outro (Recomendado)</label>
+                            <label for="outro_recomendado_"><b>Outro (Recomendado)</b></label>
                             <input type="text" class="form-control" name="outro_recomendado_" value="{{ old('outro_recomendado_', $agendamento->outro_recomendado_) }}">
                         </div>
                         <div class="form-group">
-                            <label for="divulgar_e_mail_">Divulgar E-mail?</label>
+                            <label for="divulgar_e_mail_"><b>Divulgar E-mail?</b></label>
                             <select class="form-control" name="divulgar_e_mail_">
                                 <option value="" selected="">- Selecione -</option>
                                 @foreach ($agendamento->divulgaOptions() as $option)
@@ -44,37 +48,59 @@
             <div class="card-header"><b>Dados do trabalho acadêmico</b></div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="titulo">Título</label>
+                    <label for="status" class="required"><b>Status</b></label>
+                    <select class="form-control" name="status">
+                        <option value="" selected="">- Selecione -</option>
+                        @foreach ($agendamento->statusOptions() as $option)
+                            {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
+                            @if (old('status') == '' and isset($agendamento->status))
+                            <option value="{{$option}}" {{ ( $agendamento->status == $option) ? 'selected' : ''}}>
+                                {{$option}}
+                            </option>
+                            {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
+                            @else
+                            <option value="{{$option}}" {{ ( old('status') == $option) ? 'selected' : ''}}>
+                                {{$option}}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="titulo"><b>Título</b></label>
                     <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $agendamento->titulo) }}">
                 </div>
                 <div class="form-group">
-                    <label for="resumo">Resumo</label>
+                    <label for="resumo"><b>Resumo</b></label>
                     <textarea class="form-control" name="resumo" id="resumo" rows="5" cols="60">{{ old('resumo', $agendamento->resumo) }}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="palavras_chave">Palavras-Chave</label>
+                    <label for="palavras_chave"><b>Palavras-Chave</b></label>
                     <input type="text" class="form-control" name="palavras_chave" value="{{ old('palavras_chave', $agendamento->palavras_chave) }}">
                 </div>
                 <div class="form-group">
-                    <label for="abstract">Abstract</label>
+                    <label for="abstract"><b>Abstract</b></label>
                     <textarea class="form-control" name="abstract" id="abstract" rows="5" cols="60"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="data_da_defesa">Data da Defesa</label>
-                    <input type="text" class="form-control datepicker" name="data_da_defesa" value="{{ old('data_da_defesa', $agendamento->data_da_defesa) }}">
+                    <label for="data_da_defesa"><b>Data da Defesa</b></label>
+                    <input type="text" class="form-control datepicker" name="data_da_defesa" value="{{ old('data_da_defesa', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')) }}">
                 </div>
                 <div class="card">
-                    <div class="card-header">Dados do Orientador</div>
+                    <div class="card-header"><b>Dados do Orientador</b></div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="nome_do_orientador">Nome do Orientador</label>
+                            <label for="nome_do_orientador"><b>Nome do Orientador</b></label>
                             <input type="text" class="form-control" name="nome_do_orientador" value="{{ old('nome_do_orientador', $agendamento->nome_do_orientador) }}">
                         </div>
                         <div class="form-group">
-                            <label for="numero_usp_do_orientador">Número USP do Orientador</label>
+                            <label for="numero_usp_do_orientador"><b>Número USP do Orientador</b></label>
                             <input type="text" class="form-control" name="numero_usp_do_orientador" value="{{ old('numero_usp_do_orientador', $agendamento->numero_usp_do_orientador) }}">
                         </div>
                         <div class="form-group">
+                            <div>
+                                <label><b>Co-Orientador?</b></label>
+                            </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="co_orientador" id="co-orientador-sim" value="Sim" checked>
                                 <label class="form-check-label" for="co-orientador-sim">
@@ -97,7 +123,7 @@
             <p><span style="font-size:16px; text-align:justify"><span style="color:rgb(38, 50, 56); font-family:arial,sans-serif">Com fundamento no disposto na Lei nº 9.610, de 19 de fevereiro de 1998, <strong>autorizo</strong> a Faculdade de Filosofia Letras e Ciências Humanas da Universidade de São Paulo a publicar, em ambiente digital institucional e sem ressarcimento dos direitos autorais, o texto integral da obra acima citada, em formato PDF e a título de divulgação da produção acadêmica de graduação e especialização gerada pela Faculdade.</span></span></p>
         </div>
         <div class="form-group">
-            <label for="arquivo-do-trabalho">Arquivo do Trabalho</label>
+            <label for="arquivo-do-trabalho"><b>Arquivo do Trabalho</b></label>
             <input type="file" class="form-control-file" id="arquivo-do-trabalho" name="files[arquivo_do_trabalho]">
         </div>
         <div class="form-group">

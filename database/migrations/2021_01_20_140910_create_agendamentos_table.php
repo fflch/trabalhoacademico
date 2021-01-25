@@ -16,7 +16,7 @@ class CreateAgendamentosTable extends Migration
         Schema::create('agendamentos', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('codpes')->nullable();
+            $table->integer('codpes');
             $table->string('nome');
             $table->string('e_mail_usp');
             $table->string('outro_recomendado_')->nullable();
@@ -25,8 +25,8 @@ class CreateAgendamentosTable extends Migration
             $table->text('resumo');
             $table->string('palavras_chave');
             $table->text('abstract')->nullable();
-            $table->dateTime('data_da_defesa');
-            $table->string('nome_orientador');
+            $table->date('data_da_defesa');
+            $table->string('nome_do_orientador');
             $table->string('numero_usp_do_orientador');
             $table->string('co_orientador');
             $table->string('status');

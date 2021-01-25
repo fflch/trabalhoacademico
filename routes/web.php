@@ -19,7 +19,6 @@ use App\Http\Controllers\BancaController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/anteriores',[indexController::class, 'anteriores'])->name('anteriores');
 Route::get('login',[LoginController::class, 'redirectToProvider'])->name('login');
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::get('logout',[LoginController::class, 'logout'])->name('logout');
