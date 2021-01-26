@@ -2,6 +2,7 @@
 
 @section('content')
 @inject('pessoa','Uspdev\Replicado\Pessoa')
+@include('flash')
     <div class="row">
         <div class="col-sm">
             <a href="/agendamentos/create" class="btn btn-success">Agendar Novo Trabalho Acadêmico</a></br>
@@ -27,4 +28,6 @@
     @include('agendamentos.partials.dados_trabalho')
     <br>
     @include('agendamentos.partials.banca')
+    <br>
+    @include('agendamentos.partials.files')
 @endsection('content')

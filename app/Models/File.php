@@ -5,15 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Banca extends Model
+class File extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
-
     public function agendamento()
     {
         return $this->belongsTo(Agendamento::class);
     }
-
     
+    public static function statusOptions(){
+        return [
+            'Em Elaboração',
+            'Em Avaliação',
+            'Aprovado',
+        ];
+    }
 }

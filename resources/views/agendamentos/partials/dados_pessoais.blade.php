@@ -1,7 +1,12 @@
     <div class="card">
         <div class="card-header"><b>Dados Pessoais</b></div>
         <div class="card-body">
-            <b>Nome:</b> {{$agendamento->nome}}</br>
+            <div class="row">
+                <div class="col-sm">
+                    <b>Nome:</b> {{$agendamento->nome}}
+                </div>
+            </div>
+            <br>
             <div class="card">
                 <div class="card-header">E-mails</div>
                 <div class="card-body">

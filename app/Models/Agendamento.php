@@ -16,6 +16,11 @@ class Agendamento extends Model
         return $this->hasMany(Banca::class);
     }
 
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
     //Função para devolver valores de select
     public static function divulgaOptions(){
         return [
@@ -29,6 +34,14 @@ class Agendamento extends Model
             'Em Elaboração',
             'Em Avaliação',
             'Aprovado',
+        ];
+    }
+
+    //Função para devolver valores de select
+    public static function presidenteOptions(){
+        return [
+            'Sim',
+            'Não'
         ];
     }
 

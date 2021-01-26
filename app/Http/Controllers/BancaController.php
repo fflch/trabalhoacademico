@@ -31,9 +31,7 @@ class BancaController extends Controller
      */
     public function create($agendamento)
     {
-        //$this->authorize('admin');
-        $banca = new Banca;
-        return view('agendamentos.bancas.create',compact(['agendamento','banca']));
+        //
     }
 
     /**
@@ -42,17 +40,12 @@ class BancaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BancaRequest $request, Agendamento $agendamento)
+    public function store(BancaRequest $request)
     {
         //$this->authorize('admin');
-        $banca = new Banca;
         $validated = $request->validated();
-        $banca->codpes = $validated['codpes'];
-        $banca->nome = $validated['nome'];
-        $banca->presidente = $validated['presidente'];
-        $banca->agendamento_id = $agendamento->id;
-        $agendamento->bancas()->save($banca);
-        return redirect("/agendamentos/$agendamento->id");
+        Banca::create($validated);
+        return back();
     }
 
     /**
@@ -72,10 +65,9 @@ class BancaController extends Controller
      * @param  \App\Models\Banca  $banca
      * @return \Illuminate\Http\Response
      */
-    public function edit(Agendamento $agendamento, Banca $banca)
+    public function edit()
     {
-        //$this->authorize('admin');
-        return view('agendamentos.bancas.edit', compact(['agendamento','banca'], [$agendamento,$banca]));
+        //
     }
 
     /**
@@ -85,12 +77,9 @@ class BancaController extends Controller
      * @param  \App\Models\Banca  $banca
      * @return \Illuminate\Http\Response
      */
-    public function update(Agendamento $agendamento, Banca $banca, BancaRequest $request)
+    public function update()
     {
-        //$this->authorize('admin');
-        $validated = $request->validated();
-        $banca->update($validated);
-        return redirect("/agendamentos/$agendamento->id");
+        //
     }
 
     /**
@@ -99,10 +88,10 @@ class BancaController extends Controller
      * @param  \App\Models\Banca  $banca
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agendamento $agendamento, Banca $banca)
+    public function destroy(Banca $banca)
     {
         //$this->authorize('admin');
         $banca->delete();
-        return redirect("/agendamentos/{$agendamento->id}");
+        return back();
     }
 }
