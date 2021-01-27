@@ -8,28 +8,10 @@
     </div>
     <div class="row">
         <div class="form-group col-sm">
-            <label for="arquivo-do-trabalho"><b>Arquivo do Trabalho</b></label>
+            <label for="arquivo-do-trabalho" class="required"><b>Arquivo do Trabalho</b></label>
             <input type="file" class="form-control-file" id="arquivo-do-trabalho" name="file">
         </div>
-        <div class="form-group col-sm">
-            <label for="status" class="required"><b>Status</b></label>
-            <select class="form-control" name="status">
-                <option value="" selected="">- Selecione -</option>
-                @foreach ($agendamento->statusOptions() as $option)
-                    {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
-                    @if (old('status') == '' and isset($agendamento->status))
-                    <option value="{{$option}}" {{ ( $agendamento->status == $option) ? 'selected' : ''}}>
-                        {{$option}}
-                    </option>
-                    {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
-                    @else
-                    <option value="{{$option}}" {{ ( old('status') == $option) ? 'selected' : ''}}>
-                        {{$option}}
-                    </option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
+        <input type="hidden" name="status" value="{{$agendamento->status}}">
     </div>     
     <div class="row">
         <div class="form-group col-sm">

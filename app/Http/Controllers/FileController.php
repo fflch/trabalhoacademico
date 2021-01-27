@@ -8,36 +8,16 @@ use Storage;
 
 class FileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:pdf|max:12288',
+            'file' => 'required|mimetypes:application/pdf|max:12288',
             'status' => 'required',
             'agendamento_id' => 'required|integer|exists:agendamentos,id',
         ]);
@@ -50,46 +30,11 @@ class FileController extends Controller
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\File  $file
-     * @return \Illuminate\Http\Response
-     */
     public function show(File $file)
     {
         return Storage::download($file->path, $file->original_name);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\File  $file
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(File $file)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\File  $file
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, File $file)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\File  $file
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(File $file)
     {
         Storage::delete($file->path);

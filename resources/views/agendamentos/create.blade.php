@@ -4,10 +4,14 @@
   <script src="{{asset('/js/app.js')}}"></script>
 @endsection('javascripts_bottom')
 
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/agendamentos.css')}}">
+@endsection('styles')
+
 @section('content')
 @include('flash')
     <form action="/agendamentos" method="POST">
         @csrf
-        @include('agendamentos.form')
+        @include('agendamentos.partials.form')
     </form>
 @endsection('content')

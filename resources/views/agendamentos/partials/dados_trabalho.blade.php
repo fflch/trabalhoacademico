@@ -1,6 +1,7 @@
     <div class="card">
         <div class="card-header"><b>Dados do Trabalho Acadêmico</b></div>
         <div class="card-body">
+            <b>Status:</b> {{$agendamento->status}}</br>
             <b>Título:</b> {{$agendamento->titulo}}</br>
             <b>Resumo:</b> {{$agendamento->resumo }} </br>
             <b>Palavras-chave:</b> {{ $agendamento->palavras_chave }}</br>
