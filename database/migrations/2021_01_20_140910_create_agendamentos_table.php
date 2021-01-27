@@ -16,9 +16,9 @@ class CreateAgendamentosTable extends Migration
         Schema::create('agendamentos', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('codpes');
-            $table->string('nome');
-            $table->string('e_mail_usp');
+            $table->integer('codpes'); # remover
+            $table->string('nome'); # remover
+            $table->string('e_mail_usp'); # remover
             $table->string('outro_recomendado_')->nullable();
             $table->string('divulgar_e_mail_');
             $table->string('titulo');
@@ -30,6 +30,9 @@ class CreateAgendamentosTable extends Migration
             $table->string('numero_usp_do_orientador');
             $table->string('co_orientador');
             $table->string('status');
+
+            # Vou deixar comentado
+            #$table->foreignId('user_id')->constrained('users');
         });
     }
 

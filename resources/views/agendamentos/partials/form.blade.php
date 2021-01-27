@@ -86,6 +86,11 @@
                     <label for="data_da_defesa" class="required"><b>Data da Defesa</b></label>
                     <input type="text" class="form-control datepicker" name="data_da_defesa" value="{{ old('data_da_defesa', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')) }}">
                 </div>
+
+                @foreach($agendamento->docentes() as $docente)
+                    {{ $docente['nompes'] }} <br>
+                @endforeach
+
                 <div class="card">
                     <div class="card-header"><b>Dados do Orientador</b></div>
                     <div class="card-body">

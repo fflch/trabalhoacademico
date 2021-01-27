@@ -15,6 +15,8 @@ Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 
 
+Route::post('agendamentos/enviar_avaliacao/{agendamento}', [AgendamentoController::class,'enviar_avaliacao']);
+
 Route::resource('agendamentos', AgendamentoController::class);
 Route::resource('bancas', BancaController::class);
 Route::resource('files', FileController::class);

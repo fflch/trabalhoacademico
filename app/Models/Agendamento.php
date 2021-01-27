@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Uspdev\Replicado\Pessoa;
 
 class Agendamento extends Model
 {
@@ -47,6 +48,10 @@ class Agendamento extends Model
 
     public function setDataDaDefesaAttribute($value){
         $this->attributes['data_da_defesa'] = Carbon::CreatefromFormat('d/m/Y', "$value");
+    }
+
+    public function docentes(){
+        return Pessoa::listarDocentes();
     }
 
 }

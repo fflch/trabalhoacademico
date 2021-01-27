@@ -17,8 +17,12 @@ class CreateBancasTable extends Migration
             $table->increments('id');
             $table->integer('codpes');
             $table->string('nome')->nullable();
-            $table->integer('agendamento_id')->unsigned();
-            $table->foreign('agendamento_id')->references('id')->on('agendamentos');
+
+            #$table->integer('agendamento_id')->unsigned();
+            #$table->foreign('agendamento_id')->references('id')->on('agendamentos');
+
+            $table->foreignId('agendamento_id')->constrained('agendamentos');
+
             $table->string('presidente');
             $table->timestamps();
         });

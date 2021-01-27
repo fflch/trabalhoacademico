@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use App\Http\Requests\AgendamentoRequest;
 use App\Models\Banca;
 use Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmAvaliacaoMail;
 
 class AgendamentoController extends Controller
 {
@@ -93,5 +95,13 @@ class AgendamentoController extends Controller
         $agendamento->files()->delete();
         $agendamento->delete();
         return redirect('/agendamentos');
+    }
+
+    public function enviar_avaliacao(Agendamento $agendamento){
+        $agendamento->status = 'Em Avaliação';
+        # Mandar email para orientador
+        Mail::send(new EmAvaliacaoMail($agendamento));
+
+        return redirect('/agendamentos/'.$agendamento->id);
     }
 }
