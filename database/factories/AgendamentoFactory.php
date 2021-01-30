@@ -24,7 +24,7 @@ class AgendamentoFactory extends Factory
     public function definition()
     {
         $divulga = Agendamento::divulgaOptions();
-        $status = ['Em elaboração', 'Em Avaliação', 'Devolvido', 'Aprovado']; 
+        $status = ['Em Elaboração', 'Em Avaliação', 'Devolvido', 'Aprovado']; 
         $aluno = User::factory(1)->create();
         $orientador = $this->faker->docente();
         return [
