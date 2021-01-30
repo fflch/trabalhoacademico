@@ -2,19 +2,15 @@
             <div class="card-header"><b>Dados Pessoais</b></div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nome" class="required"><b>Nome</b></label>
-                    <input type="text" class="form-control" name="nome" value="{{ old('nome', $agendamento->nome) }}">
-                </div>
-                <div class="form-group">
-                    <label for="codpes" class="required"><b>Número USP</b></label>
-                    <input type="text" class="form-control" name="codpes" value="{{ old('codpes', $agendamento->codpes) }}">
+                    <label for="nome"><b>Nome:</b></label> {{$agendamento->user->name ?? Auth::user()->name}}
+                    <input type="text" hidden class="form-control" name="user_id" value="{{$agendamento->user->id ?? Auth::user()->id}}"><br>
+                    <label for="codpes"><b>Número USP:</b></label> {{$agendamento->user->codpes ?? Auth::user()->codpes}}
                 </div>
                 <div class="card form-group">
                     <div class="card-header"><b>E-mails</b></div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="e_mail_usp" class="required"><b>E-mail USP</b></label>
-                            <input type="text" class="form-control" name="e_mail_usp" value="{{ old('e_mail_usp', $agendamento->e_mail_usp) }}">
+                            <label for="e_mail_usp"><b>E-mail USP:</b></label> {{$agendamento->user->email ?? Auth::user()->email}}
                         </div>
                         <div class="form-group">
                             <label for="outro_recomendado_"><b>Outro (Recomendado)</b></label>
@@ -47,25 +43,7 @@
          <div class="card">
             <div class="card-header"><b>Dados do trabalho acadêmico</b></div>
             <div class="card-body">
-                <div class="form-group">
-                    <label for="status" class="required"><b>Status</b></label>
-                    <select class="form-control" name="status">
-                        <option value="" selected="">- Selecione -</option>
-                        @foreach ($agendamento->statusOptions() as $option)
-                            {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
-                            @if (old('status') == '' and isset($agendamento->status))
-                            <option value="{{$option}}" {{ ( $agendamento->status == $option) ? 'selected' : ''}}>
-                                {{$option}}
-                            </option>
-                            {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
-                            @else
-                            <option value="{{$option}}" {{ ( old('status') == $option) ? 'selected' : ''}}>
-                                {{$option}}
-                            </option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+                <input type="text" hidden name="status" value="{{$agendamento->status ?? 'Em Elaboração'}}">
                 <div class="form-group">
                     <label for="titulo" class="required"><b>Título</b></label>
                     <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $agendamento->titulo) }}">
@@ -87,37 +65,27 @@
                     <input type="text" class="form-control datepicker" name="data_da_defesa" value="{{ old('data_da_defesa', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')) }}">
                 </div>
 
-                @foreach($agendamento->docentes() as $docente)
-                    {{ $docente['nompes'] }} <br>
-                @endforeach
-
                 <div class="card">
                     <div class="card-header"><b>Dados do Orientador</b></div>
-                    <div class="card-body">
+                    <div class="card-body">            
                         <div class="form-group">
-                            <label for="nome_do_orientador" class="required"><b>Nome do Orientador</b></label>
-                            <input type="text" class="form-control" name="nome_do_orientador" value="{{ old('nome_do_orientador', $agendamento->nome_do_orientador) }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="numero_usp_do_orientador" class="required"><b>Número USP do Orientador</b></label>
-                            <input type="text" class="form-control" name="numero_usp_do_orientador" value="{{ old('numero_usp_do_orientador', $agendamento->numero_usp_do_orientador) }}">
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                <label class="required"><b>Co-Orientador?</b></label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="co_orientador" id="co-orientador-sim" value="Sim" checked>
-                                <label class="form-check-label" for="co-orientador-sim">
-                                    Sim
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="co_orientador" id="co-orientador-nao" value="Não">
-                                <label class="form-check-label" for="co-orientador-nao">
-                                    Não
-                                </label>
-                            </div>
+                            <label for="numero_usp_do_orientador" class="required"><b>Orientador</b></label>
+                            <select class="form-control" name="numero_usp_do_orientador">
+                                <option value="" selected="">- Selecione -</option>
+                                @foreach ($agendamento->docentes() as $option)
+                                    {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
+                                    @if (old('numero_usp_do_orientador') == '' and isset($agendamento->numero_usp_do_orientador))
+                                    <option value="{{$option['codpes']}}" {{ ( $agendamento->numero_usp_do_orientador == $option['codpes']) ? 'selected' : ''}}>
+                                        {{$option['nompes']}}
+                                    </option>
+                                    {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
+                                    @else
+                                    <option value="{{$option['codpes']}}" {{ ( old('numero_usp_do_orientador') == $option['codpes']) ? 'selected' : ''}}>
+                                        {{$option['nompes']}}
+                                    </option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

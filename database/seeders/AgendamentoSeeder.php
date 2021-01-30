@@ -18,9 +18,7 @@ class AgendamentoSeeder extends Seeder
     public function run()
     {
         $agendamento1 = [
-            'codpes' => 5166999,                   
-            'nome' => 'Breno Aparecido Servidone Moreno', 
-            'e_mail_usp' => Pessoa::emailusp(5166999),                
+            'user_id' => 1,                                   
             'outro_recomendado_' => '',        
             'divulgar_e_mail_' => 'Sim',
             'titulo' => 'Trabalho e academia',                    
@@ -30,8 +28,7 @@ class AgendamentoSeeder extends Seeder
             'data_da_defesa' => '25/02/2021',           
             'nome_do_orientador' => 'Dário Horácio Gutierrez Gallardo',           
             'numero_usp_do_orientador' => 65389,              
-            'co_orientador' => 'Não',             
-            'status' => 'Em avaliação',                    
+            'status' => 'Em Elaboração',                    
         ];
         Agendamento::create($agendamento1);
         

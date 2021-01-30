@@ -3,15 +3,15 @@
     <input type="hidden" name="agendamento_id" value="{{$agendamento->id}}">
     <div class="row">
         <div class="col-sm form-group">
-            <label for="codpes" class="required">Número USP </label> 
+            <label for="codpes">Número USP </label> 
             <input type="text" name="codpes" class="form-control"> 
         </div>
         <div class="col-sm form-group">
-            <label for="nome" class="required">Nome Docente </label> 
+            <label for="nome">Nome Docente </label> 
             <input type="text" name="nome" class="form-control"> 
         </div>
         <div class="col-sm form-group">
-            <label for="presidente" class="required">Presidente</label>
+            <label for="presidente">Presidente</label>
             <select class="form-control" name="presidente">
                 <option value="" selected="">- Selecione -</option>
                 @foreach ($agendamento->presidenteOptions() as $option)

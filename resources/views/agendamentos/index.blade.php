@@ -45,7 +45,7 @@
             <tr>
                 <th>Nº USP</th>
                 <th>Nome</th>
-                <th>Data</th>
+                <th>Data da Defesa</th>
                 <th>Orientador</th>
                 <th colspan="2">Ações</th>
             </tr>
@@ -53,19 +53,23 @@
         <tbody>
         @foreach ($agendamentos as $agendamento)
             <tr>
-                <td>{{ $agendamento->codpes }}</td>
-                <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->nome }}</a></td>
+                <td>{{ $agendamento->user->codpes }}</td>
+                <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>
                 <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
                 <td>{{ $agendamento->nome_do_orientador}}</td>
                 <td>
-                    <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                    @if($agendamento->status == 'Em elaboração' or $agendamento->status == 'Devolvido')
+                        <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                    @endif
                 </td>
                 <td>
-                    <form method="POST" action="/agendamentos/{{ $agendamento->id }}">
-                        @csrf 
-                        @method('delete')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
-                    </form>
+                    @if($agendamento->status == 'Em elaboração')
+                        <form method="POST" action="/agendamentos/{{ $agendamento->id }}">
+                            @csrf 
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    @endif
                 </td>
             </tr>
         @endforeach

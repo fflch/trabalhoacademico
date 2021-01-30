@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Agendamento;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Requests\AgendamentoRequest;
@@ -11,6 +12,7 @@ use App\Models\Banca;
 use Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmAvaliacaoMail;
+use Uspdev\Replicado\Pessoa;
 
 class AgendamentoController extends Controller
 {
@@ -22,14 +24,19 @@ class AgendamentoController extends Controller
     
     public function index(Request $request)
     {
+        $request->validate([
+            'busca_data' => 'required_if:filtro_busca,data',
+        ]);
         $query = Agendamento::orderBy('data_da_defesa', 'desc');
-
-        if($request->filtro_busca == 'numero_nome') {
-            $query->where('codpes', '=', $request->busca);
-            if($query->count() == null){
-                $query->orWhere('nome', 'LIKE', "%$request->busca%");
+        $query2 = User::orderBy('name');
+        if($request->filtro_busca == 'numero_nome' and $request->busca != '') {
+            $query2->where('codpes', '=', $request->busca);
+            if($query2->count() == null){
+                $query2->orWhere('name', 'LIKE', "%$request->busca%");
             }
-            
+            foreach($query2->get() as $user){
+                $query->orWhere('user_id',$user->id);
+            }
         } 
         elseif($request->filtro_busca == 'data'){
             $request->validate([
@@ -41,7 +48,7 @@ class AgendamentoController extends Controller
         
         $agendamentos = $query->paginate(20);
         
-        if ($agendamentos->count() == null) {
+        if ($agendamentos->count() == null and $request->busca != '') {
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
         return view('agendamentos.index')->with('agendamentos',$agendamentos);
@@ -56,6 +63,7 @@ class AgendamentoController extends Controller
     public function store(AgendamentoRequest $request)
     {
         $validated = $request->validated();
+        $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
         $agendamento = Agendamento::create($validated);
         //Salva o orientador na banca
         $banca = new Banca;
@@ -80,6 +88,7 @@ class AgendamentoController extends Controller
     public function update(AgendamentoRequest $request, Agendamento $agendamento)
     {
         $validated = $request->validated();
+        $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
         $agendamento->update($validated);
         return redirect("/agendamentos/$agendamento->id");
     }
@@ -99,9 +108,10 @@ class AgendamentoController extends Controller
 
     public function enviar_avaliacao(Agendamento $agendamento){
         $agendamento->status = 'Em Avaliação';
+        $agendamento->data_enviado_avaliacao = date('Y-m-d');
+        $agendamento->update();
         # Mandar email para orientador
         Mail::send(new EmAvaliacaoMail($agendamento));
-
         return redirect('/agendamentos/'.$agendamento->id);
     }
 }

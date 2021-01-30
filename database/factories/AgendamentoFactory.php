@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Agendamento;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Uspdev\Replicado\Pessoa;
+use App\Models\User;
 
 class AgendamentoFactory extends Factory
 {
@@ -23,14 +24,11 @@ class AgendamentoFactory extends Factory
     public function definition()
     {
         $divulga = Agendamento::divulgaOptions();
-        $co_orientador = ['Sim', 'Não'];
-        $status = ['Em elaboração', 'Em Avaliação', 'Aprovado']; 
-        $aluno = $this->faker->unique()->graduacao();
+        $status = ['Em elaboração', 'Em Avaliação', 'Devolvido', 'Aprovado']; 
+        $aluno = User::factory(1)->create();
         $orientador = $this->faker->docente();
         return [
-            'codpes' => $aluno,
-            'nome' => Pessoa::dump($aluno)['nompes'],
-            'e_mail_usp' => Pessoa::emailusp($aluno),
+            'user_id' => $aluno[0]->id,
             'outro_recomendado_' => '',
             'divulgar_e_mail_' => $divulga[array_rand($divulga)],
             'titulo' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
@@ -40,7 +38,6 @@ class AgendamentoFactory extends Factory
             'data_da_defesa' => $this->faker->dateTime($max = 'now', $timezone = 'UTC')->format('d/m/Y'),
             'nome_do_orientador' => Pessoa::dump($orientador)['nompes'],
             'numero_usp_do_orientador' => $orientador,
-            'co_orientador' => $co_orientador[array_rand($co_orientador)],
             'status' => $status[array_rand($status)],
         ];
     }

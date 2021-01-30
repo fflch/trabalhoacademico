@@ -17,8 +17,8 @@ class BancaRequest extends FormRequest
     {
         $agendamento = new Agendamento;
         return [
-            'codpes' => 'required|integer',
-            'nome' => 'required',
+            'codpes' => "integer|required_if:nome,null|nullable",
+            'nome' => '',
             'presidente' => ['required',Rule::in($agendamento->presidenteOptions())],
             'agendamento_id' => 'required|integer',
         ];

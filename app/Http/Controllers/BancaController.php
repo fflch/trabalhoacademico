@@ -19,6 +19,9 @@ class BancaController extends Controller
     {
         //$this->authorize('admin');
         $validated = $request->validated();
+        if($validated['codpes'] != ''){
+            $validated['nome'] = Pessoa::dump($validated['codpes'])['nompes'];
+        }
         Banca::create($validated);
         return back();
     }

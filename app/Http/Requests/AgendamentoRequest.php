@@ -18,9 +18,7 @@ class AgendamentoRequest extends FormRequest
     {
         $agendamento = new Agendamento;
         return [
-            'codpes' => 'required|integer',
-            'nome' => 'required',
-            'e_mail_usp' => 'required|email',
+            'user_id' => 'required|integer',
             'outro_recomendado_' => 'email|nullable',
             'divulgar_e_mail_' => ['required',Rule::in($agendamento->divulgaOptions())],
             'titulo' => 'required',
@@ -28,10 +26,9 @@ class AgendamentoRequest extends FormRequest
             'palavras_chave' => 'required',
             'abstract' => '',
             'data_da_defesa' => 'required|dateformat:d/m/Y',
-            'nome_do_orientador' => 'required',
+            'nome_do_orientador' => '',
             'numero_usp_do_orientador' => 'required|integer',
-            'co_orientador' => ['required',Rule::in(['Sim','Não'])],
-            'status' => ['required',Rule::in($agendamento->statusOptions())],
+            'status' => '',
         ];
     }
 }
