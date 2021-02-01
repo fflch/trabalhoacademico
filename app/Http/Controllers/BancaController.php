@@ -17,7 +17,7 @@ class BancaController extends Controller
     
     public function store(BancaRequest $request)
     {
-        //$this->authorize('admin');
+        $this->authorize('LOGADO');
         $validated = $request->validated();
         if($validated['codpes'] != ''){
             $validated['nome'] = Pessoa::dump($validated['codpes'])['nompes'];
@@ -28,7 +28,7 @@ class BancaController extends Controller
 
     public function destroy(Banca $banca)
     {
-        //$this->authorize('admin');
+        $this->authorize('LOGADO');
         $banca->delete();
         return back();
     }

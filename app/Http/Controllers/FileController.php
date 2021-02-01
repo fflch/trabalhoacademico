@@ -16,6 +16,7 @@ class FileController extends Controller
     
     public function store(Request $request)
     {
+        $this->authorize('LOGADO');
         $request->validate([
             'file' => 'required|mimetypes:application/pdf|max:12288',
             'status' => 'required',
@@ -38,11 +39,13 @@ class FileController extends Controller
 
     public function show(File $file)
     {
+        $this->authorize('LOGADO');
         return Storage::download($file->path, $file->original_name);
     }
 
     public function destroy(File $file)
     {
+        $this->authorize('LOGADO');
         Storage::delete($file->path);
         $file->delete();
         return back();

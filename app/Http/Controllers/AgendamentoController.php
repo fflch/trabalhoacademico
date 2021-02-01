@@ -23,7 +23,8 @@ class AgendamentoController extends Controller
     }
     
     public function index(Request $request)
-    {
+    {        
+        $this->authorize('LOGADO');
         $request->validate([
             'busca_data' => 'required_if:filtro_busca,data',
         ]);
@@ -56,12 +57,14 @@ class AgendamentoController extends Controller
 
     public function create()
     {
+        $this->authorize('LOGADO');
         $agendamento = new Agendamento;
         return view('agendamentos.create')->with('agendamento', $agendamento);
     }
 
     public function store(AgendamentoRequest $request)
     {
+        $this->authorize('LOGADO');
         $validated = $request->validated();
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
         $agendamento = Agendamento::create($validated);
@@ -77,16 +80,19 @@ class AgendamentoController extends Controller
 
     public function show(Agendamento $agendamento)
     {
+        $this->authorize('LOGADO');
         return view('agendamentos.show', compact('agendamento'));
     }
 
     public function edit(Agendamento $agendamento)
     {
+        $this->authorize('LOGADO');
         return view('agendamentos.edit')->with('agendamento', $agendamento);
     }
 
     public function update(AgendamentoRequest $request, Agendamento $agendamento)
     {
+        $this->authorize('LOGADO');
         $validated = $request->validated();
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
         $agendamento->update($validated);
@@ -96,6 +102,7 @@ class AgendamentoController extends Controller
     
     public function destroy(Agendamento $agendamento)
     {
+        $this->authorize('LOGADO');
         $agendamento->bancas()->delete();
         $files = $agendamento->files;
         foreach($files as $file){
@@ -107,6 +114,17 @@ class AgendamentoController extends Controller
     }
 
     public function enviar_avaliacao(Agendamento $agendamento){
+        $this->authorize('SERVIDOR');
+        $agendamento->status = 'Em Avaliação';
+        $agendamento->data_enviado_avaliacao = date('Y-m-d');
+        $agendamento->update();
+        # Mandar email para orientador
+        Mail::send(new EmAvaliacaoMail($agendamento));
+        return redirect('/agendamentos/'.$agendamento->id);
+    }
+
+    public function enviar_devolucao(Agendamento $agendamento){
+        $this->authorize('DOCENTE');
         $agendamento->status = 'Em Avaliação';
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();

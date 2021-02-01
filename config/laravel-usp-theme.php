@@ -13,8 +13,14 @@ $submenu1 =  [
 
 $menu = [
     [
+        'text'    => '<i class="fas fa-home"></i> Dashboard',
+        'url' => config('app.url') . '/dashboard',
+        'can' => 'LOGADO',
+    ],
+    [
         'text'    => '<i class="fas fa-calendar-alt"></i> Agendamentos',
         'submenu' => $submenu1,
+        'can' => 'LOGADO',
     ],
 ];
 
@@ -25,6 +31,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/item1',
         'align' => 'right',
+        'can' => ['SERVIDOR','ESTAGIARIO'],
     ],
 ];
 
