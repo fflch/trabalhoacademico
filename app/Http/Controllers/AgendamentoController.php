@@ -114,7 +114,7 @@ class AgendamentoController extends Controller
     }
 
     public function enviar_avaliacao(Agendamento $agendamento){
-        $this->authorize('SERVIDOR');
+        $this->authorize('ALUNOGR');
         $agendamento->status = 'Em Avaliação';
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();
