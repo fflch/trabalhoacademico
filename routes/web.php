@@ -5,11 +5,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\BancaController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ConfigController;
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/dashboard', [IndexController::class, 'dashboard'])->name('dashboard');
 Route::get('login',[LoginController::class, 'redirectToProvider'])->name('login');
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);

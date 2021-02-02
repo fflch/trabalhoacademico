@@ -7,7 +7,9 @@
 @section('content')
     @inject('pessoa','Uspdev\Replicado\Pessoa')
     @include('flash')
-    @include('agendamentos.partials.cabecalho')
+    @can('LOGADO')
+        @include('agendamentos.partials.cabecalho')
+    @endcan
     <br>
     @include('agendamentos.partials.dados_pessoais')
     <br>

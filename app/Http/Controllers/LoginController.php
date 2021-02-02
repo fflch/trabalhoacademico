@@ -15,7 +15,7 @@ class LoginController extends Controller
 {
 
     use AuthenticatesUsers;
-    protected $redirectTo = '/index';
+    protected $redirectTo = '/dashboard';
 
     public function redirectToProvider()
     {
@@ -35,7 +35,7 @@ class LoginController extends Controller
         $user->name = $userSenhaUnica->nompes;
         $user->save();
         Auth::login($user, true);
-        return redirect('/index');
+        return redirect('/dashboard');
     }
 
     public function logout(Request $request){
