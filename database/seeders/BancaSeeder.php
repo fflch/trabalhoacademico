@@ -14,10 +14,18 @@ class BancaSeeder extends Seeder
      */
     public function run()
     {
+
+        $professor0 = [
+            'codpes' => 65389,
+            'nome' => 'Dário Horácio Gutierrez Gallardo',
+            'presidente' => 'Sim',
+            'agendamento_id' => 1,
+        ];
+
         $professor1 = [
             'codpes' => 214972,
             'nome' => 'André Mota',
-            'presidente' => 'Sim',
+            'presidente' => 'Não',
             'agendamento_id' => 1,
         ];
 
@@ -34,6 +42,7 @@ class BancaSeeder extends Seeder
             'presidente' => 'Não',
             'agendamento_id' => 1,
         ];
+        Banca::create($professor0);
         Banca::create($professor1);
         Banca::create($professor2);
         Banca::create($professor3);

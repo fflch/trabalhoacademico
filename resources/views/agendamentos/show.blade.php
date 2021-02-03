@@ -17,5 +17,7 @@
     <br>
     @include('agendamentos.partials.banca')
     <br>
+    @include('agendamentos.partials.documentos')
+    <br>
     @include('agendamentos.partials.files')
 @endsection('content')

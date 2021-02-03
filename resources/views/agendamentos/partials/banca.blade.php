@@ -10,6 +10,7 @@
                         <th>Nº USP</th>
                         <th>Nome</th>
                         <th>Presidente</th>
+                        <th>Declaração de participação</th>
                         <th>Ações</th>
                     </tr>
                 </theader>
@@ -19,6 +20,9 @@
                         <td>{{ $banca->codpes }}</td>
                         <td>{{ $banca->nome }}</td>
                         <td>{{ $banca->presidente }}</td>
+                        <td>
+                            <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/declaracao" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
+                        </td>
                         <td>
                             @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
                                 <form method="POST" class="form-group" action="/bancas/{{$banca->id}}">

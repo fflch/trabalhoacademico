@@ -36,7 +36,8 @@ class IndexController extends Controller
             $agendamentos = Agendamento::where('numero_usp_do_orientador', Auth::user()->id)->where('status', 'Em Avaliação')->get();
         }
         else{
-            return view('welcome');
+            $agendamentos = Agendamento::orderBy('data_da_defesa', 'desc')->where('status','Aprovado')->paginate(20); 
+            return view('index', compact('agendamentos'));
         }
         return view('dashboard', compact('agendamentos'));
     }

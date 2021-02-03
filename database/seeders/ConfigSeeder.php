@@ -15,17 +15,17 @@ class ConfigSeeder extends Seeder
     public function run()
     {
         $config = [
-            'sitename' => 'Defesas',
+            'sitename' => 'Trabalhos Acadêmicos',
             'rodape_site' => 'FFLCH',
-            'rodape_oficios' => 'Serviço de Pós-Graduação <br> defesaspos.fflch@usp.br / 3091-4626 <br>
-            Prédio da Administração da FFLCH-USP <br>
-            Rua do Lago 717, sala 118 - CEP 05508-080',
+            'rodape_oficios' => 'SECRETARIA DO DEPARTAMENTO DE GEOGRAFIA<br>
+            Av. Prof. Lineu Prestes, 338 | Edifício Eurípedes Simões de Paula | Cidade Universitária | São Paulo-SP | CEP 05508-000<br> 
+            Tel: (11) 3091-3769 | www.fflch.usp.br',
             'importante_oficio' => '<center> <b>IMPORTANTE!</b> <br> Junto com este ofício, V. Sa está recebendo o EXEMPLAR ORIGINAL do trabalho depositado pelo(a) aluno(a) dentro do prazo regimental e que deverá servir de instrumento para as arguições feitas a(o) candidato(a) no ato da defesa.</center>. ',
             'regimento' => '<center>  <b> Artigo 97 do Regimento de Pós-Graduação da USP </b> <br>	O julgamento da dissertação de mestrado e da tese de doutorado será realizado de acordo com critérios previamente estabelecidos pela respectiva CPG. <br> § 1º - A arguição, após exposição de no máximo 30 minutos realizada pelo candidato, ocorrerá em sessão pública, e não deverá exceder o prazo de três horas para o mestrado, cinco horas para o doutorado (antigo regimento) e quatro horas para alunos do novo regimento (banca com 3 examinadores). </center></b>',
             'oficio_suplente' => '<p> Venho, pelo presente, informar que seu nome foi aprovado pela Comissão de Pós-Graduação para, na qualidade de </b>membro suplente</b>, integrar a banca examinadora do(a) aluno(a) supracitado(a).</p> 
             <p> A defesa está prevista para o dia <b>%data_oficio_suplente</b>, no(a) %nome_sala do Prédio da %predio.</p> 
             <p>Na impossibilidade do comparecimento de um dos membros titulares, V. Sa. será convidado(a) a integrar a referida banca, motivo pelo qual, segue anexo a versão PDF do trabalho.',
-            'declaracao' => 'Declaro, para os devidos fins, que o(a) Prof(a). Dr(a). <b>%docente_nome</b> participou, nesta data, da defesa do trabalho de %nivel do(a) Sr(a) %candidato_nome, intitulado: "%titulo", na área %area, sob a presidência do(a) Prof.(a) Dr.(a) %orientador, integrando a Comissão Julgadora, formada pelos Professores Doutores:',
+            'declaracao' => 'Declaro, para os devidos fins, que o(a) Prof(a). Dr(a). <b>%docente_nome</b> participou, nesta data, da defesa do Trabalho de Graduação Individual do(a) Sr(a) %candidato_nome, intitulado: "%titulo", na área de %area, sob a presidência do(a) Prof.(a) Dr.(a) %orientador, integrando a Comissão Julgadora, formada pelos Professores Doutores:',
             'mail_docente' => '<hr>
             <p> <b> e-mail para dados de passagem </b> </p> <br>
             <p>Prezado(a) Prof.(a) Dr.(a): %docente_nome, </p><br>
