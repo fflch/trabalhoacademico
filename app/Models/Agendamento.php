@@ -60,4 +60,12 @@ class Agendamento extends Model
         return Pessoa::listarDocentes();
     }
 
+    public function returnLastFileId($value){
+        $file = File::where('agendamento_id', $value)->first('id');
+        if($file){
+            return $file->id;
+        }
+        return false;
+    }
+
 }
