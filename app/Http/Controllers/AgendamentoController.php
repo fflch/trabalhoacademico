@@ -15,19 +15,15 @@ use App\Mail\EmAvaliacaoMail;
 use Uspdev\Replicado\Pessoa;
 
 class AgendamentoController extends Controller
-{
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
+{   
     public function index(Request $request)
     {        
         $this->authorize('LOGADO');
+        
         $request->validate([
             'busca_data' => 'required_if:filtro_busca,data',
         ]);
+
         $query = Agendamento::orderBy('data_da_defesa', 'desc');
         $query2 = User::orderBy('name');
         if($request->filtro_busca == 'numero_nome' and $request->busca != '') {
@@ -86,13 +82,13 @@ class AgendamentoController extends Controller
 
     public function edit(Agendamento $agendamento)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('OWNER',$agendamento);
         return view('agendamentos.edit')->with('agendamento', $agendamento);
     }
 
     public function update(AgendamentoRequest $request, Agendamento $agendamento)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('OWNER',$agendamento);
         $validated = $request->validated();
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
         $agendamento->update($validated);
@@ -102,7 +98,8 @@ class AgendamentoController extends Controller
     
     public function destroy(Agendamento $agendamento)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('OWNER',$agendamento);
+
         $agendamento->bancas()->delete();
         $files = $agendamento->files;
         foreach($files as $file){
@@ -114,7 +111,8 @@ class AgendamentoController extends Controller
     }
 
     public function enviar_avaliacao(Agendamento $agendamento){
-        $this->authorize('ALUNOGR');
+        $this->authorize('OWNER',$agendamento);
+
         $agendamento->status = 'Em Avaliação';
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();
@@ -124,7 +122,9 @@ class AgendamentoController extends Controller
     }
 
     public function enviar_devolucao(Agendamento $agendamento){
-        $this->authorize('DOCENTE');
+
+        $this->authorize('DOCENTE',$agendamento);
+
         $agendamento->status = 'Em Avaliação';
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();

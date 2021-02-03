@@ -29,6 +29,7 @@ class IndexController extends Controller
     }
 
     public function dashboard(Request $request){
+        
         if(Pessoa::cracha(Auth::user()->codpes)['tipvinaux'] == 'ALUNOGR'){
             $agendamentos = Agendamento::where('user_id', Auth::user()->id)->get();
         }
