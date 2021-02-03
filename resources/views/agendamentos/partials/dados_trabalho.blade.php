@@ -12,7 +12,6 @@
                 <div class="card-body">
                     <b>Nome do Orientador:</b> {{$agendamento->nome_do_orientador}}</br>
                     <b>Número USP do orientador:</b> {{$agendamento->numero_usp_do_orientador}}</br>
-                    <b>Co-Orientador?:</b> {{$agendamento->co_orientador}}</br>
                 </div>
             </div>
         </div>

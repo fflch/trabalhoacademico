@@ -14,17 +14,12 @@ class CreateBancasTable extends Migration
     public function up()
     {
         Schema::create('bancas', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('codpes');
+            $table->id();
+            $table->integer('codpes')->nullable();
             $table->string('nome')->nullable();
-
-            #$table->integer('agendamento_id')->unsigned();
-            #$table->foreign('agendamento_id')->references('id')->on('agendamentos');
-
-            $table->foreignId('agendamento_id')->constrained('agendamentos');
-
             $table->string('presidente');
             $table->timestamps();
+            $table->foreignId('agendamento_id')->constrained('agendamentos');
         });
     }
 

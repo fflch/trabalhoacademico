@@ -6,11 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Uspdev\Replicado\Pessoa;
+use App\Models\User;
 
 class Agendamento extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function bancas()
     {
@@ -52,6 +58,14 @@ class Agendamento extends Model
 
     public function docentes(){
         return Pessoa::listarDocentes();
+    }
+
+    public function returnLastFileId($value){
+        $file = File::where('agendamento_id', $value)->first('id');
+        if($file){
+            return $file->id;
+        }
+        return false;
     }
 
 }

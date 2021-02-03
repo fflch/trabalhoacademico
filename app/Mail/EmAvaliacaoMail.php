@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Agendamento;
+use Uspdev\Replicado\Pessoa;
 
 class EmAvaliacaoMail extends Mailable
 {
@@ -29,10 +30,10 @@ class EmAvaliacaoMail extends Mailable
      */
     public function build()
     {
-        $subject = 'Trabalaho academico do fulano aguarda avaliaçaõ';
+        $subject = "Novo trabalho acadêmico de {$this->agendamento->user->name} para ser avaliado";
 
         return $this->view('emails.em_avaliacao')
-        ->to('a@com.br')  # email do orientado
+        ->to(Pessoa::emailusp($this->agendamento->numero_usp_do_orientador))
         ->subject($subject)
         ->with([
             'agendamento' => $this->agendamento,
