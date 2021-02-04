@@ -36,14 +36,6 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
 
-        # DEPRECAR
-        Gate::define('ALUNOGR', function ($user) {
-            if(Pessoa::cracha($user->codpes)['tipvinaux'] == 'ALUNOGR'){
-                return true;
-            }
-            return false;
-        });
-
         Gate::define('OWNER', function ($user, $model) {
             if(Gate::allows('ADMIN')) return true;
             if($model->user_id == $user->id) return true;
@@ -51,18 +43,12 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('DOCENTE', function ($user, $agendamento = null) {
-            dd(Pessoa::vinculosSetores($user->codpes,8));
+            if(Gate::allows('ADMIN')) return true;
             $is_docente = in_array('Docente',Pessoa::vinculosSetores($user->codpes,8));
             if($is_docente && $agendamento == null) return true;
             if($is_docente && $agendamento->numero_usp_do_orientador == $user->codpes) return true;
             return false;
         });
 
-        Gate::define('SERVIDOR', function ($user) {
-            if(Pessoa::cracha($user->codpes)['tipvinaux'] == 'SERVIDOR'){
-                return true;
-            }
-            return false;
-        });
     }
 }

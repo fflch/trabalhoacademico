@@ -2,8 +2,6 @@
         <div class="card-header"><b>Documentos Gerais</b></div>
         <table class="table table-striped">
             <tbody>
-                
-                
                 <tr>
                     <td>
                         Placa

@@ -1,16 +1,22 @@
 <div class="card">
         <div class="card-header"><b>Arquivos</b></div>
         <div class="card-body form-group">
-            @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
-                @include('agendamentos.files.partials.form')
-            @endif
+            @can('OWNER', $agendamento)
+                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                    @include('agendamentos.files.partials.form')
+                @endif
+            @elsecan('DOCENTE', $agendamento)
+                @if($agendamento->status == 'Em Avaliação' and $agendamento->data_devolucao == null)
+                    @include('agendamentos.files.partials.form')
+                @endif
+            @endcan 
             <br>
             <br>
             <table class="table table-striped" style="text-align: center;">
                 <theader>
                     <tr>
                         <th>Nome do Arquivo</th>
-                        <th>Data de Envio</th>
+                        <th>Data</th>
                         <th>Status</th>
                         <th>Ações</th>
                     </tr>
@@ -26,19 +32,29 @@
                                 {{ Carbon\Carbon::parse($file->data_enviado_avaliacao)->format('d/m/Y') }}
                             @elseif($agendamento->status == 'Devolvido')
                                 {{ Carbon\Carbon::parse($file->data_devolucao)->format('d/m/Y') }}
-                            @elseif($agendamento->status) == 'Aprovado')
-                                {{ Carbon\Carbon::parse($file->data_aprovado)->format('d/m/Y') }}
+                            @elseif($agendamento->status == 'Aprovado')
+                                {{ Carbon\Carbon::parse($file->data_resultado)->format('d/m/Y') }}
                             @endif
                         </td>
                         <td>{{ $agendamento->status }}</td>
                         <td>
-                            @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
-                                <form method="POST" class="form-group" action="/files/{{$file->id}}">
-                                    @csrf 
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
-                                </form>
-                            @endif
+                            @can('OWNER', $agendamento)
+                                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                                    <form method="POST" class="form-group" action="/files/{{$file->id}}">
+                                        @csrf 
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                @endif
+                            @elsecan('DOCENTE', $agendamento)
+                                @if($agendamento->status == 'Em Avaliação' and $agendamento->data_devolucao == null)
+                                    <form method="POST" class="form-group" action="/files/{{$file->id}}">
+                                        @csrf 
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                @endif
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
