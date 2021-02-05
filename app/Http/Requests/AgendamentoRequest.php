@@ -26,6 +26,8 @@ class AgendamentoRequest extends FormRequest
             'palavras_chave' => 'required',
             'abstract' => '',
             'data_da_defesa' => 'required|dateformat:d/m/Y',
+            'horario' => 'required',
+            'sala' => 'required',
             'nome_do_orientador' => '',
             'numero_usp_do_orientador' => 'required|integer',
             'status' => '',

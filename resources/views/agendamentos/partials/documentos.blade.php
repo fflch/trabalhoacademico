@@ -4,6 +4,14 @@
             <tbody>
                 <tr>
                     <td>
+                        Ata da Defesa
+                    </td>
+                    <td>
+                        <a href="/agendamentos/{{$agendamento->id}}/ata" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Placa
                     </td>
                     <td>
@@ -18,7 +26,14 @@
                         <a href="/agendamentos/{{$agendamento->id}}/etiqueta" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
                     </td>
                 </tr>
-                
+                <tr>
+                    <td>
+                        Ofícios de Agendamento
+                    </td>
+                    <td>
+                        <a href="/agendamentos/{{$agendamento->id}}/oficios" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         Declaração de Participação

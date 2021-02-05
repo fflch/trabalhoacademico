@@ -58,6 +58,7 @@ class AgendamentoController extends Controller
     {
         $this->authorize('LOGADO');
         $validated = $request->validated();
+        $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
         $agendamento = Agendamento::create($validated);
         //Salva o orientador na banca
@@ -86,6 +87,7 @@ class AgendamentoController extends Controller
     {
         $this->authorize('OWNER',$agendamento);
         $validated = $request->validated();
+        $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
         $agendamento->update($validated);
         return redirect("/agendamentos/$agendamento->id");

@@ -37,19 +37,23 @@ class PdfController extends Controller
     //Bloco destinado aos documentos individuais
     public function documentosIndividuais(Agendamento $agendamento, Banca $banca, $tipo){
         $this->authorize('LOGADO');
+        $professores = Banca::where('agendamento_id',$agendamento->id)->get();
+        $professor = $banca;
         if($tipo == 'declaracao'){
-            $professores = Banca::where('agendamento_id',$agendamento->id)->get();
-            $professor = $banca;
             $configs = Config::configDeclaracao($agendamento,$agendamento->user->name, $professor);
-            $pdf = PDF::loadView("pdfs.documentos_bancas.$tipo", compact(['agendamento','professores','professor','configs']));
-            if($banca->nome == null){
-                $nome = 'Professor';
-            }
-            else{
-                $nome = $banca->nome;
-            }
-            return $pdf->download("$nome - $tipo.pdf");
         }
+        elseif($tipo == 'oficio'){
+            $configs = Config::orderbyDesc('created_at')->first();
+        }
+        $pdf = PDF::loadView("pdfs.documentos_bancas.$tipo", compact(['agendamento','professores','professor','configs']));
+        if($banca->nome == null){
+            $nome = 'Professor';
+        }
+        else{
+            $nome = $banca->nome;
+        }
+        return $pdf->download("$nome - $tipo.pdf");
+        
     }
 
 }

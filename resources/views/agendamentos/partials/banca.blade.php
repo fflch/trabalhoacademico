@@ -12,6 +12,7 @@
                         <th>Nº USP</th>
                         <th>Nome</th>
                         <th>Presidente</th>
+                        <th>Ofício de Agendamento</th>
                         <th>Declaração de participação</th>
                         <th>Ações</th>
                     </tr>
@@ -22,6 +23,11 @@
                         <td>{{ $banca->codpes }}</td>
                         <td>{{ $banca->nome }}</td>
                         <td>{{ $banca->presidente }}</td>
+                        <td>
+                            @can('LOGADO')
+                                <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/oficio" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
+                            @endcan
+                        </td>
                         <td>
                             @can('LOGADO')
                                 <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/declaracao" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>

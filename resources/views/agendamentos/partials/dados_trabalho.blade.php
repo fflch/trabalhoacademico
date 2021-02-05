@@ -3,10 +3,12 @@
         <div class="card-body">
             <b>Status:</b> {{$agendamento->status}}</br>
             <b>Título:</b> {{$agendamento->titulo}}</br>
-            <b>Resumo:</b> {{$agendamento->resumo }} </br>
+            <b>Resumo:</b> <br>{{$agendamento->resumo }} </br>
             <b>Palavras-chave:</b> {{ $agendamento->palavras_chave }}</br>
-            <b>Abstract:</b> {{$agendamento->abstract}}</br>
-            <b>Data:</b> {{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</br></br>
+            <b>Abstract:</b> <br>{{$agendamento->abstract}}</br>
+            <b>Data:</b> {{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</br>
+            <b>Horário:</b> {{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i') }}</br>
+            <b>Sala:</b> {{ $agendamento->sala }}</br></br>
             <div class="card">
                 <div class="card-header">Dados do Orientador</div>
                 <div class="card-body">
