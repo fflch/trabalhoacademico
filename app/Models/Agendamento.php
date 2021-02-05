@@ -20,7 +20,7 @@ class Agendamento extends Model
 
     public function bancas()
     {
-        return $this->hasMany(Banca::class);
+        return $this->hasMany(Banca::class)->orderBy('presidente','desc');
     }
 
     public function files()

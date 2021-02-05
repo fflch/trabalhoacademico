@@ -47,6 +47,7 @@
                 <th>Nome</th>
                 <th>Data da Defesa</th>
                 <th>Orientador</th>
+                <th>Status</th>
                 <th colspan="2">Ações</th>
             </tr>
         </theader>
@@ -57,6 +58,7 @@
                 <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>
                 <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
                 <td>{{ $agendamento->nome_do_orientador}}</td>
+                <td>{{ $agendamento->status}}</td>
                 <td>
                     @can('OWNER', $agendamento)
                         @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')

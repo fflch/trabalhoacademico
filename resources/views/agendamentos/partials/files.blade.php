@@ -18,7 +18,7 @@
                         <th>Nome do Arquivo</th>
                         <th>Data</th>
                         <th>Status</th>
-                        <th>Ações</th>
+                        @can('LOGADO')<th>Ações</th>@endcan
                     </tr>
                 </theader>
                 <tbody>
@@ -37,8 +37,8 @@
                             @endif
                         </td>
                         <td>{{ $agendamento->status }}</td>
-                        <td>
-                            @can('OWNER', $agendamento)
+                        @can('OWNER', $agendamento)
+                            <td>
                                 @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
                                     <form method="POST" class="form-group" action="/files/{{$file->id}}">
                                         @csrf 
@@ -46,7 +46,9 @@
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 @endif
-                            @elsecan('DOCENTE', $agendamento)
+                            </td>
+                        @elsecan('DOCENTE', $agendamento)
+                            <td>
                                 @if($agendamento->status == 'Em Avaliação' and $agendamento->data_devolucao == null)
                                     <form method="POST" class="form-group" action="/files/{{$file->id}}">
                                         @csrf 
@@ -54,8 +56,8 @@
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 @endif
-                            @endcan
-                        </td>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
                 </tbody>

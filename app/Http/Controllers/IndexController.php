@@ -28,10 +28,10 @@ class IndexController extends Controller
 
     public function dashboard(){
         if(in_array('Aluno de Graduação',Pessoa::vinculosSetores(Auth::user()->codpes, 8))){
-            $agendamentos = Agendamento::where('user_id', Auth::user()->id)->get();
+            $agendamentos = Agendamento::where('user_id', Auth::user()->id)->orderBy('data_da_defesa','asc')->get();
         }
         elseif(in_array('Docente',Pessoa::vinculosSetores(Auth::user()->codpes,8))){
-            $agendamentos = Agendamento::where('numero_usp_do_orientador', Auth::user()->codpes)->where('status', 'Em Avaliação')->get();
+            $agendamentos = Agendamento::where('numero_usp_do_orientador', Auth::user()->codpes)->where('status', 'Em Avaliação')->orderBy('data_da_defesa','asc')->get();
         }
         else{
             $agendamentos = Agendamento::orderBy('data_da_defesa', 'desc')->where('status','Aprovado')->paginate(20); 

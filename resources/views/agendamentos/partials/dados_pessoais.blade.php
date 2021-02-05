@@ -7,13 +7,13 @@
                 </div>
             </div>
             <br>
-            @if($agendamento->divulgar_e_mail_ == 'Sim')
+            @if($agendamento->divulgar_e_mail_ == 'Sim' or Auth::check())
                 <div class="card">
                     <div class="card-header">E-mails</div>
                     <div class="card-body">
                         <b>E-mail USP:</b> {{$agendamento->user->email }} </br>
-                        <b>Outro:</b> {{$agendamento->outro_recomendado_ }} </br>
-                        @can('LOGADO')<b>Divulgar E-mail?:</b> {{$agendamento->divulgar_e_mail_ }} </br>@endcan
+                            <b>Outro:</b> {{$agendamento->outro_recomendado_ }} </br>
+                            <b>Divulgar E-mail?:</b> {{$agendamento->divulgar_e_mail_ }} </br>
                     </div>
                 </div>
             @endif
