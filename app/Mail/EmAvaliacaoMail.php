@@ -9,7 +9,6 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Agendamento;
 use App\Models\File;
 use Uspdev\Replicado\Pessoa;
-use Storage;
 
 class EmAvaliacaoMail extends Mailable
 {
