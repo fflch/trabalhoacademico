@@ -20,7 +20,7 @@ class Agendamento extends Model
 
     public function bancas()
     {
-        return $this->hasMany(Banca::class);
+        return $this->hasMany(Banca::class)->orderBy('presidente','desc');
     }
 
     public function files()
@@ -53,7 +53,7 @@ class Agendamento extends Model
     }
 
     public function setDataDaDefesaAttribute($value){
-        $this->attributes['data_da_defesa'] = Carbon::CreatefromFormat('d/m/Y', "$value");
+        $this->attributes['data_da_defesa'] = Carbon::CreatefromFormat('d/m/Y H:i', "$value");
     }
 
     public function docentes(){

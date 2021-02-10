@@ -5,7 +5,7 @@
 @include('flash')
 
 <div class="card">
-    <div class="card-header">@if($pessoa::cracha(Auth::user()->codpes)['tipvinaux'] == 'SERVIDOR') Minhas defesas agendadas @elseif($pessoa::cracha(Auth::user()->codpes)['tipvinaux'] == 'DOCENTE') Defesas Agendadas para Avaliação @endif</div>
+    <div class="card-header"><h3>@if(in_array('Aluno de Graduação',$pessoa->vinculosSetores(Auth::user()->codpes, 8))) Minhas defesas agendadas @elseif(in_array('Docente',$pessoa->vinculosSetores(Auth::user()->codpes, 8))) Defesas Agendadas para Avaliação @endif</h3></div>
     <div class="card-body">
         <table class="table table-striped">
             <theader>

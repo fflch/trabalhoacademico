@@ -10,7 +10,8 @@ jQuery(function ($) {
         , nextText: 'Próximo'
         , prevText: 'Anterior'
     });
-
+    
+    $(".horario").mask('00:00');
     $(".data").mask('00/00/0000');  
     
     $("#numero_nome").click(function() {

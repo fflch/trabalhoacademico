@@ -24,7 +24,6 @@ class AgendamentoFactory extends Factory
     public function definition()
     {
         $divulga = Agendamento::divulgaOptions();
-        $status = ['Em Elaboração', 'Em Avaliação', 'Devolvido', 'Aprovado']; 
         $aluno = User::factory(1)->create();
         $orientador = $this->faker->docente();
         return [
@@ -35,10 +34,11 @@ class AgendamentoFactory extends Factory
             'resumo' => $this->faker->text($maxNbChars = 200), 
             'palavras_chave' => $this->faker->sentence($nbWords = 3, $variableNbWords = true),
             'abstract' => $this->faker->text($maxNbChars = 200),
-            'data_da_defesa' => $this->faker->dateTime($max = 'now', $timezone = 'UTC')->format('d/m/Y'),
+            'data_da_defesa' => $this->faker->dateTime($max = 'now', $timezone = 'UTC')->format('d/m/Y H:i'),
+            'sala' => 'Sala Virtual',
             'nome_do_orientador' => Pessoa::dump($orientador)['nompes'],
             'numero_usp_do_orientador' => $orientador,
-            'status' => $status[array_rand($status)],
+            'status' => 'Em Elaboração',
         ];
     }
 }

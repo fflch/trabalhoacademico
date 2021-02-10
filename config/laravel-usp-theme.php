@@ -31,7 +31,15 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/configs',
         'align' => 'right',
-        'can' => 'SERVIDOR',
+        'can' => 'ADMIN',
+    ],
+    [
+        'text' => '<i class="fas fa-user-shield"></i>',
+        'title' => 'Admin',
+        'target' => '_blank',
+        'url' => config('app.url') . '/login_admin',
+        'align' => 'right',
+        'can' => 'ADMIN',
     ],
 ];
 

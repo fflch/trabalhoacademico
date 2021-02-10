@@ -1,7 +1,7 @@
+@extends('pdfs.fflch')
 @inject('pessoa','Uspdev\Replicado\Pessoa')
 @inject('graduacao','Uspdev\Replicado\Graduacao')
 
-@extends('pdfs.fflch')
 @section('styles_head')
 <style type="text/css">
     #headerFFLCH {
@@ -96,32 +96,49 @@
 
     <div align="right">
         @php(setlocale(LC_TIME, 'pt_BR','pt_BR.utf-8','portuguese'))
-        São Paulo, {{ strftime('%d de %B de %Y', strtotime($agendamento->data_da_defesa)) }}    
+        São Paulo, {{ strftime('%d de %B de %Y', strtotime('today')) }}
+    </div><br><br>
+
+    <div class="moremargin">Assunto: Banca Examinadora de <b>Trabalho de Graduação Individual</b></div> 
+    <div class="moremargin">Candidato(a): <b>{{$agendamento->user->name}}</b> </div>
+    <div class="moremargin">Área: <b>{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</b> </div>
+    <div class="moremargin">Orientador(a) Prof(a). Dr(a). {{$agendamento->nome_do_orientador}}</div>
+    <div class="moremargin">Título do Trabalho: <i>"{{$agendamento->titulo}}" </i></div><br>
+    <div class="importante">
+        {!! $configs->importante_oficio !!}
     </div><br>
+    <p>
+        <i>Data e hora da defesa:  </i> <b> {{Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')}}, às {{Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i')}} </b> <br> 
+        <i>Local:</i> <b> {{$agendamento->sala}} </b> - Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} 
+    </p>  
+    <i>Composição da banca examinadora:</i> 
 
-    <h1 align="center"> DECLARAÇÃO </h1>
-    <br><br><br>
-
-    <p class="recuo justificar" style="line-height: 190%;">  
-        
-        {!!$configs->declaracao!!}
-    </p> <br><br>
 
     <table width="16cm" style="border='0'; margin-left:4cm; align-items: center; justify-content: center;">
         @foreach($professores as $componente)    
         <tr style="border='0'">
             <td><b>{{$componente->nome}}</b> </td>
-            <td><b>{{$pessoa::cracha($componente->codpes)['nomorg'] ?? ' '}}</b></td>           
+            <td><b>{{$pessoa::cracha($componente->codpes)['nomorg'] ?? ' '}}</b></td>
         </tr>
         @endforeach
     </table>
-	<div style="margin-top:2cm;" align="center"> 
-        Atenciosamente,<br>  
-        <b>
-            Secretaria do Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} - FFLCH/USP
-        </b>
-    </div> 
+
+	<br>
+    <p align="center">
+        Atenciosamente, 
+		<br>
+        <b> 
+            Secretaria do Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}
+		</b>
+    </p>
+    <br><br> 
+    Ilmo(a). Sr(a). {{$professor->nome}}<br>
+    {{$pessoa::obterEndereco($professor->codpes)['nomtiplgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['epflgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['numlgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['cpllgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['nombro'] ?? ' '}}  <br>
+    CEP:{{$pessoa::obterEndereco($professor->codpes)['codendptl'] ?? ' '}} - {{$pessoa::obterEndereco($professor->codpes)['cidloc'] ?? ' '}}/{{$pessoa::obterEndereco($professor->codpes)['sglest'] ?? ' '}}
+    <br> telefone: @foreach($pessoa::telefones($professor->codpes) as $telefone) {{ $telefone }} @endforeach
+    <br>e-mail: @foreach($pessoa::emails($professor->codpes) as $email) {{$email}} @endforeach
     <div id="footer">
         {!! $configs->rodape_oficios !!}
     </div>
+
 @endsection('content')

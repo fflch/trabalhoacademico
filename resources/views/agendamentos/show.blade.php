@@ -17,7 +17,9 @@
     <br>
     @include('agendamentos.partials.banca')
     <br>
-    @include('agendamentos.partials.documentos')
+    @can('OWNER', $agendamento)
+        @include('agendamentos.partials.documentos')
+    @endcan
     <br>
     @include('agendamentos.partials.files')
 @endsection('content')

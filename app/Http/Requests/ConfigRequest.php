@@ -28,8 +28,6 @@ class ConfigRequest extends FormRequest
             'rodape_site' => 'required',
             'rodape_oficios' => 'required',
             'importante_oficio' => 'required',
-            'regimento' => 'required',
-            'oficio_suplente' => 'required',
             'declaracao' => 'required',
             'mail_docente' => 'required',
             'mail_aluno' => 'required',

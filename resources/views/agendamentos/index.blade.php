@@ -47,6 +47,7 @@
                 <th>Nome</th>
                 <th>Data da Defesa</th>
                 <th>Orientador</th>
+                <th>Status</th>
                 <th colspan="2">Ações</th>
             </tr>
         </theader>
@@ -57,19 +58,24 @@
                 <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>
                 <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
                 <td>{{ $agendamento->nome_do_orientador}}</td>
+                <td>{{ $agendamento->status}}</td>
                 <td>
-                    @if($agendamento->status == 'Em elaboração' or $agendamento->status == 'Devolvido')
-                        <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-                    @endif
+                    @can('OWNER', $agendamento)
+                        @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                            <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                        @endif
+                    @endcan
                 </td>
                 <td>
-                    @if($agendamento->status == 'Em elaboração')
-                        <form method="POST" action="/agendamentos/{{ $agendamento->id }}">
-                            @csrf 
-                            @method('delete')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
-                        </form>
-                    @endif
+                    @can('OWNER', $agendamento)
+                        @if($agendamento->status == 'Em Elaboração')
+                            <form method="POST" action="/agendamentos/{{ $agendamento->id }}">
+                                @csrf 
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        @endif
+                    @endcan
                 </td>
             </tr>
         @endforeach

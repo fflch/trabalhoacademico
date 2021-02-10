@@ -42,7 +42,7 @@
                 <tr>
                     <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y H:i') }}</td>
                     <td>{{ $graduacao::curso($agendamento->user->codpes, getenv('REPLICADO_CODUNDCLG'))['nomcur'] }}</td>
-                    <td>@if($agendamento->returnLastFileId($agendamento->id))<a href="/files/{{ $agendamento->returnLastFileId($agendamento->id) }}"> @else <a href="#">@endif{{ $agendamento->user->name }}</a></td>
+                    <td>@if($agendamento->returnLastFileId($agendamento->id))<a href="/agendamentos/{{ $agendamento->id }}"> @else <a href="#">@endif{{ $agendamento->user->name }}</a></td>
                     <td>{{ $agendamento->titulo }}</td>
                     <td>{{ $agendamento->nome_do_orientador }}</td>
                 </tr>

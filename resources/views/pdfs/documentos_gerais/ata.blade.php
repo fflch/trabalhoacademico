@@ -31,6 +31,10 @@
     .moremargin {
         margin-bottom: 0.15cm;
     }
+    .assinatura{
+		border-bottom:1px solid;
+        width:100px;
+	}
     .importante {
         border:1px solid; margin-top:0.3cm; margin-bottom:0.3cm; width: 15cm; font-size:12px; margin-left:0.5cm;
     }
@@ -94,19 +98,13 @@
 
 @section('content')
 
-    <div align="right">
-        @php(setlocale(LC_TIME, 'pt_BR','pt_BR.utf-8','portuguese'))
-        São Paulo, {{ strftime('%d de %B de %Y', strtotime($agendamento->data_da_defesa)) }}    
-    </div><br>
-
-    <h1 align="center"> DECLARAÇÃO </h1>
+    <h3 align="center"> ATA DE DEFESA DE TRABALHO DE GRADUAÇÃO INDIVIDUAL </h1>
     <br><br><br>
 
     <p class="recuo justificar" style="line-height: 190%;">  
-        
-        {!!$configs->declaracao!!}
-    </p> <br><br>
-
+        @php(setlocale(LC_TIME, 'pt_BR','pt_BR.utf-8','portuguese'))
+        Aos <b>{{ strftime('%d de %B de %Y', strtotime($agendamento->data_da_defesa)) }}</b>, na <b>{{$agendamento->sala}}</b> do Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} da Faculdade de Filosofia, Letras e Ciências Humanas na Universidade de São Paulo, a Banca Examinadora:         
+    </p>
     <table width="16cm" style="border='0'; margin-left:4cm; align-items: center; justify-content: center;">
         @foreach($professores as $componente)    
         <tr style="border='0'">
@@ -115,12 +113,27 @@
         </tr>
         @endforeach
     </table>
-	<div style="margin-top:2cm;" align="center"> 
-        Atenciosamente,<br>  
-        <b>
-            Secretaria do Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} - FFLCH/USP
-        </b>
-    </div> 
+    <p>examinando o Trabalho de Graduação Individual em {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}, com título:</p>
+	<p style="text-align:center; font-size:16px; font-weight:bold;">"{{$agendamento->titulo}}"</p><br>
+    
+    e a defesa do aluno (a)<br><br>
+
+    Bacharelando (a): <b>{{$agendamento->user->name}}</b><br>
+    Número USP: <b>{{$agendamento->user->codpes}}</b><br>
+    Área: <b>{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</b><br><br>
+    
+    Atribuiu a nota:___________________________________.<br><br>
+    <br>
+    São Paulo,____de___________________________de______________.<br><br>
+    <br>
+    <table width="20cm" style="border='0'; align-items: left; justify-content: left;">
+        @foreach($professores as $componente)    
+        <tr style="border='0'">
+            <td><b>{{$componente->nome}}</b></td>
+            <td>_________________________________________________</td>           
+        </tr>
+        @endforeach
+    </table> 
     <div id="footer">
         {!! $configs->rodape_oficios !!}
     </div>

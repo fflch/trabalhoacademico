@@ -8,11 +8,6 @@ use Storage;
 
 class FileController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     
     public function store(Request $request)
     {
@@ -39,7 +34,7 @@ class FileController extends Controller
 
     public function show(File $file)
     {
-        $this->authorize('LOGADO');
+        //$this->authorize('LOGADO');
         return Storage::download($file->path, $file->original_name);
     }
 

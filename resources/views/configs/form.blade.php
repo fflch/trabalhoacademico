@@ -25,21 +25,6 @@
 
 <div class="form-group row">
 	<div class="form-group col-sm">
-		<label class="config" for="regimento">Regimento - Artigo no Ofício dos titulares</label>  
-		<textarea rows="10" class="form-control" cols="70" name="regimento">{{$config->regimento}}</textarea>
-	</div>
-</div>
-
-<div class="form-group row">
-	<div class="form-group col-sm">
-		<label class="config" for="oficio_suplente">Ofício Suplente </label>  
-		<textarea rows="10" class="form-control" cols="70" name="oficio_suplente">{{$config->oficio_suplente}}</textarea> 
-		<span class="badge badge-warning">Token de substituição: %data_oficio_suplente, %nome_sala, %predio </span> 
-	</div>
-</div>
-
-<div class="form-group row">
-	<div class="form-group col-sm">
 		<label class="config" for="declaracao">Declaração de participação</label>  
 		<textarea rows="10" class="form-control" cols="70" name="declaracao">{{$config->declaracao}}</textarea>
 		<span class="badge badge-warning">Token de substituição: %docente_nome, %nivel, %candidato_nome, %titulo, %area, %orientador </span> 
