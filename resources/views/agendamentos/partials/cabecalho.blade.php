@@ -16,16 +16,6 @@
                     </div>
                 @endif
             @endcan
-            @can('DOCENTE', $agendamento)
-                @if($agendamento->status == 'Em Avaliação' and $agendamento->files()->count() != 0 and $agendamento->data_devolucao == null)
-                    <div class="col-auto">
-                        <form method="POST" action="/agendamentos/devolver_avaliacao/{{ $agendamento->id }}">
-                            @csrf 
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja devolver a Avaliação?')"> Devolver Avaliação para o(a) aluno(a) </button>
-                        </form>
-                    </div>
-                @endif
-            @endcan
         </div>
     </div>
     <div class="col-sm ">
@@ -46,24 +36,44 @@
                 </div>
                 @endif
             @endcan
-            @can('DOCENTE', $agendamento)
-                @if($agendamento->status == 'Em Avaliação' and $agendamento->data_devolucao != '')
-                    <div class="col-auto">
-                        <form method="POST" action="/agendamentos/aprovacao/{{ $agendamento->id }}/aprovar">
-                            @csrf 
-                            <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja aprovar a defesa?')"> Aprovar </button>
-                        </form>
-                    </div>
-                @endif
-                @if($agendamento->status == 'Em Avaliação' and $agendamento->data_devolucao != '')
-                    <div class="col-auto">
-                        <form method="POST" action="/agendamentos/aprovacao/{{ $agendamento->id }}/reprovar">
-                            @csrf 
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja reprovar a defesa?')"> Reprovar </button>
-                        </form>
-                    </div>
-                @endif
-            @endcan
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm">
+        @can('DOCENTE', $agendamento)
+            @if($agendamento->status == 'Em Avaliação' and $agendamento->files()->count() != 0)
+                <br>
+                <div class="card">
+                    <div class="card-header"><b>Comentário:</b></div>
+                    <form method="POST" action="/agendamentos/resultado/{{ $agendamento->id }}">
+                        @csrf 
+                        <textarea class="form-control" name="comentario" id="comentario" rows="5" cols="60">{{ old('comentario', $agendamento->comentario) }}</textarea>
+                        <div class="card-body row">
+                            <div class="col-auto">
+                                <input type="submit" name="devolver" value="Devolver Avaliação para o(a) aluno(a)" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja devolver a Avaliação?')">
+                            </div>
+                            <div class="col-auto"> 
+                                <input type="submit" name="aprovar" value="Aprovar" class="btn btn-success" onclick="return confirm('Tem certeza que deseja aprovar a defesa?')">
+                            </div>
+                            <div class="col-auto">
+                                <input type="submit" name="reprovar" value="Reprovar" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja reprovar a defesa?')">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            @endif
+        @endcan
+        @can('OWNER', $agendamento)
+            @if($agendamento->comentario != '')
+                <br>
+                <div class="card">
+                    <div class="card-header"><b>Comentário:</b></div>
+                    <div class="card-body">
+                        {{$agendamento->comentario}}
+                    </div>
+                </div>
+            @endif
+        @endcan
     </div>
 </div>

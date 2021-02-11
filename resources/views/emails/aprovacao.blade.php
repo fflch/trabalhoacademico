@@ -10,5 +10,9 @@ Prezado(a) {{$agendamento->user->name}},
 
 <b>Resultado:</b> @if($agendamento->status == 'Aprovado') APROVADO @else REPROVADO @endif</br>
 
-
+@if($agendamento->comentario)
+    <b>Comentário:</b><br>
+    {{$agendamento->comentario}}
+@endif
+<br>
 <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>
