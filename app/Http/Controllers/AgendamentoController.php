@@ -119,24 +119,29 @@ class AgendamentoController extends Controller
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
-    public function devolver_avaliacao(Agendamento $agendamento){
+    public function resultado(Agendamento $agendamento, Request $request){
         $this->authorize('DOCENTE',$agendamento);
-        $agendamento->status = 'Devolvido';
-        $agendamento->data_enviado_avaliacao = null;
-        $agendamento->data_devolucao = date('Y-m-d');
-        $agendamento->update();
-        # Mandar email para orientador
-        Mail::send(new DevolucaoMail($agendamento));
+        if($request->comentario){
+            $agendamento->comentario = $request->comentario;
+        }
+        if($request->devolver){
+            $agendamento->status = 'Devolvido'; 
+            $agendamento->data_enviado_avaliacao = null;
+            $agendamento->data_devolucao = date('Y-m-d');
+            $agendamento->update();
+            Mail::send(new DevolucaoMail($agendamento));
+        }
+        else{
+            if($request->aprovar){
+                $agendamento->status = 'Aprovado';
+            } 
+            elseif($request->reprovar){
+                $agendamento->status = 'Reprovado';
+            }
+            $agendamento->data_resultado = date('Y-m-d');
+            $agendamento->update();
+            Mail::send(new AprovacaoMail($agendamento));
+        }
         return redirect('/agendamentos/'.$agendamento->id);
-    }
-
-    public function aprovacao(Agendamento $agendamento, $resultado){
-        $this->authorize('DOCENTE',$agendamento);
-        if($resultado == 'aprovar'){$agendamento->status = 'Aprovado';}elseif($resultado == 'reprovar'){$agendamento->status = 'Reprovado';}
-        $agendamento->data_resultado = date('Y-m-d');
-        $agendamento->update();
-        Mail::send(new AprovacaoMail($agendamento));
-        return redirect('/agendamentos/'.$agendamento->id);
-        
     }
 }

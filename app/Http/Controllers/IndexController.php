@@ -11,7 +11,7 @@ use App\Models\User;
 class IndexController extends Controller
 {
     public function index(Request $request){
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->orderBy('agendamentos.data_da_defesa', 'asc')->select('agendamentos.*'); 
+        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
         if($request->busca != ''){
             $query->where(function($query) use($request){
                 $query->orWhere('users.name', 'LIKE', "%$request->busca%");
@@ -27,6 +27,7 @@ class IndexController extends Controller
     }
 
     public function dashboard(){
+        $this->authorize('LOGADO');
         if(in_array('Aluno de Graduação',Pessoa::vinculosSetores(Auth::user()->codpes, 8))){
             $agendamentos = Agendamento::where('user_id', Auth::user()->id)->orderBy('data_da_defesa','asc')->get();
         }

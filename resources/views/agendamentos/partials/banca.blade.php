@@ -9,7 +9,7 @@
             <table class="table table-striped" style="text-align: center;">
                 <theader>
                     <tr>
-                        <th>Nº USP</th>
+                        @can('LOGADO')<th>Nº USP</th>@endcan
                         <th>Nome</th>
                         <th>Presidente</th>
                         @can('LOGADO')
@@ -22,7 +22,7 @@
                 <tbody>
                 @foreach ($agendamento->bancas as $banca)
                     <tr>
-                        <td>{{ $banca->codpes }}</td>
+                        @can('LOGADO')<td>{{ $banca->codpes }}</td>@endcan
                         <td>{{ $banca->nome }}</td>
                         <td>{{ $banca->presidente }}</td>
                         @can('LOGADO')
