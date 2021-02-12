@@ -12,8 +12,7 @@
                     <div class="card-header">E-mails</div>
                     <div class="card-body">
                         <b>E-mail USP:</b> {{$agendamento->user->email }} </br>
-                            <b>Outro:</b> {{$agendamento->outro_recomendado_ }} </br>
-                            <b>Divulgar E-mail?:</b> {{$agendamento->divulgar_e_mail_ }} </br>
+                        <b>Outro:</b> {{$agendamento->outro_recomendado_ }} </br>
                     </div>
                 </div>
             @endif

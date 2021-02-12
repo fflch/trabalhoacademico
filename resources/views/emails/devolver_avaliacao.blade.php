@@ -8,4 +8,10 @@ Prezado(a) {{$agendamento->user->name}},
 <b>Nome:</b> {{$agendamento->user->name}}
 <b>E-mail USP:</b> {{$agendamento->user->email }} </br>
 
+@if($agendamento->comentario)
+    <b>Comentário:</b><br>
+    {{$agendamento->comentario}}
+@endif
+<br>
+
 <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>
