@@ -32,7 +32,7 @@ class DevolucaoMail extends Mailable
      */
     public function build()
     {
-        $subject = "Devolução de avaliação do trabalho acadêmico de {$this->agendamento->user->name}";
+        $subject = "Parecer da defesa do trabalho acadêmico de {$this->agendamento->user->name}";
         $file = File::where('agendamento_id',$this->agendamento->id)->first();
 
         return $this->view('emails.devolver_avaliacao')

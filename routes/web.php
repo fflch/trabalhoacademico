@@ -18,6 +18,7 @@ Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 
 Route::post('agendamentos/enviar_avaliacao/{agendamento}', [AgendamentoController::class,'enviar_avaliacao']);
 Route::post('agendamentos/resultado/{agendamento}', [AgendamentoController::class,'resultado']);
+Route::post('agendamentos/liberar/{agendamento}', [AgendamentoController::class,'liberar']);
 
 Route::resource('agendamentos', AgendamentoController::class);
 Route::resource('bancas', BancaController::class);

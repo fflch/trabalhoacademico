@@ -10,17 +10,6 @@
             <label for="nome">Nome Docente </label> 
             <input type="text" name="nome" class="form-control"> 
         </div>
-        <div class="col-sm form-group">
-            <label for="presidente">Presidente</label>
-            <select class="form-control" name="presidente">
-                <option value="" selected="">- Selecione -</option>
-                @foreach ($agendamento->presidenteOptions() as $option)
-                    <option value="{{$option}}" {{ ( old('presidente') == $option) ? 'selected' : ''}}>
-                        {{$option}}
-                    </option>
-                @endforeach
-            </select>
-        </div>
     </div>
     <div class="row">
         <div class="form-group col-sm">

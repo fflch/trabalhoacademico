@@ -12,7 +12,7 @@
                         @can('LOGADO')<th>Nº USP</th>@endcan
                         <th>Nome</th>
                         <th>Presidente</th>
-                        @can('LOGADO')
+                        @can('ADMIN')
                             <th>Ofício de Agendamento</th>
                             <th>Declaração de participação</th>
                             <th>Ações</th>

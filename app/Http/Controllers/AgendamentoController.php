@@ -110,12 +110,20 @@ class AgendamentoController extends Controller
 
     public function enviar_avaliacao(Agendamento $agendamento){
         $this->authorize('OWNER',$agendamento);
-
-        $agendamento->status = 'Em Avaliação';
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();
         # Mandar email para orientador
         Mail::send(new EmAvaliacaoMail($agendamento));
+        return redirect('/agendamentos/'.$agendamento->id);
+    }
+
+    public function liberar(Agendamento $agendamento){
+        $this->authorize('DOCENTE',$agendamento);
+        $agendamento->status = 'Em Avaliação';
+        $agendamento->data_liberacao = date('Y-m-d');
+        $agendamento->update();
+        # Mandar email para orientador
+        Mail::send(new LiberacaoMail($agendamento));
         return redirect('/agendamentos/'.$agendamento->id);
     }
 

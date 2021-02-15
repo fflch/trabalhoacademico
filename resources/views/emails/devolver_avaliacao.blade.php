@@ -7,11 +7,14 @@ Prezado(a) {{$agendamento->user->name}},
 <b>Data da Defesa:</b> {{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</br></br>
 <b>Nome:</b> {{$agendamento->user->name}}
 <b>E-mail USP:</b> {{$agendamento->user->email }} </br>
+<b>Resultado:</b> @if($agendamento->status == 'Devolvido') APROVADO C/ CORREÇÕES @else REPROVADO @endif</br>
 
 @if($agendamento->comentario)
-    <b>Comentário:</b><br>
-    {{$agendamento->comentario}}
+    <b>Parecer:</b><br>
+    {{$agendamento->parecer}}
 @endif
 <br>
+
+Você tem 60 dias para entrar novamente no sistema e subir um novo arquivo com as alterações necessárias. Caso não faça isso, o arquivo disponibilizado para a defesa será publicado como está.
 
 <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>

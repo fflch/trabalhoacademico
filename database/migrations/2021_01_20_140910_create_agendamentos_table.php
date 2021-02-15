@@ -26,9 +26,11 @@ class CreateAgendamentosTable extends Migration
             $table->dateTime('data_da_defesa');
             $table->text('sala');
             $table->date('data_enviado_avaliacao')->nullable();
+            $table->date('data_liberacao')->nullable();
+            $table->text('comentario')->nullable();
             $table->date('data_devolucao')->nullable();
             $table->date('data_resultado')->nullable();
-            $table->text('comentario')->nullable();
+            $table->text('parecer')->nullable();
             $table->string('nome_do_orientador');
             $table->string('numero_usp_do_orientador');
             $table->string('status');

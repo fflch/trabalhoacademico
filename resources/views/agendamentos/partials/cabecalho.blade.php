@@ -42,22 +42,50 @@
 <div class="row">
     <div class="col-sm">
         @can('DOCENTE', $agendamento)
-            @if($agendamento->status == 'Em Avaliação' and $agendamento->files()->count() != 0)
+            @if($agendamento->data_enviado_avaliacao != null and $agendamento->data_devolucao != null and status='Em Avaliação')
                 <br>
                 <div class="card">
-                    <div class="card-header"><b>Comentário:</b></div>
+                    <div class="card-header"><b>Parecer da defesa:</b></div>
                     <form method="POST" action="/agendamentos/resultado/{{ $agendamento->id }}">
                         @csrf 
                         <textarea class="form-control" name="comentario" id="comentario" rows="5" cols="60">{{ old('comentario', $agendamento->comentario) }}</textarea>
                         <div class="card-body row">
                             <div class="col-auto">
-                                <input type="submit" name="devolver" value="Devolver Avaliação para o(a) aluno(a)" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja devolver a Avaliação?')">
+                                <input type="submit" name="devolver" value="Aprovar com correções" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja aprovar a defesa e devolver ao aluno(a) para fazer as correções?')">
                             </div>
                             <div class="col-auto"> 
                                 <input type="submit" name="aprovar" value="Aprovar" class="btn btn-success" onclick="return confirm('Tem certeza que deseja aprovar a defesa?')">
                             </div>
                             <div class="col-auto">
                                 <input type="submit" name="reprovar" value="Reprovar" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja reprovar a defesa?')">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            @endif
+        @endcan
+        @can('OWNER', $agendamento)
+            @if($agendamento->parecer != '')
+                <br>
+                <div class="card">
+                    <div class="card-header"><b>Parecer:</b></div>
+                    <div class="card-body">
+                        {{$agendamento->parecer}}
+                    </div>
+                </div>
+            @endif
+        @endcan
+        @can('DOCENTE', $agendamento)
+            @if($agendamento->status == 'Em Avaliação' and $agendamento->files()->count() != 0)
+                <br>
+                <div class="card">
+                    <div class="card-header"><b>Comentário:</b></div>
+                    <form method="POST" action="/agendamentos/liberar/{{ $agendamento->id }}">
+                        @csrf 
+                        <textarea class="form-control" name="comentario" id="comentario" rows="5" cols="60">{{ old('comentario', $agendamento->comentario) }}</textarea>
+                        <div class="card-body row">
+                            <div class="col-auto">
+                                <input type="submit" name="devolver" value="Enviar Defesa para Avaliação da Banca" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja enviar defesa para avaliação da banca?')">
                             </div>
                         </div>
                     </form>
