@@ -42,7 +42,7 @@
 <div class="row">
     <div class="col-sm">
         @can('DOCENTE', $agendamento)
-            @if($agendamento->data_enviado_avaliacao != null and $agendamento->data_devolucao != null and status='Em Avaliação')
+            @if($agendamento->data_enviado_avaliacao != null and $agendamento->data_devolucao != null and status == 'Em Avaliação')
                 <br>
                 <div class="card">
                     <div class="card-header"><b>Parecer da defesa:</b></div>

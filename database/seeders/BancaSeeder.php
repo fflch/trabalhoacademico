@@ -16,29 +16,29 @@ class BancaSeeder extends Seeder
     {
 
         $professor0 = [
-            'codpes' => 65389,
-            'nome' => 'Dário Horácio Gutierrez Gallardo',
+            'n_usp' => 65389,
+            'prof_externo_id' => null,
             'presidente' => 'Sim',
             'agendamento_id' => 1,
         ];
 
         $professor1 = [
-            'codpes' => 214972,
-            'nome' => 'André Mota',
+            'n_usp' => 214972,
+            'prof_externo_id' => null,
             'presidente' => 'Não',
             'agendamento_id' => 1,
         ];
 
         $professor2 = [
-            'codpes' => 5751095,
-            'nome' => 'Eduardo Silveira Netto Nunes',
+            'n_usp' => 5751095,
+            'prof_externo_id' => null,
             'presidente' => 'Não',
             'agendamento_id' => 1,
         ];
 
         $professor3 = [
-            'codpes' => 8718763,
-            'nome' => 'Silvia Maria Fávero Arend',
+            'n_usp' => 8718763,
+            'prof_externo_id' => null,
             'presidente' => 'Não',
             'agendamento_id' => 1,
         ];

@@ -22,8 +22,8 @@
                 <tbody>
                 @foreach ($agendamento->bancas as $banca)
                     <tr>
-                        @can('LOGADO')<td>{{ $banca->codpes }}</td>@endcan
-                        <td>{{ $banca->nome }}</td>
+                        @can('LOGADO')<td>{{ $banca->n_usp ?? '' }}</td>@endcan
+                        <td>@if($banca->n_usp){{ $pessoa::dump($banca->n_usp)['nompes']}}@else {{ $agendamento->dadosProfExterno($banca->prof_externo_id)['nome'] }}@endif</td>
                         <td>{{ $banca->presidente }}</td>
                         @can('LOGADO')
                             <td>

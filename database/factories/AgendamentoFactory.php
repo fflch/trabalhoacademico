@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Agendamento;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Uspdev\Replicado\Pessoa;
+use Uspdev\Replicado\Graduacao;
 use App\Models\User;
 
 class AgendamentoFactory extends Factory
@@ -39,6 +40,7 @@ class AgendamentoFactory extends Factory
             'nome_do_orientador' => Pessoa::dump($orientador)['nompes'],
             'numero_usp_do_orientador' => $orientador,
             'status' => 'Em Elaboração',
+            'curso' => Graduacao::curso($aluno[0]->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'],
         ];
     }
 }

@@ -1,14 +1,30 @@
 <form action="/bancas" method="POST">
     @csrf
     <input type="hidden" name="agendamento_id" value="{{$agendamento->id}}">
+    <input type="hidden" name="presidente" value="Não">
     <div class="row">
         <div class="col-sm form-group">
-            <label for="codpes">Número USP </label> 
-            <input type="text" name="codpes" class="form-control"> 
+            <label for="n_usp">Docente USP </label> 
+            <select class="form-control" name="n_usp">
+                <option value="" selected="">- Selecione -</option>
+                @foreach ($agendamento->docentes() as $option)
+                    <option value="{{$option['codpes']}}" {{ ( old('n_usp') == $option['codpes']) ? 'selected' : ''}}>
+                        {{$option['nompes']}}
+                    </option>
+                @endforeach
+            </select>        
         </div>
+        <div class="col-auto form-group"><br><br>ou</div>
         <div class="col-sm form-group">
-            <label for="nome">Nome Docente </label> 
-            <input type="text" name="nome" class="form-control"> 
+            <label for="prof_externo_id">Docente Externo</label> 
+            <select class="form-control" name="prof_externo_id">
+                <option value="" selected="">- Selecione -</option>
+                @foreach ($agendamento->profExterno() as $option)
+                    <option value="{{$option['id']}}" {{ ( old('prof_externo_id') == $option['id']) ? 'selected' : ''}}>
+                        {{$option['nome']}}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div>
     <div class="row">

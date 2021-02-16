@@ -20,14 +20,15 @@ class CreateProfExternosTable extends Migration
             $table->string('cpf');
             $table->string('rg');
             $table->string('instituicao');
-            $table->string('endereco');
-            $table->string('numero');
-            $table->string('cep');
-            $table->string('bairro');
-            $table->string('cidade');
-            $table->string('estado');
-            $table->string('emails');
-            $table->string('telefones');
+            $table->string('endereco')->nullable();
+            $table->string('bairro')->nullable();
+            $table->string('cep')->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('pais')->nullable();
+            $table->string('email');
+            $table->string('telefone')->nullable();
+            $table->integer('last_user')->nullable();
         });
     }
 

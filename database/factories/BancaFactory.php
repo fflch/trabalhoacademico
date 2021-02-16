@@ -24,8 +24,8 @@ class BancaFactory extends Factory
     {
         $docente = $this->faker->docente();
         return [
-            'codpes' => $docente,
-            'nome' => Pessoa::dump($docente)['nompes'],
+            'n_usp' => $docente,
+            'prof_externo_id' => null,
             'presidente' => 'Não',
         ];
     }

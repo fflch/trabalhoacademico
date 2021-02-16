@@ -15,10 +15,10 @@ class CreateBancasTable extends Migration
     {
         Schema::create('bancas', function (Blueprint $table) {
             $table->id();
-            $table->integer('codpes')->nullable();
-            $table->string('nome')->nullable();
-            $table->string('presidente');
+            $table->integer('n_usp')->nullable();
+            $table->string('presidente')->nullable();
             $table->timestamps();
+            $table->foreignId('prof_externo_id')->nullable()->constrained('prof_externos');
             $table->foreignId('agendamento_id')->constrained('agendamentos');
         });
     }

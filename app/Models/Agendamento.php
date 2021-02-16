@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Uspdev\Replicado\Pessoa;
 use App\Models\User;
+use App\Models\ProfExterno;
 
 class Agendamento extends Model
 {
@@ -66,6 +67,14 @@ class Agendamento extends Model
             return $file->id;
         }
         return false;
+    }
+
+    public function profExterno(){
+        return ProfExterno::all();
+    }
+
+    public function dadosProfExterno($id){
+        return ProfExterno::where('id',$id)->first();
     }
 
 }

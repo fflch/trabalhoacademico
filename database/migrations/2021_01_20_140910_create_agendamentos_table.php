@@ -34,6 +34,7 @@ class CreateAgendamentosTable extends Migration
             $table->string('nome_do_orientador');
             $table->string('numero_usp_do_orientador');
             $table->string('status');
+            $table->string('curso')->nullable();
         });
     }
 

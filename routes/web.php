@@ -8,6 +8,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\LoginAdminController;
+use App\Http\Controllers\ProfExternoController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/dashboard', [IndexController::class, 'dashboard'])->name('dashboard');
@@ -23,6 +24,7 @@ Route::post('agendamentos/liberar/{agendamento}', [AgendamentoController::class,
 Route::resource('agendamentos', AgendamentoController::class);
 Route::resource('bancas', BancaController::class);
 Route::resource('files', FileController::class);
+Route::resource('prof_externo', ProfExternoController::class);
 
 // rotas para configs
 Route::get('/configs',[ConfigController::class, 'edit']);

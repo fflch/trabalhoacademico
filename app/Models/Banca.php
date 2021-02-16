@@ -15,5 +15,9 @@ class Banca extends Model
         return $this->belongsTo(Agendamento::class);
     }
 
+    public function prof_externo()
+    {
+        return $this->hasMany(ProfExterno::class);
+    }
     
 }

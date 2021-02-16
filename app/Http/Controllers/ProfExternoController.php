@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ProfExterno;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProfExternoRequest;
+use Auth;
 
 class ProfExternoController extends Controller
 {
@@ -12,9 +14,19 @@ class ProfExternoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $this->authorize('ADMIN');
+        $query = ProfExterno::orderBy('nome','asc');
+
+        if($request->busca != null){
+            $query->where('nome', 'LIKE', "%$request->busca%");
+        }
+        $profExternos = $query->paginate(50);
+        if ($profExternos->count() == null) {
+            $request->session()->flash('alert-danger', 'Não há registros!');
+        }
+        return view('prof_externo.index')->with('profExternos',$profExternos);
     }
 
     /**
@@ -25,6 +37,9 @@ class ProfExternoController extends Controller
     public function create()
     {
         //
+        $this->authorize('ADMIN');
+        $profExterno = new ProfExterno;
+        return view('prof_externo.create')->with('profExterno', $profExterno);
     }
 
     /**
@@ -33,9 +48,14 @@ class ProfExternoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProfExternoRequest $request)
     {
         //
+        $this->authorize('ADMIN');
+        $validated = $request->validated();
+        $validated['last_user'] = Auth::user()->codpes;
+        $profExterno = ProfExterno::create($validated);
+        return redirect("/prof_externo/$profExterno->id");
     }
 
     /**
@@ -47,6 +67,8 @@ class ProfExternoController extends Controller
     public function show(ProfExterno $profExterno)
     {
         //
+        $this->authorize('ADMIN');
+        return view('prof_externo.show', compact('profExterno'));
     }
 
     /**
@@ -58,6 +80,8 @@ class ProfExternoController extends Controller
     public function edit(ProfExterno $profExterno)
     {
         //
+        $this->authorize('ADMIN');
+        return view('prof_externo.edit')->with('profExterno', $profExterno);
     }
 
     /**
@@ -67,9 +91,14 @@ class ProfExternoController extends Controller
      * @param  \App\Models\ProfExterno  $profExterno
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProfExterno $profExterno)
+    public function update(ProExternoRequest $request, ProfExterno $profExterno)
     {
         //
+        $this->authorize('ADMIN');
+        $validated = $request->validated();
+        $validated['last_user'] = Auth::user()->codpes;
+        $profExterno->update($validated);
+        return redirect("/prof_externo/$profExterno->id");
     }
 
     /**
@@ -81,5 +110,8 @@ class ProfExternoController extends Controller
     public function destroy(ProfExterno $profExterno)
     {
         //
+        $this->authorize('ADMIN');
+        $profExterno->delete();
+        return redirect('/prof_externo');
     }
 }
