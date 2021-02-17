@@ -2,7 +2,7 @@
         <div class="card-header"><b>Banca</b></div>
         <div class="card-body form-group">
             @can('OWNER', $agendamento)
-                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')
                     @include('agendamentos.bancas.partials.form')
                 @endif
             @endcan
@@ -38,7 +38,7 @@
                         @can('OWNER', $agendamento)
                             <td>
 
-                                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')
                                     <form method="POST" class="form-group" action="/bancas/{{$banca->id}}">
                                         @csrf 
                                         @method('delete')

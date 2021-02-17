@@ -7,7 +7,7 @@ Prezado(a) {{$agendamento->user->name}},
 <b>Data da Defesa:</b> {{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</br></br>
 <b>Nome:</b> {{$agendamento->user->name}}
 <b>E-mail USP:</b> {{$agendamento->user->email }} </br>
-<b>Resultado:</b> @if($agendamento->status == 'Devolvido') APROVADO C/ CORREÇÕES @else REPROVADO @endif</br>
+<b>Resultado:</b> @if($agendamento->status == 'Aprovado C/ Correções') APROVADO C/ CORREÇÕES @else REPROVADO @endif</br>
 
 @if($agendamento->comentario)
     <b>Parecer:</b><br>

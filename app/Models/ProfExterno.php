@@ -15,14 +15,14 @@ class ProfExterno extends Model
 
     public function bancas()
     {
-        return $this->belongsTo(Banca::class);
+        return $this->hasMany(Banca::class);
     }
 
     public function getBancasProfessor($id, $tipo){
         $agendamentos = [];
         $bancas = Banca::where('prof_externo_id', $id)->where('presidente','Não')->get();
         foreach($bancas as $banca){
-            $agendamentos[] = Agendamento::where('id', $banca->agendamento_id)->orderBy('data_da_defesa','asc')->get()->toArray();
+            $agendamentos[] = Agendamento::where('id', $banca->agendamento_id)->orderBy('data_da_defesa','asc')->get();
         }
         return $agendamentos;
     }

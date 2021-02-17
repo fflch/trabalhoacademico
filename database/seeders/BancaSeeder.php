@@ -30,14 +30,14 @@ class BancaSeeder extends Seeder
         ];
 
         $professor2 = [
-            'n_usp' => 5751095,
+            'n_usp' => 611291,
             'prof_externo_id' => null,
             'presidente' => 'Não',
             'agendamento_id' => 1,
         ];
 
         $professor3 = [
-            'n_usp' => 8718763,
+            'n_usp' => 61131,
             'prof_externo_id' => null,
             'presidente' => 'Não',
             'agendamento_id' => 1,

@@ -61,7 +61,7 @@
                 <td>{{ $agendamento->status}}</td>
                 <td>
                     @can('OWNER', $agendamento)
-                        @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                        @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')
                             <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
                         @endif
                     @endcan

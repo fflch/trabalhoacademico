@@ -73,8 +73,12 @@ class Agendamento extends Model
         return ProfExterno::all();
     }
 
-    public function dadosProfExterno($id){
+    public static function dadosProfExterno($id){
         return ProfExterno::where('id',$id)->first();
+    }
+
+    public static function cursoOptions(){
+        return Agendamento::select('curso')->distinct('curso')->get();
     }
 
 }

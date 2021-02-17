@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EmAvaliacaoMail;
 use App\Mail\DevolucaoMail;
 use App\Mail\AprovacaoMail;
+use App\Mail\LiberacaoMail;
 use Uspdev\Replicado\Pessoa;
 
 class AgendamentoController extends Controller
@@ -123,7 +124,14 @@ class AgendamentoController extends Controller
         $agendamento->data_liberacao = date('Y-m-d');
         $agendamento->update();
         # Mandar email para orientador
-        Mail::send(new LiberacaoMail($agendamento));
+        foreach($agendamento->bancas as $banca){
+            if($banca->n_usp != null){
+                Mail::send(new LiberacaoMail($agendamento, $banca, null));
+            }
+            elseif($banca->prof_externo_id != null){
+                Mail::send(new LiberacaoMail($agendamento, null, $banca->prof_externo));
+            }
+        }
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
@@ -133,7 +141,7 @@ class AgendamentoController extends Controller
             $agendamento->comentario = $request->comentario;
         }
         if($request->devolver){
-            $agendamento->status = 'Devolvido'; 
+            $agendamento->status = 'Aprovado C/ Correções'; 
             $agendamento->data_enviado_avaliacao = null;
             $agendamento->data_devolucao = date('Y-m-d');
             $agendamento->update();

@@ -2,7 +2,7 @@
         <div class="card-header"><b>Arquivos</b></div>
         <div class="card-body form-group">
             @can('OWNER', $agendamento)
-                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                @if($agendamento->status == 'Em Elaboração' or ($agendamento->status == 'Aprovado C/ Correções' and \Carbon\Carbon::now()->lte(date('Y-m-d H:i:s', strtotime('+60 days', strtotime($agendamento->data_da_defesa))))))
                     @include('agendamentos.files.partials.form')
                 @endif
             @elsecan('DOCENTE', $agendamento)
@@ -30,7 +30,7 @@
                                 {{ Carbon\Carbon::parse($file->created_at)->format('d/m/Y') }}
                             @elseif($agendamento->status == 'Em Avaliação')
                                 {{ Carbon\Carbon::parse($file->data_enviado_avaliacao)->format('d/m/Y') }}
-                            @elseif($agendamento->status == 'Devolvido')
+                            @elseif($agendamento->status == 'Aprovado C/ Correções')
                                 {{ Carbon\Carbon::parse($file->data_devolucao)->format('d/m/Y') }}
                             @elseif($agendamento->status == 'Aprovado')
                                 {{ Carbon\Carbon::parse($file->data_resultado)->format('d/m/Y') }}
@@ -39,7 +39,7 @@
                         <td>{{ $agendamento->status }}</td>
                         @can('OWNER', $agendamento)
                             <td>
-                                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                                @if($agendamento->status == 'Em Elaboração' or ($agendamento->status == 'Aprovado C/ Correções' and \Carbon\Carbon::now()->lte(date('Y-m-d H:i:s', strtotime('+60 days', strtotime($agendamento->data_da_defesa))))))
                                     <form method="POST" class="form-group" action="/files/{{$file->id}}">
                                         @csrf 
                                         @method('delete')

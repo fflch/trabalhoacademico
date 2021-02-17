@@ -56,10 +56,10 @@
                 @foreach($profExterno->getBancasProfessor($profExterno->id,'Examinador') as $bancas)
                     @foreach($bancas as $banca)
                     <tr>
-                        <td><a href="/agendamentos/{{$banca['id']}}">{{$banca['nome']}}</a></td>
-                        <td>{{$banca['titulo']}}</td>
-                        <td>{{Carbon\Carbon::parse($banca['data_da_defesa'])->format('d/m/Y')}}</td>
-                        <td>{{$banca['curso']}}</td>
+                        <td><a href="/agendamentos/{{$banca->user->id}}">{{$banca->user->name}}</a></td>
+                        <td>{{$banca->titulo}}</td>
+                        <td>{{Carbon\Carbon::parse($banca->data_da_defesa)->format('d/m/Y')}}</td>
+                        <td>{{$banca->curso}}</td>
                     </tr>
                     @endforeach
                 @endforeach

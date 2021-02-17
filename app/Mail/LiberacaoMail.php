@@ -6,6 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Agendamento;
+use App\Models\Banca;
+use App\Models\ProfExterno;
+use App\Models\File;
+use Uspdev\Replicado\Pessoa;
 
 class LiberacaoMail extends Mailable
 {
@@ -32,9 +37,10 @@ class LiberacaoMail extends Mailable
     {
         $subject = "Agendamento da Defesa de {$this->agendamento->user->name}";
         $file = File::where('agendamento_id',$this->agendamento->id)->first();
-        if($professor){
+        if($this->professor != null){
+            if(Pessoa::emailusp($this->professor->n_usp) == null) dd($this->professor->n_usp);
             return $this->view('emails.liberacao')
-                ->to(Pessoa::emailusp($professor->codpes))
+                ->to(Pessoa::emailusp($this->professor->n_usp))
                 ->subject($subject)
                 ->attachFromStorage($file->path, $file->original_name, [
                     'mime' => 'application/pdf',
@@ -44,16 +50,16 @@ class LiberacaoMail extends Mailable
                     'professor' => $this->professor,
                 ]);    
         }
-        elseif($prof_externo){
+        elseif($this->prof_externo != null){
             return $this->view('emails.liberacao')
-            ->to($profexterno->email)
+            ->to($this->prof_externo->email)
             ->subject($subject)
             ->attachFromStorage($file->path, $file->original_name, [
                 'mime' => 'application/pdf',
             ])
             ->with([
                 'agendamento' => $this->agendamento,
-                'professor' => $this->profexterno,
+                'professor' => $this->prof_externo,
             ]);    
         }  
     }

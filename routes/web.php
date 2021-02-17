@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginAdminController;
 use App\Http\Controllers\ProfExternoController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/anteriores',[IndexController::class, 'anteriores'])->name('anteriores');
 Route::get('/dashboard', [IndexController::class, 'dashboard'])->name('dashboard');
 Route::get('login',[LoginController::class, 'redirectToProvider'])->name('login');
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
