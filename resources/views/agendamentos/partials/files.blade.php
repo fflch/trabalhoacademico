@@ -22,7 +22,7 @@
                     </tr>
                 </theader>
                 <tbody>
-                @foreach ($agendamento->files as $file)
+                @foreach ($agendamento->files->where('tipo','trabalho') as $file)
                     <tr>
                         <td><a href="/files/{{$file->id}}">{{ $file->original_name }}</a></td>
                         <td>
@@ -39,7 +39,7 @@
                         <td>{{ $agendamento->status }}</td>
                         @can('OWNER', $agendamento)
                             <td>
-                                @if($agendamento->status == 'Em Elaboração' or ($agendamento->status == 'Aprovado C/ Correções' and \Carbon\Carbon::now()->lte(date('Y-m-d H:i:s', strtotime('+60 days', strtotime($agendamento->data_da_defesa))))))
+                                @if(($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null) or ($agendamento->status == 'Aprovado C/ Correções' and \Carbon\Carbon::now()->lte(date('Y-m-d H:i:s', strtotime('+60 days', strtotime($agendamento->data_da_defesa))))))
                                     <form method="POST" class="form-group" action="/files/{{$file->id}}">
                                         @csrf 
                                         @method('delete')
@@ -49,7 +49,7 @@
                             </td>
                         @elsecan('DOCENTE', $agendamento)
                             <td>
-                                @if($agendamento->status == 'Em Avaliação' and $agendamento->data_devolucao == null)
+                                @if($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null)
                                     <form method="POST" class="form-group" action="/files/{{$file->id}}">
                                         @csrf 
                                         @method('delete')

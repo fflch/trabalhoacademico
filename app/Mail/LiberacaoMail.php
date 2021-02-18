@@ -10,7 +10,9 @@ use App\Models\Agendamento;
 use App\Models\Banca;
 use App\Models\ProfExterno;
 use App\Models\File;
+use App\Models\Config;
 use Uspdev\Replicado\Pessoa;
+use PDF;
 
 class LiberacaoMail extends Mailable
 {
@@ -37,6 +39,15 @@ class LiberacaoMail extends Mailable
     {
         $subject = "Agendamento da Defesa de {$this->agendamento->user->name}";
         $file = File::where('agendamento_id',$this->agendamento->id)->first();
+        $configs = Config::orderbyDesc('created_at')->first();
+        $professores = Banca::where('agendamento_id',$this->agendamento->id)->orderBy('presidente','desc')->get();
+        if($this->prof_externo != null){
+            $this->professor = $this->prof_externo;
+        }
+        $agendamento = $this->agendamento;
+        $professor = $this->professor;
+        $pdf = PDF::loadView("pdfs.documentos_bancas.oficio", compact(['agendamento','professores','professor','configs']));
+    
         if($this->professor != null){
             if(Pessoa::emailusp($this->professor->n_usp) == null) dd($this->professor->n_usp);
             return $this->view('emails.liberacao')
@@ -45,6 +56,7 @@ class LiberacaoMail extends Mailable
                 ->attachFromStorage($file->path, $file->original_name, [
                     'mime' => 'application/pdf',
                 ])
+                ->attachData($pdf->output(), Pessoa::dump($this->professor->n_usp)['nompes'].".pdf")
                 ->with([
                     'agendamento' => $this->agendamento,
                     'professor' => $this->professor,
@@ -57,6 +69,7 @@ class LiberacaoMail extends Mailable
             ->attachFromStorage($file->path, $file->original_name, [
                 'mime' => 'application/pdf',
             ])
+            ->attachData($pdf->output(), $this->professor->nome.".pdf")
             ->with([
                 'agendamento' => $this->agendamento,
                 'professor' => $this->prof_externo,

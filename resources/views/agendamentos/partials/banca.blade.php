@@ -15,8 +15,8 @@
                         @can('ADMIN')
                             <th>Ofício de Agendamento</th>
                             <th>Declaração de participação</th>
-                            <th>Ações</th>
                         @endcan
+                        @can('LOGADO')<th>Ações</th>@endcan
                     </tr>
                 </theader>
                 <tbody>
@@ -25,12 +25,10 @@
                         @can('LOGADO')<td>{{ $banca->n_usp ?? '' }}</td>@endcan
                         <td>@if($banca->n_usp){{ $pessoa::dump($banca->n_usp)['nompes']}}@else {{ $agendamento->dadosProfExterno($banca->prof_externo_id)['nome'] }}@endif</td>
                         <td>{{ $banca->presidente }}</td>
-                        @can('LOGADO')
+                        @can('ADMIN')
                             <td>
                                 <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/oficio" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
                             </td>
-                        @endcan
-                        @can('LOGADO')
                             <td>
                                 <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/declaracao" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
                             </td>

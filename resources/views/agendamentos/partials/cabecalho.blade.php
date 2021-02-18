@@ -7,7 +7,7 @@
                 </div>
             @endcan
             @can('OWNER', $agendamento)
-                @if($agendamento->data_enviado_avaliacao == null and $agendamento->files()->count() != 0 and $agendamento->status == 'Em Elaboração')
+                @if($agendamento->data_enviado_avaliacao == null and $agendamento->files()->where('tipo', 'trabalho')->count() != 0 and $agendamento->status == 'Em Elaboração')
                     <div class="col-auto">
                         <form method="POST" action="/agendamentos/enviar_avaliacao/{{ $agendamento->id }}">
                             @csrf 
