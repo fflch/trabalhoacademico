@@ -20,9 +20,41 @@ class Config extends Model
         $configs = Config::orderbyDesc('created_at')->first();
         $configs['declaracao'] = str_replace(
             ["%docente_nome","%candidato_nome", "%titulo", "%area", "%orientador"], 
-            [$professor['nome'], $nome, $agendamento['titulo'], Graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'], $agendamento['nome_do_orientador']], 
+            [$professor, $nome, $agendamento['titulo'], Graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'], $agendamento['nome_do_orientador']], 
             $configs['declaracao']
         );
+        return $configs;
+    }
+
+    public static function configRodape($curso){
+        //Busca a última configuração
+        $configs = Config::orderbyDesc('created_at')->first();
+        $configs['rodape_oficios'] = str_replace(
+            ["%departamento"], 
+            [$curso], 
+            $configs['rodape_oficios']
+        );
+        if($curso == 'Filosofia' or $curso == 'Ciências Sociais'){
+            $configs['rodape_oficios'] = str_replace(
+                ["%endereco"], 
+                [' Av. Prof. Luciano Gualberto, 315 | Cidade Universitária | São Paulo-SP | CEP 05508-010'], 
+                $configs['rodape_oficios']
+            );
+        }
+        elseif($curso == 'Geografia' or $curso == 'História'){
+            $configs['rodape_oficios'] = str_replace(
+                ["%endereco"], 
+                ['Av. Prof. Lineu Prestes, 338 | Cidade Universitária | São Paulo-SP | CEP 05508-000'], 
+                $configs['rodape_oficios']
+            );
+        }
+        elseif($curso == 'Letras'){
+            $configs['rodape_oficios'] = str_replace(
+                ["%endereco"], 
+                ['Av. Prof. Luciano Gualberto, 403 | Cidade Universitária | São Paulo-SP | CEP 05508-010'], 
+                $configs['rodape_oficios']
+            );
+        }
         return $configs;
     }
 

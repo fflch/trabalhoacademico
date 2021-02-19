@@ -1,6 +1,5 @@
 @extends('pdfs.fflch')
 @inject('pessoa','Uspdev\Replicado\Pessoa')
-@inject('graduacao','Uspdev\Replicado\Graduacao')
 
 @section('styles_head')
 <style type="text/css">
@@ -80,7 +79,7 @@
         <img src='images/logo-fflch.png' width='100px' height='45px'/>
       </td>
       <td style='margin:0;'>
-        <p style="text-transform: uppercase; text-align:center; font-size:60px; margin-left:-50px; font-weight:lighter;">{{$agendamento->curso}}</p>
+        <p style="text-transform: uppercase; text-align:center; font-size:50px; margin-left:-50px; font-weight:lighter;">{{$agendamento->curso}}</p>
       </td>
       <td style='margin:0;'>
         <p style="font-size:11px; text-transform: uppercase; margin-left:10px; margin-right:-20px;">FACULDADE DE FILOSOFIA, LETRAS E CIÊNCIAS HUMANAS
@@ -101,7 +100,7 @@
 
     <div class="moremargin">Assunto: Banca Examinadora de <b>Trabalho de Graduação Individual</b></div> 
     <div class="moremargin">Candidato(a): <b>{{$agendamento->user->name}}</b> </div>
-    <div class="moremargin">Curso: <b>{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</b> </div>
+    <div class="moremargin">Curso: <b>{{$agendamento->curso}}</b> </div>
     <div class="moremargin">Orientador(a) Prof(a). Dr(a). {{$agendamento->nome_do_orientador}}</div>
     <div class="moremargin">Título do Trabalho: <i>"{{$agendamento->titulo}}" </i></div><br>
     <div class="importante">
@@ -147,7 +146,7 @@
         <br>e-mail: {{$professor->prof_externo->email}}
     @endif
     <div id="footer">
-        {!! $configs->rodape_oficios !!}
+        {!! $configs->configRodape($agendamento->curso)->rodape_oficios !!}
     </div>
 
 @endsection('content')

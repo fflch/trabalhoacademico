@@ -40,17 +40,22 @@ class PdfController extends Controller
         $professores = Banca::where('agendamento_id',$agendamento->id)->orderBy('presidente','desc')->get();
         $professor = $banca;
         if($tipo == 'declaracao'){
-            $configs = Config::configDeclaracao($agendamento,$agendamento->user->name, $professor);
+            if($professor->n_usp){
+                $configs = Config::configDeclaracao($agendamento, $agendamento->user->name, Pessoa::dump($professor->n_usp)['nompes']);
+            }
+            elseif($professor->nome){
+                $configs = Config::configDeclaracao($agendamento, $agendamento->user->name, $professor->nome);
+            }
         }
         elseif($tipo == 'oficio'){
             $configs = Config::orderbyDesc('created_at')->first();
         }
         $pdf = PDF::loadView("pdfs.documentos_bancas.$tipo", compact(['agendamento','professores','professor','configs']));
         if($banca->nome == null){
-            $nome = 'Professor';
+            $nome = Pessoa::dump($banca->n_usp)['nompes'];
         }
         else{
-            $nome = $banca->nome;
+            $nome = $banca->prof_externo->nome;
         }
         return $pdf->download("$nome - $tipo.pdf");
         

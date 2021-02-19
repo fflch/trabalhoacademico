@@ -1,5 +1,4 @@
 @inject('pessoa','Uspdev\Replicado\Pessoa')
-@inject('graduacao','Uspdev\Replicado\Graduacao')
 
 @extends('pdfs.fflch')
 @section('styles_head')
@@ -84,12 +83,12 @@
         <img src='images/logo-fflch.png' width='100px' height='45px'/>
       </td>
       <td style='margin:0;'>
-        <p style="text-transform: uppercase; text-align:center; font-size:60px; margin-left:-50px; font-weight:lighter;">{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</p>
+        <p style="text-transform: uppercase; text-align:center; font-size:50px; margin-left:-50px; font-weight:lighter;">{{$agendamento->curso}}</p>
       </td>
       <td style='margin:0;'>
         <p style="font-size:11px; text-transform: uppercase; margin-left:10px; margin-right:-20px;">FACULDADE DE FILOSOFIA, LETRAS E CIÊNCIAS HUMANAS
         <br>Universidade de São Paulo<br>
-        Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</p>
+        Departamento de {{$agendamento->curso}}</p>
       </td>
     </tr>
   </table>
@@ -108,19 +107,19 @@
     <table width="16cm" style="border='0'; margin-left:4cm; align-items: center; justify-content: center;">
         @foreach($professores as $componente)    
         <tr style="border='0'">
-            <td><b>{{$componente->nome}}</b> </td>
-            <td><b>{{$pessoa::cracha($componente->codpes)['nomorg'] ?? ' '}}</b></td>           
+            <td><b>@if($componente->n_usp != null){{$pessoa::dump($componente->n_usp)['nompes'] ?? ' ' }} @elseif($componente->prof_externo_id != null) {{$componente->prof_externo->nome}} @endif</b> </td>
+            <td><b>@if($componente->n_usp != null){{$pessoa::cracha($componente->n_usp)['nomorg'] ?? ' '}} @elseif($componente->prof_externo_id != null) {{$componente->prof_externo->instituicao}} @endif</b></td>           
         </tr>
         @endforeach
     </table>
-    <p>examinando o Trabalho de Graduação Individual em {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}, com título:</p>
+    <p>examinando o Trabalho de Graduação Individual em {{$agendamento->curso}}, com título:</p>
 	<p style="text-align:center; font-size:16px; font-weight:bold;">"{{$agendamento->titulo}}"</p><br>
     
     e a defesa do aluno (a)<br><br>
 
     Bacharelando (a): <b>{{$agendamento->user->name}}</b><br>
     Número USP: <b>{{$agendamento->user->codpes}}</b><br>
-    Área: <b>{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</b><br><br>
+    Curso: <b>{{$agendamento->curso}}</b><br><br>
     
     Atribuiu a nota:___________________________________.<br><br>
     <br>
@@ -129,12 +128,12 @@
     <table width="20cm" style="border='0'; align-items: left; justify-content: left;">
         @foreach($professores as $componente)    
         <tr style="border='0'">
-            <td><b>{{$componente->nome}}</b></td>
+            <td><b>@if($componente->n_usp != null){{$pessoa::dump($componente->n_usp)['nompes'] ?? ' ' }} @elseif($componente->prof_externo_id != null) {{$componente->prof_externo->nome}} @endif</b> </td>
             <td>_________________________________________________</td>           
         </tr>
         @endforeach
     </table> 
     <div id="footer">
-        {!! $configs->rodape_oficios !!}
+        {!! $configs->configRodape($agendamento->curso)->rodape_oficios !!}
     </div>
 @endsection('content')

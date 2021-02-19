@@ -1,6 +1,5 @@
 @extends('pdfs.fflch')
 @inject('pessoa','Uspdev\Replicado\Pessoa')
-@inject('graduacao','Uspdev\Replicado\Graduacao')
 
 @section('styles_head')
 <style type="text/css">
@@ -77,12 +76,12 @@
                     <img src='images/logo-fflch.png' width='100px' height='45px'/>
                 </td>
                 <td style='margin:0;'>
-                    <p style="text-transform: uppercase; text-align:center; font-size:60px; margin-left:-50px; font-weight:lighter;">{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</p>
+                    <p style="text-transform: uppercase; text-align:center; font-size:50px; margin-left:-50px; font-weight:lighter;">{{$agendamento->curso}}</p>
                 </td>
                 <td style='margin:0;'>
                     <p style="font-size:11px; text-transform: uppercase; margin-left:10px; margin-right:-20px;">FACULDADE DE FILOSOFIA, LETRAS E CIÊNCIAS HUMANAS
                     <br>Universidade de São Paulo<br>
-                    Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</p>
+                    Departamento de {{$agendamento->curso}}</p>
                 </td>
             </tr>
         </table>
@@ -95,7 +94,7 @@
 
         <div class="moremargin">Assunto: Banca Examinadora de <b>Trabalho de Graduação Individual</b></div> 
         <div class="moremargin">Candidato(a): <b>{{$agendamento->user->name}}</b> </div>
-        <div class="moremargin">Área: <b>{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</b> </div>
+        <div class="moremargin">Curso: <b>{{$agendamento->curso}}</b> </div>
         <div class="moremargin">Orientador(a) Prof(a). Dr(a). {{$agendamento->nome_do_orientador}}</div>
         <div class="moremargin">Título do Trabalho: <i>"{{$agendamento->titulo}}" </i></div><br>
         <div class="importante">
@@ -110,8 +109,8 @@
         <table width="16cm" style="border='0'; margin-left:4cm; align-items: center; justify-content: center;">
             @foreach($bancas as $banca)    
             <tr style="border='0'">
-                <td> {{$banca->nome}} </td> 
-                <td><b>{{$pessoa::cracha($banca->codpes)['nomorg'] ?? ' '}}</b></td>
+                <td><b>@if($banca->n_usp != null){{$pessoa::dump($banca->n_usp)['nompes'] ?? ' ' }} @elseif($banca->prof_externo_id != null) {{$banca->prof_externo->nome}} @endif</b> </td>
+                <td><b>@if($banca->n_usp != null){{$pessoa::cracha($banca->n_usp)['nomorg'] ?? ' '}} @elseif($banca->prof_externo_id != null) {{$banca->prof_externo->instituicao}} @endif</b></td>           
             </tr>
             @endforeach
         </table>
@@ -121,16 +120,24 @@
             Atenciosamente, 
             <br>
             <b> 
-                Secretaria do Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}
+                Secretaria do Departamento de {{$agendamento->curso}}
             </b>
         </p><br><br> 
-        Ilmo(a). Sr(a). {{$professor->nome}}<br>
-        {{$pessoa::obterEndereco($professor->codpes)['nomtiplgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['epflgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['numlgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['cpllgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->codpes)['nombro'] ?? ' '}}  <br>
-        CEP:{{$pessoa::obterEndereco($professor->codpes)['codendptl'] ?? ' '}} - {{$pessoa::obterEndereco($professor->codpes)['cidloc'] ?? ' '}}/{{$pessoa::obterEndereco($professor->codpes)['sglest'] ?? ' '}}
-        <br> telefone: @foreach($pessoa::telefones($professor->codpes) as $telefone) {{ $telefone }} @endforeach
-        <br>e-mail: @foreach($pessoa::emails($professor->codpes) as $email) {{$email}} @endforeach
+        @if($professor->n_usp != null)
+            Ilmo(a). Sr(a). {{$pessoa::dump($professor->n_usp)['nompes']}}<br>
+            {{$pessoa::obterEndereco($professor->n_usp)['nomtiplgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->n_usp)['epflgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->n_usp)['numlgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->n_usp)['cpllgr'] ?? ' '}}, {{$pessoa::obterEndereco($professor->n_usp)['nombro'] ?? ' '}}  <br>
+            CEP:{{$pessoa::obterEndereco($professor->n_usp)['codendptl'] ?? ' '}} - {{$pessoa::obterEndereco($professor->n_usp)['cidloc'] ?? ' '}}/{{$pessoa::obterEndereco($professor->n_usp)['sglest'] ?? ' '}}
+            <br> telefone: @foreach($pessoa::telefones($professor->n_usp) as $telefone) {{ $telefone }} @endforeach
+            <br>e-mail: @foreach($pessoa::emails($professor->n_usp) as $email) {{$email}} @endforeach
+        @elseif($professor->prof_externo_id != null)
+            Ilmo(a). Sr(a). {{$professor->prof_externo->nome}}<br>
+            {{$professor->prof_externo->endereco ?? ' '}}, {{$professor->prof_externo->bairro ?? ' '}} - CEP:{{$professor->prof_externo->cep ?? ' '}}<br>
+            {{$professor->prof_externo->cidade ?? ' '}}/{{$professor->prof_externo->estado ?? ' '}} - {{$professor->prof_externo->pais}}
+            <br> telefone: {{ $professor->prof_externo->telefone }}
+            <br>e-mail: {{$professor->prof_externo->email}}
+        @endif
         <div id="footer">
-            {!! $configs->rodape_oficios !!}
+            {!! $configs->configRodape($agendamento->curso)->rodape_oficios !!}
         </div>
         <p class="page-break">&nbsp;</p>
     @endforeach
