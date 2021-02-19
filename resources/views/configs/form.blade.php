@@ -43,7 +43,7 @@
 	<div class="form-group col-sm">
 		<label class="config" for="mail_liberacao"> Mensagem de E-mail para Banca (quando docente libera a defesa para avaliação da banca) </label>  
 		<textarea rows="10" cols="70" class="form-control" name="mail_liberacao">{{$config->mail_liberacao}}</textarea> 
-		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %data_defesa, %local_defesa </span>
+		<span class="badge badge-warning">Token de substituição: %docente_nome,%candidato_nome, %orientador, %titulo, %data_defesa </span>
 	</div>
 </div>
 
@@ -51,7 +51,7 @@
 	<div class="form-group col-sm">
 		<label class="config" for="mail_devolucao"> Mensagem de E-mail para Aluno (quando aluno é aprovado com correções a serem feitas) </label>  
 		<textarea rows="10" cols="70" class="form-control" name="mail_devolucao">{{$config->mail_devolucao}}</textarea> 
-		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %data_defesa, %local_defesa </span>
+		<span class="badge badge-warning">Token de substituição: %candidato_nome, %orientador, %titulo, %agendamento_id, %data_defesa, %status, %parecer </span>
 	</div>
 </div>
 
@@ -59,7 +59,7 @@
 	<div class="form-group col-sm">
 		<label class="config" for="mail_aprovacao"> Mensagem de E-mail para Aluno (quando aluno é aprovado) </label>  
 		<textarea rows="10" cols="70" class="form-control" name="mail_aprovacao">{{$config->mail_aprovacao}}</textarea> 
-		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %data_defesa, %local_defesa </span>
+		<span class="badge badge-warning">Token de substituição: %candidato_nome, %orientador, %titulo, %agendamento_id, %data_defesa, %status, %parecer </span>
 	</div>
 </div>
 
