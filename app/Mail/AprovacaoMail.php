@@ -31,7 +31,7 @@ class AprovacaoMail extends Mailable
      */
     public function build()
     {
-        $subject = "Resultado da defesa do trabalho acadêmico de {$this->agendamento->user->name}";
+        $subject = "Parecer da defesa do trabalho acadêmico de {$this->agendamento->user->name}";
 
         return $this->view('emails.aprovacao')
         ->to(Pessoa::emailusp($this->agendamento->user->codpes))

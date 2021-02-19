@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Uspdev\Replicado\Pessoa;
 use App\Models\User;
+use App\Models\ProfExterno;
 
 class Agendamento extends Model
 {
@@ -66,6 +67,18 @@ class Agendamento extends Model
             return $file->id;
         }
         return false;
+    }
+
+    public function profExterno(){
+        return ProfExterno::all()->toArray();
+    }
+
+    public static function dadosProfExterno($id){
+        return ProfExterno::where('id',$id)->first();
+    }
+
+    public static function cursoOptions(){
+        return Agendamento::select('curso')->distinct('curso')->get();
     }
 
 }

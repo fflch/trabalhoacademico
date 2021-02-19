@@ -2,7 +2,7 @@
         <div class="card-header"><b>Banca</b></div>
         <div class="card-body form-group">
             @can('OWNER', $agendamento)
-                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')
                     @include('agendamentos.bancas.partials.form')
                 @endif
             @endcan
@@ -12,25 +12,23 @@
                         @can('LOGADO')<th>Nº USP</th>@endcan
                         <th>Nome</th>
                         <th>Presidente</th>
-                        @can('LOGADO')
+                        @can('ADMIN')
                             <th>Ofício de Agendamento</th>
                             <th>Declaração de participação</th>
-                            <th>Ações</th>
                         @endcan
+                        @can('OWNER', $agendamento)<th>Ações</th>@endcan
                     </tr>
                 </theader>
                 <tbody>
                 @foreach ($agendamento->bancas as $banca)
                     <tr>
-                        @can('LOGADO')<td>{{ $banca->codpes }}</td>@endcan
-                        <td>{{ $banca->nome }}</td>
+                        @can('LOGADO')<td>{{ $banca->n_usp ?? '' }}</td>@endcan
+                        <td>@if($banca->n_usp){{ $pessoa::dump($banca->n_usp)['nompes']}}@else {{ $agendamento->dadosProfExterno($banca->prof_externo_id)['nome'] }}@endif</td>
                         <td>{{ $banca->presidente }}</td>
-                        @can('LOGADO')
+                        @can('ADMIN')
                             <td>
                                 <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/oficio" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
                             </td>
-                        @endcan
-                        @can('LOGADO')
                             <td>
                                 <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/declaracao" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
                             </td>
@@ -38,7 +36,7 @@
                         @can('OWNER', $agendamento)
                             <td>
 
-                                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Devolvido')
+                                @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')
                                     <form method="POST" class="form-group" action="/bancas/{{$banca->id}}">
                                         @csrf 
                                         @method('delete')

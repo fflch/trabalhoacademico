@@ -44,6 +44,7 @@
             <div class="card-header"><b>Dados do trabalho acadêmico</b></div>
             <div class="card-body">
                 <input type="text" hidden name="status" value="{{$agendamento->status ?? 'Em Elaboração'}}">
+                <input type="text" hidden name="curso" value="@if(old('curso') == '' and $agendamento->curso == null){{ $graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'] }} @else {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} @endif">
                 <div class="form-group">
                     <label for="titulo" class="required"><b>Título</b></label>
                     <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $agendamento->titulo) }}">

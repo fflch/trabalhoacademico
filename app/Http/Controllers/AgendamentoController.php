@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EmAvaliacaoMail;
 use App\Mail\DevolucaoMail;
 use App\Mail\AprovacaoMail;
+use App\Mail\LiberacaoMail;
 use Uspdev\Replicado\Pessoa;
 
 class AgendamentoController extends Controller
@@ -63,8 +64,7 @@ class AgendamentoController extends Controller
         $agendamento = Agendamento::create($validated);
         //Salva o orientador na banca
         $banca = new Banca;
-        $banca->codpes = $validated['numero_usp_do_orientador'];
-        $banca->nome = $validated['nome_do_orientador'];
+        $banca->n_usp = $validated['numero_usp_do_orientador'];
         $banca->presidente = 'Sim'; 
         $banca->agendamento_id = $agendamento->id;
         $agendamento->bancas()->save($banca);
@@ -110,8 +110,6 @@ class AgendamentoController extends Controller
 
     public function enviar_avaliacao(Agendamento $agendamento){
         $this->authorize('OWNER',$agendamento);
-
-        $agendamento->status = 'Em Avaliação';
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();
         # Mandar email para orientador
@@ -119,13 +117,40 @@ class AgendamentoController extends Controller
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
-    public function resultado(Agendamento $agendamento, Request $request){
+    public function liberar(Agendamento $agendamento, Request $request){
         $this->authorize('DOCENTE',$agendamento);
         if($request->comentario){
             $agendamento->comentario = $request->comentario;
         }
+        if($request->devolver != 'Devolver para o Aluno'){
+            $agendamento->status = 'Em Avaliação';
+            $agendamento->data_liberacao = date('Y-m-d');
+            $agendamento->update();
+            # Mandar email para orientador
+            foreach($agendamento->bancas as $banca){
+                if($banca->n_usp != null){
+                    Mail::send(new LiberacaoMail($agendamento, $banca, null));
+                }
+                elseif($banca->prof_externo_id != null){
+                    Mail::send(new LiberacaoMail($agendamento, null, $banca->prof_externo));
+                }
+            }
+        }
+        else{
+            $agendamento->status = 'Em Elaboração';
+            $agendamento->data_enviado_avaliacao = null;
+            $agendamento->update();
+        }
+        return redirect('/agendamentos/'.$agendamento->id);
+    }
+
+    public function resultado(Agendamento $agendamento, Request $request){
+        $this->authorize('DOCENTE',$agendamento);
+        if($request->parecer){
+            $agendamento->parecer = $request->parecer;
+        }
         if($request->devolver){
-            $agendamento->status = 'Devolvido'; 
+            $agendamento->status = 'Aprovado C/ Correções'; 
             $agendamento->data_enviado_avaliacao = null;
             $agendamento->data_devolucao = date('Y-m-d');
             $agendamento->update();

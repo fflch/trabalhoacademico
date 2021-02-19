@@ -50,5 +50,12 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('ALUNO', function ($user) {
+            if(Gate::allows('ADMIN')) return true;
+            $is_aluno = in_array('Aluno de Graduação',Pessoa::vinculosSetores($user->codpes,8));
+            if($is_aluno) return true;
+            return false;
+        });
+
     }
 }

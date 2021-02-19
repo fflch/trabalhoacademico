@@ -29,7 +29,8 @@ class AgendamentoSeeder extends Seeder
             'sala' => 'Sala Virtual',           
             'nome_do_orientador' => 'Dário Horácio Gutierrez Gallardo',           
             'numero_usp_do_orientador' => 65389,              
-            'status' => 'Em Elaboração',                    
+            'status' => 'Em Elaboração',
+            'curso' => 'Filosofia',                    
         ];
         Agendamento::create($agendamento1);
         

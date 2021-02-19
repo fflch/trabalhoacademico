@@ -21,8 +21,10 @@ class CreateConfigsTable extends Migration
             $table->text('rodape_oficios');
             $table->text('importante_oficio');
             $table->text('declaracao');
-            $table->text('mail_docente');
-            $table->text('mail_aluno');
+            $table->text('mail_avaliacao');
+            $table->text('mail_liberacao');
+            $table->text('mail_devolucao');
+            $table->text('mail_aprovacao');
         });
     }
 

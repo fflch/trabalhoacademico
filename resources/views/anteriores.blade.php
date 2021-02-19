@@ -8,7 +8,7 @@
     @include('flash')
     <div class="row">
         <div class="col-sm">
-            <a href="/anteriores" class="float-right"><h3>Defesas anteriores</h3></a>
+            <a href="/" class="float-right"><h3>Próximas defesas</h3></a>
         </div>
     </div>
     @inject('graduacao','Uspdev\Replicado\Graduacao')
@@ -16,8 +16,9 @@
     <div class="card">
         <div class="card-header"><h5><b>Pesquisa</b></h5></div>
         <div class="card-body">
-            <form method="GET" action="/">
+            <form method="GET" action="/anteriores">
                 <label><b>Filtros:</b></label><br>
+                
                 <div class="row form-group">
                     <div class="col-4 form-group"> 
                         <select class="form-control" name="busca_curso">
@@ -51,7 +52,7 @@
     </div>
     <br>
     <div class="card">
-        <div class="card-header"><h2>Próximas Defesas de Trabalhos Acadêmicos</h2></div>
+        <div class="card-header"><h2>Trabalhos Acadêmicos Defendidos</h2></div>
         <table class="table table-striped" style="text-align:center;">
             <theader>
                 <tr>

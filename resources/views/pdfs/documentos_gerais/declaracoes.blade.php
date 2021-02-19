@@ -1,5 +1,4 @@
 @inject('pessoa','Uspdev\Replicado\Pessoa')
-@inject('graduacao','Uspdev\Replicado\Graduacao')
 
 @extends('pdfs.fflch')
 @section('styles_head')
@@ -80,12 +79,12 @@
                     <img src='images/logo-fflch.png' width='100px' height='45px'/>
                 </td>
                 <td style='margin:0;'>
-                    <p style="text-transform: uppercase; text-align:center; font-size:60px; margin-left:-50px; font-weight:lighter;">{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</p>
+                    <p style="text-transform: uppercase; text-align:center; font-size:50px; margin-left:-50px; font-weight:lighter;">{{$agendamento->curso}}</p>
                 </td>
                 <td style='margin:0;'>
                     <p style="font-size:11px; text-transform: uppercase; margin-left:10px; margin-right:-20px;">FACULDADE DE FILOSOFIA, LETRAS E CIÊNCIAS HUMANAS
                     <br>Universidade de São Paulo<br>
-                    Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</p>
+                    Departamento de {{$agendamento->curso}}</p>
                 </td>
             </tr>
         </table>
@@ -100,25 +99,29 @@
         <br><br><br>
 
         <p class="recuo justificar" style="line-height: 190%;">
-            {!! App\Models\Config::configDeclaracao($agendamento,$agendamento->nome,$professor)->declaracao !!}
+        @if($professor->n_usp)
+            {!! App\Models\Config::configDeclaracao($agendamento, $agendamento->user->name, $pessoa::dump($professor->n_usp)['nompes'])->declaracao !!}
+        @elseif($professor->nome)
+            {!! App\Models\Config::configDeclaracao($agendamento, $agendamento->user->name, $professor->prof_externo->nome)->declaracao !!}
+        @endif
         </p><br><br>
 
         <table width="16cm" style="border='0'; margin-left:4cm; align-items: center; justify-content: center;">
             @foreach($bancas as $banca)    
             <tr style="border='0'">
-                <td><b>{{$banca->nome}}</b> </td>
-                <td><b>{{$pessoa::cracha($banca->codpes)['nomorg'] ?? ' '}}</b></td>           
+                <td><b>@if($banca->n_usp != null){{$pessoa::dump($banca->n_usp)['nompes'] ?? ' ' }} @elseif($banca->prof_externo_id != null) {{$banca->prof_externo->nome}} @endif</b> </td>
+                <td><b>@if($banca->n_usp != null){{$pessoa::cracha($banca->n_usp)['nomorg'] ?? ' '}} @elseif($banca->prof_externo_id != null) {{$banca->prof_externo->instituicao}} @endif</b></td>           
             </tr>
             @endforeach
         </table>
         <div style="margin-top:2cm;" align="center"> 
             Atenciosamente,<br>  
             <b>
-                Secretaria do Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} - FFLCH/USP 
+                Secretaria do Departamento de {{$agendamento->curso}} - FFLCH/USP 
             </b>
         </div> 
         <div id="footer">
-            {!! $configs->rodape_oficios !!}
+            {!! $configs->configRodape($agendamento->curso)->rodape_oficios !!}
         </div>
         <p class="page-break">&nbsp;</p>
     @endforeach
