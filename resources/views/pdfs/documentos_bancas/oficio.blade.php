@@ -101,7 +101,7 @@
 
     <div class="moremargin">Assunto: Banca Examinadora de <b>Trabalho de Graduação Individual</b></div> 
     <div class="moremargin">Candidato(a): <b>{{$agendamento->user->name}}</b> </div>
-    <div class="moremargin">Área: <b>{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</b> </div>
+    <div class="moremargin">Curso: <b>{{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}}</b> </div>
     <div class="moremargin">Orientador(a) Prof(a). Dr(a). {{$agendamento->nome_do_orientador}}</div>
     <div class="moremargin">Título do Trabalho: <i>"{{$agendamento->titulo}}" </i></div><br>
     <div class="importante">

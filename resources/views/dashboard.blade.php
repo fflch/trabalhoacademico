@@ -19,7 +19,7 @@
                     </tr>
                 </theader>
                 <tbody>
-                @foreach ($agendamentos->where('status', 'Em Elaboração') as $agendamento)
+                @foreach ($agendamentos->where('status', 'Em Elaboração')->whereNotNull('data_enviado_avaliacao') as $agendamento)
                     <tr>
                         <td>{{ $agendamento->user->codpes }}</td>
                         <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>
@@ -63,7 +63,7 @@
 @endcan
 @can('ALUNO')
     <div class="card">
-        <div class="card-header"><h3>Minhas defesas agendadas</h3></div>
+        <div class="card-header"><h3>Minhas defesas</h3></div>
         <div class="card-body">
             <table class="table table-striped">
                 <theader>

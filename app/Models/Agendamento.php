@@ -70,7 +70,7 @@ class Agendamento extends Model
     }
 
     public function profExterno(){
-        return ProfExterno::all();
+        return ProfExterno::all()->toArray();
     }
 
     public static function dadosProfExterno($id){

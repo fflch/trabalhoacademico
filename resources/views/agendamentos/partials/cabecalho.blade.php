@@ -48,7 +48,7 @@
                     <div class="card-header"><b>Parecer da defesa:</b></div>
                     <form method="POST" action="/agendamentos/resultado/{{ $agendamento->id }}">
                         @csrf 
-                        <textarea class="form-control" name="comentario" id="comentario" rows="5" cols="60">{{ old('comentario', $agendamento->comentario) }}</textarea>
+                        <textarea class="form-control" name="parecer" id="parecer" rows="5" cols="60">{{ old('parecer', $agendamento->parecer) }}</textarea>
                         <div class="card-body row">
                             <div class="col-auto">
                                 <input type="submit" name="devolver" value="Aprovar com correções" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja aprovar a defesa e devolver ao aluno(a) para fazer as correções?')">
@@ -65,7 +65,7 @@
             @endif
         @endcan
         @can('OWNER', $agendamento)
-            @if($agendamento->parecer != '')
+            @if($agendamento->parecer != '' and ($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções' or $agendamento->status == 'Reprovado'))
                 <br>
                 <div class="card">
                     <div class="card-header"><b>Parecer:</b></div>
@@ -87,13 +87,16 @@
                             <div class="col-auto">
                                 <input type="submit" name="devolver" value="Enviar Defesa para Avaliação da Banca" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja enviar defesa para avaliação da banca?')">
                             </div>
+                            <div class="col-auto">
+                                <input type="submit" name="devolver" value="Devolver para o Aluno" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja devolver a defesa para o aluno?')">
+                            </div>
                         </div>
                     </form>
                 </div>
             @endif
         @endcan
         @can('OWNER', $agendamento)
-            @if($agendamento->comentario != '')
+            @if($agendamento->comentario != '' and ($agendamento->status != 'Aprovado' and $agendamento->status != 'Aprovado C/ Correções'))
                 <br>
                 <div class="card">
                     <div class="card-header"><b>Comentário:</b></div>

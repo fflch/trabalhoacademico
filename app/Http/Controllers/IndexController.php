@@ -11,7 +11,7 @@ use App\Models\User;
 class IndexController extends Controller
 {
     public function index(Request $request){
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Em Avaliação')->where('agendamentos.data_da_defesa','<=',date('Y-m-d H:i:s'))->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
+        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','Em Avaliação')->where('agendamentos.data_da_defesa','>=',date('Y-m-d H:i:s'))->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
         if($request->busca_curso != ''){
             $query->where('agendamentos.curso',$request->busca_curso);
         }
@@ -57,7 +57,7 @@ class IndexController extends Controller
             $agendamentos = Agendamento::where('numero_usp_do_orientador', Auth::user()->codpes)->orderBy('data_da_defesa','asc')->get();
         }
         else{
-            $agendamentos = Agendamento::orderBy('data_da_defesa', 'desc')->where('status','Aprovado')->paginate(20); 
+            $agendamentos = Agendamento::orderBy('data_da_defesa', 'desc')->where('status','=','Em Avaliação')->where('data_da_defesa','>=',date('Y-m-d H:i:s'))->paginate(20); 
             return view('index', compact('agendamentos'));
         }
         return view('dashboard', compact('agendamentos'));

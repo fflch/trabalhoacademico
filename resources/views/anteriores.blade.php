@@ -16,7 +16,7 @@
     <div class="card">
         <div class="card-header"><h5><b>Pesquisa</b></h5></div>
         <div class="card-body">
-            <form method="GET" action="/">
+            <form method="GET" action="/anteriores">
                 <label><b>Filtros:</b></label><br>
                 
                 <div class="row form-group">

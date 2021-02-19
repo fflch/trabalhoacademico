@@ -16,7 +16,7 @@
                             <th>Ofício de Agendamento</th>
                             <th>Declaração de participação</th>
                         @endcan
-                        @can('LOGADO')<th>Ações</th>@endcan
+                        @can('OWNER', $agendamento)<th>Ações</th>@endcan
                     </tr>
                 </theader>
                 <tbody>
