@@ -33,16 +33,32 @@
 
 <div class="form-group row">
 	<div class="form-group col-sm">
-		<label class="config" for="mail_docente"> E-mails para docente </label>  
-		<textarea rows="10" cols="70" class="form-control" name="mail_docente">{{$config->mail_docente}}</textarea> 
+		<label class="config" for="mail_avaliacao"> Mensagem de E-mail para Docente (quando aluno envia para avaliação) </label>  
+		<textarea rows="10" cols="70" class="form-control" name="mail_avaliacao">{{$config->mail_avaliacao}}</textarea> 
+		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %titulo, %agendamento_id, %data_defesa, %agendamento_email </span>
+	</div>
+</div>
+
+<div class="form-group row">
+	<div class="form-group col-sm">
+		<label class="config" for="mail_liberacao"> Mensagem de E-mail para Banca (quando docente libera a defesa para avaliação da banca) </label>  
+		<textarea rows="10" cols="70" class="form-control" name="mail_liberacao">{{$config->mail_liberacao}}</textarea> 
 		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %data_defesa, %local_defesa </span>
 	</div>
 </div>
 
 <div class="form-group row">
 	<div class="form-group col-sm">
-		<label class="config" for="mail_aluno"> E-mails para aluno </label>  
-		<textarea rows="10" cols="70" class="form-control" name="mail_aluno">{{$config->mail_aluno}}</textarea> 
+		<label class="config" for="mail_devolucao"> Mensagem de E-mail para Aluno (quando aluno é aprovado com correções a serem feitas) </label>  
+		<textarea rows="10" cols="70" class="form-control" name="mail_devolucao">{{$config->mail_devolucao}}</textarea> 
+		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %data_defesa, %local_defesa </span>
+	</div>
+</div>
+
+<div class="form-group row">
+	<div class="form-group col-sm">
+		<label class="config" for="mail_aprovacao"> Mensagem de E-mail para Aluno (quando aluno é aprovado) </label>  
+		<textarea rows="10" cols="70" class="form-control" name="mail_aprovacao">{{$config->mail_aprovacao}}</textarea> 
 		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %data_defesa, %local_defesa </span>
 	</div>
 </div>

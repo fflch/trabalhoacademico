@@ -29,8 +29,10 @@ class ConfigRequest extends FormRequest
             'rodape_oficios' => 'required',
             'importante_oficio' => 'required',
             'declaracao' => 'required',
-            'mail_docente' => 'required',
-            'mail_aluno' => 'required',
+            'mail_avaliacao' => 'required',
+            'mail_liberacao' => 'required',
+            'mail_devolucao' => 'required',
+            'mail_aprovacao' => 'required',
         ];
     }
 }
