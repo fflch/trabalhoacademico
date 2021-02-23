@@ -61,8 +61,9 @@ class AgendamentoController extends Controller
         $validated = $request->validated();
         $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
-        $validate['publicado'] == 'Não';
         $agendamento = Agendamento::create($validated);
+        $agendamento->publicado = 'Não';
+        $agendamento->update();
         //Salva o orientador na banca
         $banca = new Banca;
         $banca->n_usp = $validated['numero_usp_do_orientador'];
