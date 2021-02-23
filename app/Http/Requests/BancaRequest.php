@@ -17,8 +17,8 @@ class BancaRequest extends FormRequest
     {
         $agendamento = new Agendamento;
         return [
-            'n_usp' => ['integer','required_without:prof_externo_id'],
-            'prof_externo_id' => ['integer','nullable'],
+            'n_usp' => ['integer','required_without:prof_externo_id','nullable'],
+            'prof_externo_id' => ['integer','required_without:n_usp','nullable'],
             'presidente' => '',
             'agendamento_id' => 'required|integer',
         ];
