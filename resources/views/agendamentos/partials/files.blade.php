@@ -12,6 +12,7 @@
             @endcan 
             <br>
             <br>
+            @if(Auth::check() == true or (Auth::check() == false and $agendamento->status == 'Aprovado'))
             <table class="table table-striped" style="text-align: center;">
                 <theader>
                     <tr>
@@ -54,6 +55,7 @@
                 @endforeach
                 </tbody>
             </table>
+            @endif
         </div>
     </div>
  

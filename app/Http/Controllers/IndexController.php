@@ -11,7 +11,7 @@ use App\Models\User;
 class IndexController extends Controller
 {
     public function index(Request $request){
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','Em Avaliação')->where('agendamentos.data_da_defesa','>=',date('Y-m-d H:i:s'))->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
+        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','Em Avaliação')->where('agendamentos.data_da_defesa','>=',date('Y-m-d'))->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
         if($request->busca_curso != ''){
             $query->where('agendamentos.curso',$request->busca_curso);
         }
@@ -30,7 +30,7 @@ class IndexController extends Controller
     }
 
     public function anteriores(Request $request){
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->orderBy('agendamentos.data_da_defesa', 'asc')->select('agendamentos.*');
+        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->where('agendamentos.publicado','Sim')->orderBy('agendamentos.data_da_defesa', 'asc')->select('agendamentos.*');
         if($request->busca_curso != ''){
             $query->where('agendamentos.curso',$request->busca_curso);
         }
@@ -50,16 +50,20 @@ class IndexController extends Controller
 
     public function dashboard(){
         $this->authorize('LOGADO');
-        if(in_array('Aluno de Graduação',Pessoa::vinculosSetores(Auth::user()->codpes, 8))){
-            $agendamentos = Agendamento::where('user_id', Auth::user()->id)->orderBy('data_da_defesa','asc')->get();
+        if(in_array(Auth::user()->codpes,explode(',', trim(env('CODPES_BIBLIOTECA'))))){
+            $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->orderBy('agendamentos.data_da_defesa', 'asc')->select('agendamentos.*');
         }
         elseif(in_array('Docente',Pessoa::vinculosSetores(Auth::user()->codpes,8))){
-            $agendamentos = Agendamento::where('numero_usp_do_orientador', Auth::user()->codpes)->orderBy('data_da_defesa','asc')->get();
+            $query = Agendamento::where('numero_usp_do_orientador', Auth::user()->codpes)->orderBy('data_da_defesa','asc');
+        }
+        elseif(in_array('Aluno de Graduação',Pessoa::vinculosSetores(Auth::user()->codpes, 8))){
+            $query = Agendamento::where('user_id', Auth::user()->id)->orderBy('data_da_defesa','asc');
         }
         else{
-            $agendamentos = Agendamento::orderBy('data_da_defesa', 'desc')->where('status','=','Em Avaliação')->where('data_da_defesa','>=',date('Y-m-d H:i:s'))->paginate(20); 
+            $agendamentos = Agendamento::orderBy('data_da_defesa', 'desc')->orderBy('publicado', 'asc')->where('status','=','Em Avaliação')->where('data_da_defesa','>=',date('Y-m-d H:i:s'))->paginate(20); 
             return view('index', compact('agendamentos'));
         }
+        $agendamentos = $query->paginate(20);
         return view('dashboard', compact('agendamentos'));
     }
 }

@@ -32,6 +32,8 @@ class AgendamentoRequest extends FormRequest
             'numero_usp_do_orientador' => 'required|integer',
             'status' => '',
             'curso' => '',
+            'publicado' => '',
+            'url_biblioteca' => '',
         ];
     }
 }

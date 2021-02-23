@@ -14,11 +14,11 @@
                         </div>
                         <div class="form-group">
                             <label for="outro_recomendado_"><b>Outro (Recomendado)</b></label>
-                            <input type="text" class="form-control" name="outro_recomendado_" value="{{ old('outro_recomendado_', $agendamento->outro_recomendado_) }}">
+                            <input type="text" class="form-control" name="outro_recomendado_" value="{{ old('outro_recomendado_', $agendamento->outro_recomendado_) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                         </div>
                         <div class="form-group">
                             <label for="divulgar_e_mail_" class="required"><b>Divulgar E-mail?</b></label>
-                            <select class="form-control" name="divulgar_e_mail_">
+                            <select class="form-control" name="divulgar_e_mail_" @if($agendamento->status == 'Aprovado')readonly @endif>
                                 <option value="" selected="">- Selecione -</option>
                                 @foreach ($agendamento->divulgaOptions() as $option)
                                     {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
@@ -47,38 +47,38 @@
                 <input type="text" hidden name="curso" value="@if(old('curso') == '' and $agendamento->curso == null){{ $graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'] }} @else {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} @endif">
                 <div class="form-group">
                     <label for="titulo" class="required"><b>Título</b></label>
-                    <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $agendamento->titulo) }}">
+                    <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $agendamento->titulo) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="form-group">
                     <label for="resumo" class="required"><b>Resumo</b></label>
-                    <textarea class="form-control" name="resumo" id="resumo" rows="5" cols="60">{{ old('resumo', $agendamento->resumo) }}</textarea>
+                    <textarea class="form-control" name="resumo" id="resumo" rows="5" cols="60" @if($agendamento->status == 'Aprovado')readonly @endif>{{ old('resumo', $agendamento->resumo) }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="palavras_chave"class="required"><b>Palavras-Chave</b></label>
-                    <input type="text" class="form-control" name="palavras_chave" value="{{ old('palavras_chave', $agendamento->palavras_chave) }}">
+                    <input type="text" class="form-control" name="palavras_chave" value="{{ old('palavras_chave', $agendamento->palavras_chave) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="form-group">
                     <label for="abstract"><b>Abstract</b></label>
-                    <textarea class="form-control" name="abstract" id="abstract" rows="5" cols="60"></textarea>
+                    <textarea class="form-control" name="abstract" id="abstract" rows="5" cols="60" @if($agendamento->status == 'Aprovado')readonly @endif>{{ old('abstract', $agendamento->abstract) }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="data_da_defesa" class="required"><b>Data da Defesa</b></label>
-                    <input type="text" class="form-control datepicker" name="data_da_defesa" value="{{ old('data_da_defesa', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')) }}">
+                    <input type="text" class="form-control datepicker" name="data_da_defesa" value="{{ old('data_da_defesa', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="form-group">
                     <label for="horario"><b>Horário da Defesa</b></label>
-                    <input type="text" class="form-control horario" name="horario" id="horario" value="{{ old('horario', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i')) }}">
+                    <input type="text" class="form-control horario" name="horario" id="horario" value="{{ old('horario', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i')) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="form-group">
                     <label for="sala"><b>Local da Defesa</b></label>
-                    <input type="text" class="form-control" name="sala" value="{{ old('sala', $agendamento->sala) }}">
+                    <input type="text" class="form-control" name="sala" value="{{ old('sala', $agendamento->sala) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="card">
                     <div class="card-header"><b>Dados do Orientador</b></div>
                     <div class="card-body">            
                         <div class="form-group">
                             <label for="numero_usp_do_orientador" class="required"><b>Orientador</b></label>
-                            <select class="form-control" name="numero_usp_do_orientador">
+                            <select class="form-control" name="numero_usp_do_orientador" @if($agendamento->status == 'Aprovado')readonly @endif>
                                 <option value="" selected="">- Selecione -</option>
                                 @foreach ($agendamento->docentes() as $option)
                                     {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}

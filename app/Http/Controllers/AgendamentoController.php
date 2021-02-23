@@ -61,6 +61,7 @@ class AgendamentoController extends Controller
         $validated = $request->validated();
         $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
+        $validate['publicado'] == 'Não';
         $agendamento = Agendamento::create($validated);
         //Salva o orientador na banca
         $banca = new Banca;
@@ -167,6 +168,19 @@ class AgendamentoController extends Controller
             $agendamento->update();
             Mail::send(new AprovacaoMail($agendamento));
         }
+        return redirect('/agendamentos/'.$agendamento->id);
+    }
+
+    public function publicar(Agendamento $agendamento, Request $request){
+        $this->authorize('BIBLIOTECA');
+        $request->validate([
+            'url_biblioteca' => 'required',
+            'publicado' => 'required',
+        ]);
+        $agendamento->data_publicacao = date('Y-m-d');
+        $agendamento->url_biblioteca = $request->url_biblioteca;
+        $agendamento->publicado = $request->publicado;
+        $agendamento->update();
         return redirect('/agendamentos/'.$agendamento->id);
     }
 }
