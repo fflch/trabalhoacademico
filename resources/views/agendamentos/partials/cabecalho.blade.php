@@ -26,7 +26,7 @@
                         <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning">Editar Trabalho Acadêmico</a>
                     </div>
                 @endif
-                @if($agendamento->status == 'Em Elaboração')
+                @if($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null)
                 <div class="col-auto">
                     <form method="POST" action="/agendamentos/{{ $agendamento->id }}">
                         @csrf 
