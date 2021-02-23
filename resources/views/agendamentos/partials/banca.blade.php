@@ -36,7 +36,7 @@
                         @can('OWNER', $agendamento)
                             <td>
 
-                                @if(($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação') and $agendamento->data_enviado_avaliacao != null)
+                                @if(($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação') and $agendamento->data_enviado_avaliacao == null)
                                     <form method="POST" class="form-group" action="/bancas/{{$banca->id}}">
                                         @csrf 
                                         @method('delete')
