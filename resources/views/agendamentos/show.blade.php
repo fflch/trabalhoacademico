@@ -10,6 +10,10 @@
     @can('LOGADO')
         @include('agendamentos.partials.cabecalho')
     @endcan
+    @can('BIBLIOTECA')
+        <br>
+        @include('agendamentos.partials.biblioteca')
+    @endcan
     <br>
     @include('agendamentos.partials.dados_pessoais')
     <br>

@@ -21,7 +21,7 @@
     <div class="col-sm ">
         <div class="row float-right">
             @can('OWNER', $agendamento)
-                @if($agendamento->status != 'Aprovado' or $agendamento->status != 'Reprovado' or $agendamento->status != 'Aprovado C/ Correções')
+                @if($agendamento->status != 'Aprovado' and $agendamento->status != 'Reprovado' and $agendamento->status != 'Aprovado C/ Correções')
                     <div class="col-auto">
                         <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning">Editar Trabalho Acadêmico</a>
                     </div>
