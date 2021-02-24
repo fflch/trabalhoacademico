@@ -58,7 +58,20 @@ class Agendamento extends Model
     }
 
     public function docentes(){
-        return array_merge(Pessoa::listarDocentes(), Pessoa::listarDocentesAposentadosSenior());
+        $professores = [];
+        foreach(Pessoa::listarDocentes() as $docente){
+            $professores[] = [
+                'codpes' => $docente['codpes'], 
+                'nompes' => $docente['nompes'],
+            ]; 
+        }
+        foreach(Pessoa::listarDocentesAposentadosSenior() as $docente){
+            $professores[] = [
+                'codpes' => $docente['codpes'], 
+                'nompes' => $docente['nompes'],
+            ]; 
+        }
+        return $professores;
     }
 
     public function returnLastFileId($value){
