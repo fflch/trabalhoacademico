@@ -24,6 +24,8 @@ class AgendamentoRequest extends FormRequest
             'titulo' => 'required',
             'resumo' => 'required', 
             'palavras_chave' => 'required',
+            'titulo_ingles' => '',
+            'keywords' => '',
             'abstract' => '',
             'data_da_defesa' => 'required|dateformat:d/m/Y',
             'horario' => 'required',

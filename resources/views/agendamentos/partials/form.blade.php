@@ -58,6 +58,14 @@
                     <input type="text" class="form-control" name="palavras_chave" value="{{ old('palavras_chave', $agendamento->palavras_chave) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="form-group">
+                    <label for="titulo_ingles"><b>Título em Inglês</b></label>
+                    <input type="text" class="form-control" name="titulo_ingles" value="{{ old('titulo_ingles', $agendamento->titulo_ingles) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
+                </div>
+                <div class="form-group">
+                    <label for="keywords"><b>Keywords</b></label>
+                    <input type="text" class="form-control" name="keywords" value="{{ old('keywords', $agendamento->keywords) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
+                </div>
+                <div class="form-group">
                     <label for="abstract"><b>Abstract</b></label>
                     <textarea class="form-control" name="abstract" id="abstract" rows="5" cols="60" @if($agendamento->status == 'Aprovado')readonly @endif>{{ old('abstract', $agendamento->abstract) }}</textarea>
                 </div>
