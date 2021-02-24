@@ -43,15 +43,15 @@ class PdfController extends Controller
             if($professor->n_usp){
                 $configs = Config::configDeclaracao($agendamento, $agendamento->user->name, Pessoa::dump($professor->n_usp)['nompes']);
             }
-            elseif($professor->nome){
-                $configs = Config::configDeclaracao($agendamento, $agendamento->user->name, $professor->nome);
+            elseif($professor->prof_externo_id){
+                $configs = Config::configDeclaracao($agendamento, $agendamento->user->name, $professor->prof_externo->nome);
             }
         }
         elseif($tipo == 'oficio'){
             $configs = Config::orderbyDesc('created_at')->first();
         }
         $pdf = PDF::loadView("pdfs.documentos_bancas.$tipo", compact(['agendamento','professores','professor','configs']));
-        if($banca->nome == null){
+        if($banca->prof_externo_id == null){
             $nome = Pessoa::dump($banca->n_usp)['nompes'];
         }
         else{

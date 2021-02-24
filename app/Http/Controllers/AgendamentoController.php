@@ -15,6 +15,7 @@ use App\Mail\EmAvaliacaoMail;
 use App\Mail\DevolucaoMail;
 use App\Mail\AprovacaoMail;
 use App\Mail\LiberacaoMail;
+use App\Mail\BibliotecaMail;
 use Uspdev\Replicado\Pessoa;
 
 class AgendamentoController extends Controller
@@ -24,7 +25,7 @@ class AgendamentoController extends Controller
         $this->authorize('LOGADO');
         
         $request->validate([
-            'busca_data' => 'required_if:filtro_busca,data|dateformat:d/m/Y',
+            'busca_data' => 'required_if:filtro_busca,data|dateformat:d/m/Y|nullable',
         ]);
         
         $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
@@ -133,7 +134,7 @@ class AgendamentoController extends Controller
                 if($banca->n_usp != null){
                     Mail::send(new LiberacaoMail($agendamento, $banca, null));
                 }
-                elseif($banca->prof_externo_id != null){
+                elseif($banca->prof_externo_id != null and $banca->prof_externo->email != ''){
                     Mail::send(new LiberacaoMail($agendamento, null, $banca->prof_externo));
                 }
             }
@@ -161,6 +162,9 @@ class AgendamentoController extends Controller
         else{
             if($request->aprovar){
                 $agendamento->status = 'Aprovado';
+                foreach(explode(',', trim(env('CODPES_BIBLIOTECA'))) as $codpes){
+                    Mail::send(new BibliotecaMail($agendamento, $codpes));
+                }
             } 
             elseif($request->reprovar){
                 $agendamento->status = 'Reprovado';
