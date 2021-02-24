@@ -7,7 +7,11 @@
             <b>Título:</b> {{$agendamento->titulo}}</br>
             <b>Resumo:</b> <p style="text-align:justify; margin-bottom:0px;">{{$agendamento->resumo }} </p>
             <b>Palavras-chave:</b> {{ $agendamento->palavras_chave }}<br>
-            <b>Abstract:</b> <p style="text-align:justify; margin-bottom:0px;">{{$agendamento->abstract}}</p>
+            @if($agendamento->titulo_ingles)
+                <b>Título em Inglês:</b> {{$agendamento->titulo_ingles}}</br>
+                <b>Abstract:</b> <p style="text-align:justify; margin-bottom:0px;">{{$agendamento->abstract}}</p>
+                <b>Keywords:</b> {{ $agendamento->keywords }}<br>
+            @endif
             <b>Data:</b> {{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</br>
             <b>Horário:</b> {{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i') }}</br>
             <b>Sala:</b> {{ $agendamento->sala }}</br></br>

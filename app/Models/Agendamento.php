@@ -58,7 +58,7 @@ class Agendamento extends Model
     }
 
     public function docentes(){
-        return Pessoa::listarDocentes();
+        return array_merge(Pessoa::listarDocentes(), Pessoa::listarDocentesAposentadosSenior());
     }
 
     public function returnLastFileId($value){
