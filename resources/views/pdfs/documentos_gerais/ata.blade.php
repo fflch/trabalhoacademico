@@ -102,7 +102,7 @@
 
     <p class="recuo justificar" style="line-height: 190%;">  
         @php(setlocale(LC_TIME, 'pt_BR','pt_BR.utf-8','portuguese'))
-        Aos <b>{{ strftime('%d de %B de %Y', strtotime($agendamento->data_da_defesa)) }}</b>, na <b>{{$agendamento->sala}}</b> do Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} da Faculdade de Filosofia, Letras e Ciências Humanas na Universidade de São Paulo, a Banca Examinadora:         
+        Aos <b>{{ strftime('%d de %B de %Y', strtotime($agendamento->data_da_defesa)) }}</b>, na <b>{{$agendamento->sala}}</b> do Departamento de {{$agendamento->curso}} da Faculdade de Filosofia, Letras e Ciências Humanas na Universidade de São Paulo, a Banca Examinadora:         
     </p>
     <table width="16cm" style="border='0'; margin-left:4cm; align-items: center; justify-content: center;">
         @foreach($professores as $componente)    
