@@ -41,6 +41,7 @@ class AgendamentoFactory extends Factory
             'numero_usp_do_orientador' => $orientador,
             'status' => 'Em Elaboração',
             'curso' => Graduacao::curso($aluno[0]->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'],
+            'publicado' => 'Não',
         ];
     }
 }

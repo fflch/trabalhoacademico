@@ -14,6 +14,13 @@
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja enviar para Avaliação?')"> Enviar para Avaliação do(a) orientador(a) </button>
                         </form>
                     </div>
+                @elseif($agendamento->status == 'Aprovado C/ Correções' and $agendamento->data_enviado_correcao == null)
+                    <div class="col-auto">
+                        <form method="POST" action="/agendamentos/enviar_correcao/{{ $agendamento->id }}">
+                            @csrf 
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja enviar para Avaliação?')"> Enviar Correção </button>
+                        </form>
+                    </div>
                 @endif
             @endcan
         </div>
@@ -42,7 +49,7 @@
 <div class="row">
     <div class="col-sm">
         @can('DOCENTE', $agendamento)
-            @if($agendamento->data_enviado_avaliacao != null and $agendamento->data_liberacao != null and $agendamento->status == 'Em Avaliação')
+            @if(($agendamento->data_enviado_avaliacao != null and $agendamento->data_liberacao != null and $agendamento->status == 'Em Avaliação') or ($agendamento->data_enviado_correcao != null and $agendamento->status == 'Aprovado C/ Correções'))
                 <br>
                 <div class="card">
                     <div class="card-header"><b>Parecer da defesa:</b></div>
@@ -50,9 +57,11 @@
                         @csrf 
                         <textarea class="form-control" name="parecer" id="parecer" rows="5" cols="60">{{ old('parecer', $agendamento->parecer) }}</textarea>
                         <div class="card-body row">
-                            <div class="col-auto">
-                                <input type="submit" name="devolver" value="Aprovar com correções" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja aprovar a defesa e devolver ao aluno(a) para fazer as correções?')">
-                            </div>
+                            @if($agendamento->data_enviado_correcao == null)
+                                <div class="col-auto">
+                                    <input type="submit" name="devolver" value="Aprovar com correções" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja aprovar a defesa e devolver ao aluno(a) para fazer as correções?')">
+                                </div>
+                            @endif
                             <div class="col-auto"> 
                                 <input type="submit" name="aprovar" value="Aprovar" class="btn btn-success" onclick="return confirm('Tem certeza que deseja aprovar a defesa?')">
                             </div>

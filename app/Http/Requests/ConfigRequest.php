@@ -33,6 +33,7 @@ class ConfigRequest extends FormRequest
             'mail_liberacao' => 'required',
             'mail_devolucao' => 'required',
             'mail_aprovacao' => 'required',
+            'mail_correcao' => 'required',
         ];
     }
 }

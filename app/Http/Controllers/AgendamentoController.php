@@ -16,6 +16,7 @@ use App\Mail\DevolucaoMail;
 use App\Mail\AprovacaoMail;
 use App\Mail\LiberacaoMail;
 use App\Mail\BibliotecaMail;
+use App\Mail\CorrecaoMail;
 use Uspdev\Replicado\Pessoa;
 
 class AgendamentoController extends Controller
@@ -120,6 +121,15 @@ class AgendamentoController extends Controller
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
+    public function enviar_correcao(Agendamento $agendamento){
+        $this->authorize('OWNER',$agendamento);
+        $agendamento->data_enviado_correcao = date('Y-m-d');
+        $agendamento->update();
+        # Mandar email para orientador
+        Mail::send(new CorrecaoMail($agendamento));
+        return redirect('/agendamentos/'.$agendamento->id);
+    }
+
     public function liberar(Agendamento $agendamento, Request $request){
         $this->authorize('DOCENTE',$agendamento);
         if($request->comentario){
@@ -131,7 +141,7 @@ class AgendamentoController extends Controller
             $agendamento->update();
             # Mandar email para orientador
             foreach($agendamento->bancas as $banca){
-                if($banca->n_usp != null){
+                if($banca->n_usp != null and Pessoa::emailusp($banca->n_usp) != false){
                     Mail::send(new LiberacaoMail($agendamento, $banca, null));
                 }
                 elseif($banca->prof_externo_id != null and $banca->prof_externo->email != ''){
@@ -179,7 +189,7 @@ class AgendamentoController extends Controller
     public function publicar(Agendamento $agendamento, Request $request){
         $this->authorize('BIBLIOTECA');
         $request->validate([
-            'url_biblioteca' => 'required',
+            'url_biblioteca' => 'required_if:publicado,Sim|nullable',
             'publicado' => 'required',
         ]);
         $agendamento->data_publicacao = date('Y-m-d');
