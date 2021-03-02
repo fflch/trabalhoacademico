@@ -77,6 +77,17 @@ class ConfigSeeder extends Seeder
             <b>Parecer:</b> %parecer<br><br>
             
             <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>',
+            'mail_correcao' => 'Prezado(a) %docente_nome,
+
+            %candidato_nome enviou via sistema o TGI "%titulo" corrigido, e para a publicação é necessária a sua aprovação.
+            
+            <h3><b>Dados do trabalho acadêmico</b></h3>
+            <b>Título:</b><a href="trabalhoacademico.fflch.usp.br/agendamentos/%agendamento_id"> %titulo</a></br>
+            <b>Data da Defesa:</b> %data_defesa</br></br>
+            <b>Nome:</b> %candidato_nome<br><br>
+            <b>E-mail USP:</b> %agendamento_email </br>
+            
+            <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>',
             
         ];
         Config::create($config);

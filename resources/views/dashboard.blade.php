@@ -109,7 +109,7 @@
                     </tr>
                 </theader>
                 <tbody>
-                @foreach ($agendamentos as $agendamento)
+                @foreach ($agendamentos->where('publicado', 'Não') as $agendamento)
                     <tr>
                         <td>{{ $agendamento->user->codpes }}</td>
                         <td>{{ $agendamento->user->name }}</a></td>
@@ -117,6 +117,36 @@
                         <td>{{ $agendamento->nome_do_orientador}}</td>
                         <td>{{ $agendamento->publicado}}</td>
                         <td><a href="/agendamentos/{{$agendamento->id}}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Publicar</i></a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header"><h3>Trabalhos Acadêmicos Publicados</h3></div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <theader>
+                    <tr>
+                        <th>Nº USP</th>
+                        <th>Nome</th>
+                        <th>Data da Defesa</th>
+                        <th>Orientador</th>
+                        <th>Status Publicação</th>
+                        <th>Ações</th>
+                    </tr>
+                </theader>
+                <tbody>
+                @foreach ($agendamentos->where('publicado', 'Sim') as $agendamento)
+                    <tr>
+                        <td>{{ $agendamento->user->codpes }}</td>
+                        <td>{{ $agendamento->user->name }}</a></td>
+                        <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
+                        <td>{{ $agendamento->nome_do_orientador}}</td>
+                        <td>{{ $agendamento->publicado}}</td>
+                        <td><a href="/agendamentos/{{$agendamento->id}}" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</i></a></td>
                     </tr>
                 @endforeach
                 </tbody>

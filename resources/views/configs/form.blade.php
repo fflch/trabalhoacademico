@@ -63,6 +63,14 @@
 	</div>
 </div>
 
+<div class="form-group row">
+	<div class="form-group col-sm">
+		<label class="config" for="mail_correcao"> Mensagem de E-mail para Professor (quando aluno envia trabalho corrigido) </label>  
+		<textarea rows="10" cols="70" class="form-control" name="mail_correcao">{{$config->mail_correcao}}</textarea> 
+		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %titulo, %agendamento_id, %data_defesa, %agendamento_email </span>
+	</div>
+</div>
+
 <div class="form-group">
     <button type="submit" class="btn btn-success float-right">Salvar</button> 
 </div> 

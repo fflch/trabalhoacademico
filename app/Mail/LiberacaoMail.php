@@ -49,7 +49,6 @@ class LiberacaoMail extends Mailable
         $pdf = PDF::loadView("pdfs.documentos_bancas.oficio", compact(['agendamento','professores','professor','configs']));
     
         if($this->professor != null){
-            if(Pessoa::emailusp($this->professor->n_usp) == null) dd($this->professor->n_usp);
             return $this->view('emails.liberacao')
                 ->to(Pessoa::emailusp($this->professor->n_usp))
                 ->subject($subject)

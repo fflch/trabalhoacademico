@@ -102,7 +102,7 @@
         </div><br>
         <p>
             <i>Data e hora da defesa:  </i> <b> {{Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')}}, às {{Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i')}} </b> <br> 
-            <i>Local:</i> <b> {{$agendamento->sala}} </b> - Departamento de {{$graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']}} 
+            <i>Local:</i> <b> {{$agendamento->sala}} </b> - Departamento de {{$agendamento->curso}} 
         </p>  
         <i>Composição da banca examinadora:</i> 
 

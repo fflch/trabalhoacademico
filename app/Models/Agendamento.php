@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Uspdev\Replicado\Pessoa;
 use App\Models\User;
 use App\Models\ProfExterno;
+use App\Utils\ReplicadoUtils;
 
 class Agendamento extends Model
 {
@@ -58,7 +59,7 @@ class Agendamento extends Model
     }
 
     public function docentes(){
-        return Pessoa::listarDocentes();
+        return ReplicadoUtils::listarDocentes();
     }
 
     public function returnLastFileId($value){

@@ -21,11 +21,6 @@ class FileController extends Controller
         //Primeiro deleta o arquivo anterior, caso exista
         $file_old = File::where('agendamento_id',$request->agendamento_id)->where('tipo', $request->tipo)->first();
         if($file_old){
-            if($file_old->agendamento->status == 'Aprovado C/ Correções'){
-                $agendamento = $file_old->agendamento;
-                $agendamento->status = 'Aprovado';
-                $agendamento->update();
-            }
             Storage::delete($file_old->path);
             $file_old->delete();
         }

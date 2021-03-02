@@ -19,6 +19,7 @@ Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 
 
 Route::post('agendamentos/enviar_avaliacao/{agendamento}', [AgendamentoController::class,'enviar_avaliacao']);
+Route::post('agendamentos/enviar_correcao/{agendamento}', [AgendamentoController::class,'enviar_correcao']);
 Route::post('agendamentos/resultado/{agendamento}', [AgendamentoController::class,'resultado']);
 Route::post('agendamentos/liberar/{agendamento}', [AgendamentoController::class,'liberar']);
 Route::post('agendamentos/publicar/{agendamento}', [AgendamentoController::class,'publicar']);
