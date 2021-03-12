@@ -91,13 +91,13 @@
                                 @foreach ($agendamento->docentes() as $option)
                                     {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
                                     @if (old('numero_usp_do_orientador') == '' and isset($agendamento->numero_usp_do_orientador))
-                                    <option value="{{$option['codpes']}}" {{ ( $agendamento->numero_usp_do_orientador == $option['codpes']) ? 'selected' : ''}}>
-                                        {{$option['nompes']}}
+                                    <option value="{{$option['codpes'] ?? ''}}" {{ ( $agendamento->numero_usp_do_orientador == $option['codpes']) ? 'selected' : ''}}>
+                                        {{$option['nompes'] ?? ''}}
                                     </option>
                                     {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
                                     @else
-                                    <option value="{{$option['codpes']}}" {{ ( old('numero_usp_do_orientador') == $option['codpes']) ? 'selected' : ''}}>
-                                        {{$option['nompes']}}
+                                    <option value="{{$option['codpes'] ?? ''}}" {{ ( old('numero_usp_do_orientador') == $option['codpes']) ? 'selected' : ''}}>
+                                        {{$option['nompes'] ?? ''}}
                                     </option>
                                     @endif
                                 @endforeach
