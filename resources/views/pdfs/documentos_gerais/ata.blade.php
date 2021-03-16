@@ -113,7 +113,7 @@
         @endforeach
     </table>
     <p>examinando o Trabalho de Graduação Individual em {{$agendamento->curso}}, com título:</p>
-	<p style="text-align:center; font-size:16px; font-weight:bold;">"{{$agendamento->titulo}}"</p><br>
+	<p style="text-align:center; font-size:16px; font-weight:bold;">"{{$agendamento->titulo}}"</p>
     
     e a defesa do aluno (a)<br><br>
 
@@ -121,15 +121,14 @@
     Número USP: <b>{{$agendamento->user->codpes}}</b><br>
     Curso: <b>{{$agendamento->curso}}</b><br><br>
     
-    Atribuiu a nota:___________________________________.<br><br>
+    Atribuiu a nota: <b>{{$agendamento->nota}}</b>.<br><br>
     <br>
-    São Paulo,____de___________________________de______________.<br><br>
+    São Paulo,{{ strftime('%d de %B de %Y', strtotime($agendamento->data_da_defesa)) }}<br><br>
     <br>
-    <table width="20cm" style="border='0'; align-items: left; justify-content: left;">
+    <table width="680px" style="text-align:center; align-items:center;">
         @foreach($professores as $componente)    
-        <tr style="border='0'">
+        <tr>
             <td><b>@if($componente->n_usp != null){{$pessoa::dump($componente->n_usp)['nompes'] ?? ' ' }} @elseif($componente->prof_externo_id != null) {{$componente->prof_externo->nome}} @endif</b> </td>
-            <td>_________________________________________________</td>           
         </tr>
         @endforeach
     </table> 

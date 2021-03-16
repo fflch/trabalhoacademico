@@ -54,19 +54,33 @@
                 <div class="card">
                     <div class="card-header"><b>Parecer da defesa:</b></div>
                     <form method="POST" action="/agendamentos/resultado/{{ $agendamento->id }}">
-                        @csrf 
-                        <textarea class="form-control" name="parecer" id="parecer" rows="5" cols="60">{{ old('parecer', $agendamento->parecer) }}</textarea>
-                        <div class="card-body row">
-                            @if($agendamento->data_enviado_correcao == null)
-                                <div class="col-auto">
-                                    <input type="submit" name="devolver" value="Aprovar com correções" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja aprovar a defesa e devolver ao aluno(a) para fazer as correções?')">
+                        @csrf
+                        <div class="card-body form-group">
+                            <div class="row">
+                                <div class="col-sm form-group"> 
+                                    <textarea class="form-control" name="parecer" id="parecer" rows="5" cols="60">{{ old('parecer', $agendamento->parecer) }}</textarea>
                                 </div>
-                            @endif
-                            <div class="col-auto"> 
-                                <input type="submit" name="aprovar" value="Aprovar" class="btn btn-success" onclick="return confirm('Tem certeza que deseja aprovar a defesa?')">
                             </div>
-                            <div class="col-auto">
-                                <input type="submit" name="reprovar" value="Reprovar" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja reprovar a defesa?')">
+                            <div class="row">
+                                <div style="padding-left:15px; padding-right:0px;padding-top:5px;">
+                                    <label for="nota"><b>Nota:</b></label>                                
+                                </div>
+                                <div class="col-auto form-group" style="padding-left:2px;">
+                                    <input type="text" class="form-control col-3" maxlength="3" name="nota" value="{{ old('nota', $agendamento->nota) }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                @if($agendamento->data_enviado_correcao == null)
+                                    <div class="col-auto">
+                                        <input type="submit" name="devolver" value="Aprovar com correções" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja aprovar a defesa e devolver ao aluno(a) para fazer as correções?')">
+                                    </div>
+                                @endif
+                                <div class="col-auto"> 
+                                    <input type="submit" name="aprovar" value="Aprovar" class="btn btn-success" onclick="return confirm('Tem certeza que deseja aprovar a defesa?')">
+                                </div>
+                                <div class="col-auto">
+                                    <input type="submit" name="reprovar" value="Reprovar" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja reprovar a defesa?')">
+                                </div>
                             </div>
                         </div>
                     </form>

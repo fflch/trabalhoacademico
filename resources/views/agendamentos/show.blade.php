@@ -23,6 +23,8 @@
     <br>
     @can('OWNER', $agendamento)
         @include('agendamentos.partials.documentos')
+    @elsecan('DOCENTE', $agendamento)
+        @include('agendamentos.partials.documentos')
     @endcan
     <br>
     @include('agendamentos.partials.files')

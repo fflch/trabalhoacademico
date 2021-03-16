@@ -161,9 +161,10 @@ class AgendamentoController extends Controller
         $this->authorize('DOCENTE',$agendamento);
         if($request->parecer){
             $agendamento->parecer = $request->parecer;
+            $agendamento->nota = $request->nota;  
         }
         if($request->devolver){
-            $agendamento->status = 'Aprovado C/ Correções'; 
+            $agendamento->status = 'Aprovado C/ Correções';
             $agendamento->data_enviado_avaliacao = null;
             $agendamento->data_devolucao = date('Y-m-d');
             $agendamento->update();
