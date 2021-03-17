@@ -159,11 +159,16 @@ class AgendamentoController extends Controller
 
     public function resultado(Agendamento $agendamento, Request $request){
         $this->authorize('DOCENTE',$agendamento);
+        $request->validate([
+            'parecer' => '',
+            'nota' => 'required',
+        ]);
         if($request->parecer){
             $agendamento->parecer = $request->parecer;
+            $agendamento->nota = $request->nota;  
         }
         if($request->devolver){
-            $agendamento->status = 'Aprovado C/ Correções'; 
+            $agendamento->status = 'Aprovado C/ Correções';
             $agendamento->data_enviado_avaliacao = null;
             $agendamento->data_devolucao = date('Y-m-d');
             $agendamento->update();
