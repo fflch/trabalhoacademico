@@ -46,6 +46,10 @@
         </div>
     </div>
 </div>
+<br>
+<div class="row">
+    @include('agendamentos.partials.etapas')
+</div>
 <div class="row">
     <div class="col-sm">
         @can('DOCENTE', $agendamento)

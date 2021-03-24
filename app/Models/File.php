@@ -12,12 +12,5 @@ class File extends Model
     {
         return $this->belongsTo(Agendamento::class);
     }
-    
-    public static function statusOptions(){
-        return [
-            'Em Elaboração',
-            'Em Avaliação',
-            'Aprovado',
-        ];
-    }
+
 }

@@ -169,7 +169,6 @@ class AgendamentoController extends Controller
         }
         if($request->devolver){
             $agendamento->status = 'Aprovado C/ Correções';
-            $agendamento->data_enviado_avaliacao = null;
             $agendamento->data_devolucao = date('Y-m-d');
             $agendamento->update();
             Mail::send(new DevolucaoMail($agendamento));
@@ -200,6 +199,17 @@ class AgendamentoController extends Controller
         $agendamento->data_publicacao = date('Y-m-d');
         $agendamento->url_biblioteca = $request->url_biblioteca;
         $agendamento->publicado = $request->publicado;
+        $agendamento->update();
+        return redirect('/agendamentos/'.$agendamento->id);
+    }
+
+    public function voltar_defesa(Agendamento $agendamento){
+        $this->authorize('ADMIN');
+        $agendamento->status = 'Em Avaliação';
+        $agendamento->data_publicacao = null;
+        $agendamento->url_biblioteca = '';
+        $agendamento->data_resultado = null;
+        $agendamento->publicado = 'Não';
         $agendamento->update();
         return redirect('/agendamentos/'.$agendamento->id);
     }
