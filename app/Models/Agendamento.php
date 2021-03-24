@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Uspdev\Replicado\Pessoa;
+use Uspdev\Replicado\Graduacao;
 use App\Models\User;
 use App\Models\ProfExterno;
 use App\Utils\ReplicadoUtils;
@@ -54,6 +55,15 @@ class Agendamento extends Model
         ];
     }
 
+    //Função para devolver valores de select
+    public static function tipoOptions(){
+        return [
+            'Presencial',
+            'Virtual',
+            'Por Parecer',
+        ];
+    }
+
     public function setDataDaDefesaAttribute($value){
         $this->attributes['data_da_defesa'] = Carbon::CreatefromFormat('d/m/Y H:i', "$value");
     }
@@ -86,12 +96,26 @@ class Agendamento extends Model
     {
         # Vamos ignorar o $value
         # será null $this->curso
-        dd($this->curso);
-        #Graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'] }} 
-        #Graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']
-        #$this->attributes['curso'] = ;
+        if($this->curso == null){
+            $this->attributes['curso'] = Graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+        }
+        else{
+            $this->attributes['curso'] = Graduacao::curso($this->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+
+        }
     }
 
+    public function setUserIdAttribute($value)
+    {
+        # Vamos ignorar o $value
+        # será null $this->user_id
+        if($this->user_id != null){
+            $this->attributes['curso'] = $this->user->id;
+        }
+        else{
+            $this->attributes['curso'] = Auth::user()->id;
 
+        }
+    }
 
 }

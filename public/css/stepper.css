@@ -74,6 +74,9 @@ html {
 	background-color:#e23535;
 }
 
+.md-step.purple.active .md-step-circle {
+	background-color:#800080;
+}
 
 .md-stepper-horizontal .md-step.done .md-step-circle:before {
 	font-family:'FontAwesome';

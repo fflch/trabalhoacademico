@@ -60,39 +60,7 @@
             </table>
         </div>
     </div>
-@endcan
-@can('ALUNO')
-    <div class="card">
-        <div class="card-header"><h3>Minhas defesas</h3></div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <theader>
-                    <tr>
-                        <th>Nº USP</th>
-                        <th>Nome</th>
-                        <th>Data da Defesa</th>
-                        <th>Orientador</th>
-                        <th>Status</th>
-                    </tr>
-                </theader>
-                <tbody>
-                @foreach ($agendamentos as $agendamento)
-                    @can('OWNER', $agendamento)
-                        <tr>
-                            <td>{{ $agendamento->user->codpes }}</td>
-                            <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>
-                            <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
-                            <td>{{ $agendamento->nome_do_orientador}}</td>
-                            <td>{{ $agendamento->status}}</td>
-                        </tr>
-                    @endcan
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-@endcan
-@can('BIBLIOTECA')
+@elsecan('BIBLIOTECA')
     <br>
     <div class="card">
         <div class="card-header"><h3>Trabalhos Acadêmicos Aprovados</h3></div>
@@ -148,6 +116,36 @@
                         <td>{{ $agendamento->publicado}}</td>
                         <td><a href="/agendamentos/{{$agendamento->id}}" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</i></a></td>
                     </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+@else
+    <div class="card">
+        <div class="card-header"><h3>Minhas defesas</h3></div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <theader>
+                    <tr>
+                        <th>Nº USP</th>
+                        <th>Nome</th>
+                        <th>Data da Defesa</th>
+                        <th>Orientador</th>
+                        <th>Status</th>
+                    </tr>
+                </theader>
+                <tbody>
+                @foreach ($agendamentos as $agendamento)
+                    @can('OWNER', $agendamento)
+                        <tr>
+                            <td>{{ $agendamento->user->codpes }}</td>
+                            <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>
+                            <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
+                            <td>{{ $agendamento->nome_do_orientador}}</td>
+                            <td>{{ $agendamento->status}}</td>
+                        </tr>
+                    @endcan
                 @endforeach
                 </tbody>
             </table>

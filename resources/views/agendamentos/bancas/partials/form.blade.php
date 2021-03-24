@@ -1,7 +1,6 @@
 <form action="/bancas" method="POST">
     @csrf
     <input type="hidden" name="agendamento_id" value="{{$agendamento->id}}">
-    <input type="hidden" name="presidente" value="Não">
     <div class="row">
         <div class="col-sm form-group">
             <label for="n_usp">Docente USP </label> 
