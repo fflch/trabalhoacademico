@@ -82,4 +82,16 @@ class Agendamento extends Model
         return Agendamento::select('curso')->distinct('curso')->get();
     }
 
+    public function setCursoAttribute($value)
+    {
+        # Vamos ignorar o $value
+        # será null $this->curso
+        dd($this->curso);
+        #Graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'] }} 
+        #Graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur']
+        #$this->attributes['curso'] = ;
+    }
+
+
+
 }
