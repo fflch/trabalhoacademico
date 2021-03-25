@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                @if($agendamento->data_enviado_correcao == null)
+                                @if(($agendamento->data_enviado_correcao == null or $agendamento->data_resultado == null) and $agendamento->data_devolucao == null)
                                     <div class="col-auto">
                                         <input type="submit" name="devolver" value="Aprovar com correções" class="btn btn-warning" onclick="return confirm('Tem certeza que deseja aprovar a defesa e devolver ao aluno(a) para fazer as correções?')">
                                     </div>

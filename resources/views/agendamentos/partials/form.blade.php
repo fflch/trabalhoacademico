@@ -3,7 +3,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="nome"><b>Nome:</b></label> {{$agendamento->user->name ?? Auth::user()->name}}
-                    <input type="text" hidden class="form-control" name="user_id" value="{{$agendamento->user->id ?? Auth::user()->id}}"><br>
+                    <input type="text" hidden class="form-control" name="user_id" value=""><br>
                     <label for="codpes"><b>Número USP:</b></label> {{$agendamento->user->codpes ?? Auth::user()->codpes}}
                 </div>
                 <div class="card form-group">
@@ -43,8 +43,27 @@
          <div class="card">
             <div class="card-header"><b>Dados do trabalho acadêmico</b></div>
             <div class="card-body">
-                <input type="text" hidden name="status" value="{{$agendamento->status ?? 'Em Elaboração'}}">
+                <input type="text" hidden name="status" value="">
                 <input type="text" hidden name="curso" value="">
+                <div class="form-group">
+                    <label for="tipo" class="required"><b>Modalidade de Defesa</b></label>
+                    <select class="form-control" name="tipo" @if($agendamento->status == 'Aprovado')readonly @endif>
+                        <option value="" selected="">- Selecione -</option>
+                        @foreach ($agendamento->tipoOptions() as $option)
+                            {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
+                            @if (old('tipo') == '' and isset($agendamento->tipo))
+                            <option value="{{$option ?? ''}}" {{ ( $agendamento->tipo == $option) ? 'selected' : ''}}>
+                                {{$option ?? ''}}
+                            </option>
+                            {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
+                            @else
+                            <option value="{{$option ?? ''}}" {{ ( old('tipo') == $option) ? 'selected' : ''}}>
+                                {{$option ?? ''}}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="titulo" class="required"><b>Título</b></label>
                     <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $agendamento->titulo) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
