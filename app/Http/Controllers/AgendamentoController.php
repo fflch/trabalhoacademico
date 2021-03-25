@@ -187,7 +187,9 @@ class AgendamentoController extends Controller
             if($request->aprovar){
                 $agendamento->status = 'Aprovado';
                 foreach(explode(',', trim(env('CODPES_BIBLIOTECA'))) as $codpes){
-                    Mail::send(new BibliotecaMail($agendamento, $codpes));
+                    if(Pessoa::emailusp($codpes) != false){
+                        Mail::send(new BibliotecaMail($agendamento, $codpes));
+                    }
                 }
             } 
             elseif($request->reprovar){
