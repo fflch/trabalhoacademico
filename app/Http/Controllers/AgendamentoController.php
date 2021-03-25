@@ -218,6 +218,7 @@ class AgendamentoController extends Controller
         $agendamento->url_biblioteca = '';
         $agendamento->data_resultado = null;
         $agendamento->data_devolucao = null;
+        $agendamento->data_enviado_correcao = null;
         $agendamento->publicado = 'Não';
         $agendamento->update();
         return redirect('/agendamentos/'.$agendamento->id);
