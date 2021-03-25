@@ -173,6 +173,8 @@ class AgendamentoController extends Controller
         ]);
         if($request->parecer){
             $agendamento->parecer = $request->parecer;
+        }
+        if($request->nota){
             $agendamento->nota = $request->nota;  
         }
         if($request->devolver){
