@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\ProfExterno;
 use App\Utils\ReplicadoUtils;
 
+use Illuminate\Support\Facades\Auth;
+
 class Agendamento extends Model
 {
     use HasFactory;
