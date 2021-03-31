@@ -112,10 +112,10 @@ class Agendamento extends Model
         # Vamos ignorar o $value
         # será null $this->user_id
         if($this->user_id != null){
-            $this->attributes['curso'] = $this->user->id;
+            $this->attributes['user_id'] = $this->user->id;
         }
         else{
-            $this->attributes['curso'] = Auth::user()->id;
+            $this->attributes['user_id'] = Auth::user()->id;
 
         }
     }
