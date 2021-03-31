@@ -18,9 +18,10 @@ class AgendamentoRequest extends FormRequest
     {
         $agendamento = new Agendamento;
         return [
-            'user_id' => 'required|integer',
+            'user_id' => '',
             'outro_recomendado_' => 'email|nullable',
             'divulgar_e_mail_' => ['required',Rule::in($agendamento->divulgaOptions())],
+            'tipo' => ['required',Rule::in($agendamento->tipoOptions())],
             'titulo' => 'required',
             'resumo' => 'required', 
             'palavras_chave' => 'required',
@@ -32,7 +33,6 @@ class AgendamentoRequest extends FormRequest
             'sala' => 'required',
             'nome_do_orientador' => '',
             'numero_usp_do_orientador' => 'required|integer',
-            'status' => '',
             'curso' => '',
         ];
     }

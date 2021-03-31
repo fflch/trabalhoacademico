@@ -2,6 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{asset('/css/agendamentos.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/stepper.css')}}">
 @endsection('styles')
 
 @section('content')
@@ -23,7 +24,20 @@
     <br>
     @can('OWNER', $agendamento)
         @include('agendamentos.partials.documentos')
+    @elsecan('DOCENTE', $agendamento)
+        @include('agendamentos.partials.documentos')
     @endcan
     <br>
     @include('agendamentos.partials.files')
+    @can('ADMIN')
+        @if($agendamento->status != 'Em Elaboração' and $agendamento->status != 'Em Avaliação')
+        <br>
+        <div class="col-auto">
+            <form method="POST" action="/agendamentos/voltar_defesa/{{ $agendamento->id }}">
+                @csrf 
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja voltar defesa para status Em Avaliação?')"> Voltar para status 'Em Avaliação' </button>
+            </form>
+        </div>
+        @endif
+    @endcan
 @endsection('content')

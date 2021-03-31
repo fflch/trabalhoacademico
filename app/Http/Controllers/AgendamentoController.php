@@ -18,6 +18,7 @@ use App\Mail\LiberacaoMail;
 use App\Mail\BibliotecaMail;
 use App\Mail\CorrecaoMail;
 use Uspdev\Replicado\Pessoa;
+use Auth;
 
 class AgendamentoController extends Controller
 {   
@@ -50,11 +51,18 @@ class AgendamentoController extends Controller
         return view('agendamentos.index')->with('agendamentos',$agendamentos);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $this->authorize('LOGADO');
-        $agendamento = new Agendamento;
-        return view('agendamentos.create')->with('agendamento', $agendamento);
+        $agendamento = Agendamento::where('user_id', Auth::user()->id)->first();
+        if($agendamento == null or ($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções' or $agendamento->status == 'Reprovado')){
+            $agendamento = new Agendamento;
+            return view('agendamentos.create')->with('agendamento', $agendamento);
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Você já tem uma defesa em andamento!');
+            return redirect('/agendamentos');
+        }
     }
 
     public function store(AgendamentoRequest $request)
@@ -63,9 +71,9 @@ class AgendamentoController extends Controller
         $validated = $request->validated();
         $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
+        $validated['publicado'] = 'Não';
+        $validated['status'] = 'Em Elaboração';
         $agendamento = Agendamento::create($validated);
-        $agendamento->publicado = 'Não';
-        $agendamento->update();
         //Salva o orientador na banca
         $banca = new Banca;
         $banca->n_usp = $validated['numero_usp_do_orientador'];
@@ -159,12 +167,18 @@ class AgendamentoController extends Controller
 
     public function resultado(Agendamento $agendamento, Request $request){
         $this->authorize('DOCENTE',$agendamento);
+        $request->validate([
+            'parecer' => '',
+            'nota' => 'required',
+        ]);
         if($request->parecer){
             $agendamento->parecer = $request->parecer;
         }
+        if($request->nota){
+            $agendamento->nota = $request->nota;  
+        }
         if($request->devolver){
-            $agendamento->status = 'Aprovado C/ Correções'; 
-            $agendamento->data_enviado_avaliacao = null;
+            $agendamento->status = 'Aprovado C/ Correções';
             $agendamento->data_devolucao = date('Y-m-d');
             $agendamento->update();
             Mail::send(new DevolucaoMail($agendamento));
@@ -173,7 +187,9 @@ class AgendamentoController extends Controller
             if($request->aprovar){
                 $agendamento->status = 'Aprovado';
                 foreach(explode(',', trim(env('CODPES_BIBLIOTECA'))) as $codpes){
-                    Mail::send(new BibliotecaMail($agendamento, $codpes));
+                    if(Pessoa::emailusp($codpes) != false){
+                        Mail::send(new BibliotecaMail($agendamento, $codpes));
+                    }
                 }
             } 
             elseif($request->reprovar){
@@ -195,6 +211,19 @@ class AgendamentoController extends Controller
         $agendamento->data_publicacao = date('Y-m-d');
         $agendamento->url_biblioteca = $request->url_biblioteca;
         $agendamento->publicado = $request->publicado;
+        $agendamento->update();
+        return redirect('/agendamentos/'.$agendamento->id);
+    }
+
+    public function voltar_defesa(Agendamento $agendamento){
+        $this->authorize('ADMIN');
+        $agendamento->status = 'Em Avaliação';
+        $agendamento->data_publicacao = null;
+        $agendamento->url_biblioteca = '';
+        $agendamento->data_resultado = null;
+        $agendamento->data_devolucao = null;
+        $agendamento->data_enviado_correcao = null;
+        $agendamento->publicado = 'Não';
         $agendamento->update();
         return redirect('/agendamentos/'.$agendamento->id);
     }

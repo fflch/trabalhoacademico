@@ -1,7 +1,7 @@
     <div class="card">
         <div class="card-header"><b>Dados do Trabalho Acadêmico</b></div>
         <div class="card-body">
-            <b>Status:</b> {{$agendamento->status}}</br>
+            <b>Modalidade:</b> {{$agendamento->tipo ?? 'Não informada'}}</br>
             @if($agendamento->publicado == 'Sim')<b>URL da Publicação:</b> {{$agendamento->url_biblioteca}}<br>@endif
             <b>Curso:</b> {{$agendamento->curso}}</br>
             <b>Título:</b> {{$agendamento->titulo}}</br>

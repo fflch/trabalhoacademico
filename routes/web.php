@@ -23,6 +23,7 @@ Route::post('agendamentos/enviar_correcao/{agendamento}', [AgendamentoController
 Route::post('agendamentos/resultado/{agendamento}', [AgendamentoController::class,'resultado']);
 Route::post('agendamentos/liberar/{agendamento}', [AgendamentoController::class,'liberar']);
 Route::post('agendamentos/publicar/{agendamento}', [AgendamentoController::class,'publicar']);
+Route::post('agendamentos/voltar_defesa/{agendamento}', [AgendamentoController::class,'voltar_defesa']);
 
 Route::resource('agendamentos', AgendamentoController::class);
 Route::resource('bancas', BancaController::class);

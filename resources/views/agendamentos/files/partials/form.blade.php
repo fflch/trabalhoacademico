@@ -11,6 +11,7 @@
         <div class="form-group col-sm">
             <label for="arquivo-do-trabalho" class="required"><b>Arquivo do Trabalho</b></label>
             <input type="file" class="form-control-file" id="arquivo-do-trabalho" name="file">
+            <span class="badge badge-warning"><b>Atenção:</b> Os arquivos a serem enviados devem ter no máximo 12mb.</span><br>
             <span class="badge badge-danger"><b>Cuidado:</b> A cada novo upload, o novo arquivo irá sobrescrever o arquivo anterior.</span>
         </div>
         <input type="hidden" name="status" value="{{$agendamento->status}}">

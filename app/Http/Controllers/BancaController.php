@@ -19,6 +19,7 @@ class BancaController extends Controller
     {
         $this->authorize('LOGADO');
         $validated = $request->validated();
+        $validated['presidente'] = 'Não';
         Banca::create($validated);
         return back();
     }
