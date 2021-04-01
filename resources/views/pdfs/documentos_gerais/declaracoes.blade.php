@@ -101,7 +101,7 @@
         <p class="recuo justificar" style="line-height: 190%;">
         @if($professor->n_usp)
             {!! App\Models\Config::configDeclaracao($agendamento, $agendamento->user->name, $pessoa::dump($professor->n_usp)['nompes'])->declaracao !!}
-        @elseif($professor->nome)
+        @elseif($professor->prof_externo_id)
             {!! App\Models\Config::configDeclaracao($agendamento, $agendamento->user->name, $professor->prof_externo->nome)->declaracao !!}
         @endif
         </p><br><br>
