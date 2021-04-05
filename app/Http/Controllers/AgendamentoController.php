@@ -10,15 +10,14 @@ use Carbon\Carbon;
 use App\Http\Requests\AgendamentoRequest;
 use App\Models\Banca;
 use Storage;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\EmAvaliacaoMail;
-use App\Mail\DevolucaoMail;
-use App\Mail\AprovacaoMail;
-use App\Mail\LiberacaoMail;
-use App\Mail\BibliotecaMail;
-use App\Mail\CorrecaoMail;
 use Uspdev\Replicado\Pessoa;
 use Auth;
+use App\Jobs\EmAvaliacaoJob;
+use App\Jobs\LiberacaoJob;
+use App\Jobs\DevolucaoJob;
+use App\Jobs\BibliotecaJob;
+use App\Jobs\AprovacaoJob;
+use App\Jobs\CorrecaoJob;
 
 class AgendamentoController extends Controller
 {   
@@ -125,7 +124,7 @@ class AgendamentoController extends Controller
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();
         # Mandar email para orientador
-        Mail::send(new EmAvaliacaoMail($agendamento));
+        EmAvaliacaoJob::dispatch($agendamento);
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
@@ -134,7 +133,7 @@ class AgendamentoController extends Controller
         $agendamento->data_enviado_correcao = date('Y-m-d');
         $agendamento->update();
         # Mandar email para orientador
-        Mail::send(new CorrecaoMail($agendamento));
+        CorrecaoJob::dispatch($agendamento);
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
@@ -150,10 +149,10 @@ class AgendamentoController extends Controller
             # Mandar email para orientador
             foreach($agendamento->bancas as $banca){
                 if($banca->n_usp != null and Pessoa::emailusp($banca->n_usp) != false){
-                    Mail::send(new LiberacaoMail($agendamento, $banca, null));
+                    LiberacaoJob::dispatch($agendamento, $banca, null);
                 }
                 elseif($banca->prof_externo_id != null and $banca->prof_externo->email != ''){
-                    Mail::send(new LiberacaoMail($agendamento, null, $banca->prof_externo));
+                    LiberacaoJob::dispatch($agendamento, null, $banca->prof_externo);
                 }
             }
         }
@@ -181,14 +180,14 @@ class AgendamentoController extends Controller
             $agendamento->status = 'Aprovado C/ Correções';
             $agendamento->data_devolucao = date('Y-m-d');
             $agendamento->update();
-            Mail::send(new DevolucaoMail($agendamento));
+            DevolucaoJob::dispatch($agendamento);
         }
         else{
             if($request->aprovar){
                 $agendamento->status = 'Aprovado';
                 foreach(explode(',', trim(env('CODPES_BIBLIOTECA'))) as $codpes){
                     if(Pessoa::emailusp($codpes) != false){
-                        Mail::send(new BibliotecaMail($agendamento, $codpes));
+                        BibliotecaJob::dispatch($agendamento, $codpes);
                     }
                 }
             } 
@@ -197,7 +196,7 @@ class AgendamentoController extends Controller
             }
             $agendamento->data_resultado = date('Y-m-d');
             $agendamento->update();
-            Mail::send(new AprovacaoMail($agendamento));
+            AprovacaoJob::dispatch($agendamento);
         }
         return redirect('/agendamentos/'.$agendamento->id);
     }
