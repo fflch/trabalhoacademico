@@ -97,7 +97,7 @@
                     <input type="text" class="form-control horario" name="horario" id="horario" value="{{ old('horario', Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i')) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="form-group">
-                    <label for="sala"><b>Local da Defesa</b></label>
+                    <label for="sala" class="required"><b>Local da Defesa</b></label>
                     <input type="text" class="form-control" name="sala" value="{{ old('sala', $agendamento->sala) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
                 </div>
                 <div class="card">

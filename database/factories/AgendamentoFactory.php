@@ -33,6 +33,7 @@ class AgendamentoFactory extends Factory
             'divulgar_e_mail_' => $divulga[array_rand($divulga)],
             'titulo' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
             'resumo' => $this->faker->text($maxNbChars = 200), 
+            'tipo' => 'Virtual', 
             'palavras_chave' => $this->faker->sentence($nbWords = 3, $variableNbWords = true),
             'abstract' => $this->faker->text($maxNbChars = 200),
             'data_da_defesa' => $this->faker->dateTime($max = 'now', $timezone = 'UTC')->format('d/m/Y H:i'),

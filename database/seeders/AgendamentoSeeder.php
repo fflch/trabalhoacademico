@@ -25,6 +25,7 @@ class AgendamentoSeeder extends Seeder
             'resumo' => 'Mais um trabalhoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
             'palavras_chave' => 'trabalho, academia, universidade',            
             'abstract' => '',                  
+            'tipo' => 'Virtual',                  
             'data_da_defesa' => '25/02/2021 13:00',           
             'sala' => 'Sala Virtual',           
             'nome_do_orientador' => 'Dário Horácio Gutierrez Gallardo',           
