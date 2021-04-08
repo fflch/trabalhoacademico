@@ -148,7 +148,7 @@ class AgendamentoController extends Controller
             $agendamento->update();
             //Mandar email para orientador
             foreach($agendamento->bancas as $banca){
-                if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo->email != null){
+                if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo_id != null){
                     LiberacaoJob::dispatch($agendamento, $banca);
                 }
             }
