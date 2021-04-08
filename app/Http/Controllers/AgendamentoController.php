@@ -18,8 +18,7 @@ use App\Jobs\DevolucaoJob;
 use App\Jobs\BibliotecaJob;
 use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\LiberacaoMail;
+
 class AgendamentoController extends Controller
 {   
     public function index(Request $request)
