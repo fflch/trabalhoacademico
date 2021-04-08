@@ -23,11 +23,10 @@ class LiberacaoMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Agendamento $agendamento, Banca $professor = null, ProfExterno $prof_externo = null)
+    public function __construct(Agendamento $agendamento, Banca $professor)
     {   
         $this->agendamento = $agendamento;
         $this->professor = $professor;
-        $this->prof_externo = $prof_externo;
     }
 
     /**
@@ -38,17 +37,22 @@ class LiberacaoMail extends Mailable
     public function build()
     {
         $subject = "Agendamento da Defesa de {$this->agendamento->user->name}";
+        //Busca o arquivo do trabalho para enviar por anexo
         $file = File::where('agendamento_id',$this->agendamento->id)->first();
+        //Busca as informações necessárias para gerar o convite que será anexado
         $configs = Config::orderbyDesc('created_at')->first();
         $professores = Banca::where('agendamento_id',$this->agendamento->id)->orderBy('presidente','desc')->get();
-        if($this->prof_externo != null){
-            $this->professor = $this->prof_externo;
-        }
+        //Verifica, caso seja professor externo, para alterar a variável a ser usada no pdf
         $agendamento = $this->agendamento;
-        $professor = $this->professor;
+        if($this->professor->prof_externo != null){
+            $professor = $this->professor->prof_externo;
+        }
+        else{
+            $professor = $this->professor;
+        }
         $pdf = PDF::loadView("pdfs.documentos_bancas.oficio", compact(['agendamento','professores','professor','configs']));
     
-        if($this->professor != null){
+        if(Pessoa::emailusp($this->professor->n_usp) != false){
             return $this->view('emails.liberacao')
                 ->to(Pessoa::emailusp($this->professor->n_usp))
                 ->subject($subject)
@@ -61,17 +65,17 @@ class LiberacaoMail extends Mailable
                     'professor' => $this->professor,
                 ]);    
         }
-        elseif($this->prof_externo != null){
+        if($this->professor->prof_externo->email != null){
             return $this->view('emails.liberacao')
-            ->to($this->prof_externo->email)
+            ->to($this->professor->prof_externo->email)
             ->subject($subject)
             ->attachFromStorage($file->path, $file->original_name, [
                 'mime' => 'application/pdf',
             ])
-            ->attachData($pdf->output(), $this->professor->nome.".pdf")
+            ->attachData($pdf->output(), $this->professor->prof_externo->nome.".pdf")
             ->with([
                 'agendamento' => $this->agendamento,
-                'professor' => $this->prof_externo,
+                'professor' => $this->professor->prof_externo,
             ]);    
         }  
     }

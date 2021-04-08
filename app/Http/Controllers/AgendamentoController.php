@@ -18,7 +18,8 @@ use App\Jobs\DevolucaoJob;
 use App\Jobs\BibliotecaJob;
 use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\LiberacaoMail;
 class AgendamentoController extends Controller
 {   
     public function index(Request $request)
@@ -146,13 +147,10 @@ class AgendamentoController extends Controller
             $agendamento->status = 'Em Avaliação';
             $agendamento->data_liberacao = date('Y-m-d');
             $agendamento->update();
-            # Mandar email para orientador
+            //Mandar email para orientador
             foreach($agendamento->bancas as $banca){
-                if($banca->n_usp != null and Pessoa::emailusp($banca->n_usp) != false){
-                    LiberacaoJob::dispatch($agendamento, $banca, null);
-                }
-                elseif($banca->prof_externo_id != null and $banca->prof_externo->email != ''){
-                    LiberacaoJob::dispatch($agendamento, null, $banca->prof_externo);
+                if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo->email != null){
+                    LiberacaoJob::dispatch($agendamento, $banca);
                 }
             }
         }

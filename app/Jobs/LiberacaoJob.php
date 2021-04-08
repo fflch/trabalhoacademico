@@ -13,6 +13,7 @@ use App\Models\Banca;
 use App\Models\ProfExterno;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LiberacaoMail;
+use Uspdev\Replicado\Pessoa;
 
 class LiberacaoJob implements ShouldQueue
 {
@@ -21,17 +22,15 @@ class LiberacaoJob implements ShouldQueue
     public $tries = 3;
     public $agendamento;
     public $professor;
-    public $prof_externo;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Agendamento $agendamento, Banca $professor = null, ProfExterno $prof_externo = null)
+    public function __construct(Agendamento $agendamento, Banca $professor)
     {
         $this->agendamento = $agendamento;
         $this->professor = $professor;
-        $this->prof_externo = $prof_externo;
     }
 
     /**
@@ -41,11 +40,8 @@ class LiberacaoJob implements ShouldQueue
      */
     public function handle()
     {
-        if($this->professor != null){
-            Mail::send(new LiberacaoMail($this->agendamento, $this->professor, null));    
+        if(Pessoa::emailusp($this->professor->n_usp) != false or $this->professor->prof_externo->email != null){
+            Mail::send(new LiberacaoMail($this->agendamento, $this->professor));
         }
-        elseif($this->prof_externo != null){
-            Mail::send(new LiberacaoMail($this->agendamento, null, $this->prof_externo));    
-        }  
     }
 }
