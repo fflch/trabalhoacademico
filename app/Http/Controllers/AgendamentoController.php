@@ -128,12 +128,18 @@ class AgendamentoController extends Controller
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
-    public function enviar_correcao(Agendamento $agendamento){
+    public function enviar_correcao(Agendamento $agendamento, Request $request){
         $this->authorize('OWNER',$agendamento);
-        $agendamento->data_enviado_correcao = date('Y-m-d');
-        $agendamento->update();
-        # Mandar email para orientador
-        CorrecaoJob::dispatch($agendamento);
+        if($agendamento->files()->where('tipo', 'trabalho')->count() != 0){
+            $agendamento->data_enviado_correcao = date('Y-m-d');
+            $agendamento->update();
+            # Mandar email para orientador
+            CorrecaoJob::dispatch($agendamento);
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Não foi encontrado trabalho corrigido! Verifique se foi feito o upload do arquivo corrigido e tente novamente.');
+        }
+        
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
