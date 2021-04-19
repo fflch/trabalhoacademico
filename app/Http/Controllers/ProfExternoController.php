@@ -91,7 +91,7 @@ class ProfExternoController extends Controller
      * @param  \App\Models\ProfExterno  $profExterno
      * @return \Illuminate\Http\Response
      */
-    public function update(ProExternoRequest $request, ProfExterno $profExterno)
+    public function update(ProfExternoRequest $request, ProfExterno $profExterno)
     {
         //
         $this->authorize('ADMIN');
