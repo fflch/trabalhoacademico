@@ -58,7 +58,7 @@
         @can('DOCENTE', $agendamento)
             <div class="card-body">
                 <div class="card">
-                    <div class="card-header">Ata da Defesa Assinada</div>
+                    <div class="card-header">Parecer da Defesa</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm">
@@ -101,7 +101,7 @@
         @can('OWNER', $agendamento)
             <div class="card-body">
                 <div class="card">
-                    <div class="card-header">Ata da Defesa Assinada</div>
+                    <div class="card-header">Parecer da Defesa</div>
                     <div class="card-body">
                         <div class="row">
                             <ul>

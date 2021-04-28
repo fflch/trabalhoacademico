@@ -33,7 +33,7 @@ class ProfExternoRequest extends FormRequest
             'email' => '',
         ];
         if ($this->method() == 'PATCH' || $this->method() == 'PUT'){
-            array_push($rules['cpf'], 'unique:prof_externos,cpf,'.$this->profExterno->id);
+            array_push($rules['cpf'], 'unique:prof_externos,cpf,'.$this->id);
 
         }
         else{

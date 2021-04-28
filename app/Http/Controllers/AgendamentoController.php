@@ -128,12 +128,18 @@ class AgendamentoController extends Controller
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
-    public function enviar_correcao(Agendamento $agendamento){
+    public function enviar_correcao(Agendamento $agendamento, Request $request){
         $this->authorize('OWNER',$agendamento);
-        $agendamento->data_enviado_correcao = date('Y-m-d');
-        $agendamento->update();
-        # Mandar email para orientador
-        CorrecaoJob::dispatch($agendamento);
+        if($agendamento->files()->where('tipo', 'trabalho')->count() != 0){
+            $agendamento->data_enviado_correcao = date('Y-m-d');
+            $agendamento->update();
+            # Mandar email para orientador
+            CorrecaoJob::dispatch($agendamento);
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Não foi encontrado trabalho corrigido! Verifique se foi feito o upload do arquivo corrigido e tente novamente.');
+        }
+        
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
@@ -146,13 +152,10 @@ class AgendamentoController extends Controller
             $agendamento->status = 'Em Avaliação';
             $agendamento->data_liberacao = date('Y-m-d');
             $agendamento->update();
-            # Mandar email para orientador
+            //Mandar email para orientador
             foreach($agendamento->bancas as $banca){
-                if($banca->n_usp != null and Pessoa::emailusp($banca->n_usp) != false){
-                    LiberacaoJob::dispatch($agendamento, $banca, null);
-                }
-                elseif($banca->prof_externo_id != null and $banca->prof_externo->email != ''){
-                    LiberacaoJob::dispatch($agendamento, null, $banca->prof_externo);
+                if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo_id != null){
+                    LiberacaoJob::dispatch($agendamento, $banca);
                 }
             }
         }
