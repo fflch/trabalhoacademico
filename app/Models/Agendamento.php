@@ -94,30 +94,30 @@ class Agendamento extends Model
         return Agendamento::select('curso')->distinct('curso')->get();
     }
 
-    public function setCursoAttribute($value)
+    public function setCursoAttribute()
     {
-        # Vamos ignorar o $value
-        # será null $this->curso
-        if($this->curso == null){
+        if($this->curso == null and auth()->user()){
             $this->attributes['curso'] = Graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
         }
-        else{
+        else {
             $this->attributes['curso'] = Graduacao::curso($this->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
-
         }
     }
 
-    public function setUserIdAttribute($value)
+    public function setUserIdAttribute()
     {
-        # Vamos ignorar o $value
-        # será null $this->user_id
         if($this->user_id != null){
             $this->attributes['user_id'] = $this->user->id;
         }
-        else{
-            $this->attributes['user_id'] = Auth::user()->id;
-
+        else if(auth()->user()){
+                $this->attributes['user_id'] = auth()->user()->id;
         }
+
+        # seeder case
+        if( config('app.env') == 'local' && config('app.debug')){
+            $this->attributes['user_id'] = 1;
+        }
+        
     }
 
 }

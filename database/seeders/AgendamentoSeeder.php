@@ -22,7 +22,7 @@ class AgendamentoSeeder extends Seeder
             'outro_recomendado_' => '',        
             'divulgar_e_mail_' => 'Sim',
             'titulo' => 'Trabalho e academia',                    
-            'resumo' => 'Mais um trabalhoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
+            'resumo' => 'Mais um trabalho',
             'palavras_chave' => 'trabalho, academia, universidade',            
             'abstract' => '',                  
             'tipo' => 'Virtual',                  

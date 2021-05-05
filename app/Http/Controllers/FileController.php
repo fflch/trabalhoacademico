@@ -42,7 +42,10 @@ class FileController extends Controller
 
     public function destroy(File $file)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('delete',$file);
+
+        dd('não to passando');
+
         Storage::delete($file->path);
         $file->delete();
         return back();

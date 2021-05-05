@@ -51,6 +51,16 @@
                                 </td>
                             @endif
                         @endcan
+
+                        @can('delete',$file)
+                        <td>
+                            <form method="POST" class="form-group" action="/files/{{$file->id}}">
+                                @csrf 
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
+                        @endcan
                     </tr>
                 @endforeach
                 </tbody>

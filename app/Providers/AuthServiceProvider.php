@@ -6,6 +6,8 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Gate;
 use Uspdev\Replicado\Graduacao;
 use Uspdev\Replicado\Pessoa;
+use App\Models\File;
+use App\Policies\FilePolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+         File::class => FilePolicy::class,
     ];
 
     /**
@@ -62,6 +64,5 @@ class AuthServiceProvider extends ServiceProvider
             $biblioteca = explode(',', trim(env('CODPES_BIBLIOTECA')));
             return in_array($user->codpes, $biblioteca);
         });
-
     }
 }
