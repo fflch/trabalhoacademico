@@ -18,6 +18,10 @@ class FilePolicy
      */
     public function viewAny(User $user)
     {
+        if($file->agendamento->publicado == 'Sim'){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -29,7 +33,18 @@ class FilePolicy
      */
     public function view(User $user, File $file)
     {
-        //
+        return true;
+        dd('to aqui porra');
+
+        if($this->authorize('LOGADO')){
+            if($file->agendamento->publicado == 'Sim'){
+                return true;
+            }
+            elseif($this->authorize('OWNER', $file->agendamento)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -64,20 +79,15 @@ class FilePolicy
      */
     public function delete(User $user, File $file)
     {
-
-        return true;
         # O arquivo só pode ser apagado nas condições:
         # pelo owner
         # nos status: em elaboração e aprovado com correção
-
+        $this->authorize('OWNER', $file->agendamento);
         $status = ["Em Elaboração","Aprovado C/ Correções"];
-
         if(in_array($file->agendamento->status,$status) && $file->agendamento->user_id == $user->id){
            return true;
         }
         return false;
-
-
     }
 
     /**

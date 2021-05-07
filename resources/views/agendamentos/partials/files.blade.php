@@ -5,14 +5,10 @@
                 @if(($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null) or ($agendamento->status == 'Aprovado C/ Correções' and $agendamento->data_enviado_correcao == null))
                     @include('agendamentos.files.partials.form')
                 @endif
-            @elsecan('DOCENTE', $agendamento)
-                @if($agendamento->status == 'Em Avaliação' and $agendamento->data_devolucao == null)
-                    @include('agendamentos.files.partials.form')
-                @endif
             @endcan 
             <br>
             <br>
-            @if(Auth::check() == true or (Auth::check() == false and $agendamento->status == 'Aprovado'))
+            @can('view', $agendamento->files->where('tipo','trabalho'))
             <table class="table table-striped" style="text-align: center;">
                 <theader>
                     <tr>
@@ -30,28 +26,6 @@
                             {{ Carbon\Carbon::parse($file->created_at)->format('d/m/Y') }}
                         </td>
                         <td>{{ $agendamento->status }}</td>
-                        @can('OWNER', $agendamento)
-                            @if(($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null) or ($agendamento->status == 'Aprovado C/ Correções' and \Carbon\Carbon::now()->lte(date('Y-m-d H:i:s', strtotime('+60 days', strtotime($agendamento->data_da_defesa))))))
-                                <td>
-                                    <form method="POST" class="form-group" action="/files/{{$file->id}}">
-                                        @csrf 
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            @endif
-                        @elsecan('DOCENTE', $agendamento)
-                            @if($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null)
-                                <td>
-                                    <form method="POST" class="form-group" action="/files/{{$file->id}}">
-                                        @csrf 
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            @endif
-                        @endcan
-
                         @can('delete',$file)
                         <td>
                             <form method="POST" class="form-group" action="/files/{{$file->id}}">
@@ -65,7 +39,7 @@
                 @endforeach
                 </tbody>
             </table>
-            @endif
+            @endcan
         </div>
     </div>
  
