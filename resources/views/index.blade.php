@@ -8,7 +8,7 @@
     @include('flash')
     <div class="row">
         <div class="col-sm">
-            <a href="/anteriores" class="float-right"><h3>Defesas anteriores</h3></a>
+            <a href="/anteriores" class="float-right"><h3>Trabalhos Acadêmicos aprovados</h3></a>
         </div>
     </div>
     @inject('graduacao','Uspdev\Replicado\Graduacao')
