@@ -28,7 +28,9 @@
         @include('agendamentos.partials.documentos')
     @endcan
     <br>
-    @include('agendamentos.partials.files')
+    @can('view', $agendamento->files->where('tipo','trabalho')[0])
+        @include('agendamentos.partials.files')
+    @endcan
     @can('ADMIN')
         @if($agendamento->status != 'Em Elaboração' and $agendamento->status != 'Em Avaliação')
         <br>

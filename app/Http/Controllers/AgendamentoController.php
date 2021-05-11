@@ -18,6 +18,7 @@ use App\Jobs\DevolucaoJob;
 use App\Jobs\BibliotecaJob;
 use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
+use App\Jobs\DeclaracaoJob;
 
 class AgendamentoController extends Controller
 {   
@@ -200,6 +201,11 @@ class AgendamentoController extends Controller
             $agendamento->data_resultado = date('Y-m-d');
             $agendamento->update();
             AprovacaoJob::dispatch($agendamento);
+        }
+        foreach($agendamento->bancas as $banca){
+            if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo_id != null){
+                DeclaracaoJob::dispatch($agendamento, $banca);
+            }
         }
         return redirect('/agendamentos/'.$agendamento->id);
     }

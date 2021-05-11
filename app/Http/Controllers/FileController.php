@@ -36,16 +36,13 @@ class FileController extends Controller
 
     public function show(File $file)
     {
-        //$this->authorize('LOGADO');
+        $this->authorize('view', $file);
         return Storage::download($file->path, $file->original_name);
     }
 
     public function destroy(File $file)
     {
         $this->authorize('delete',$file);
-
-        dd('não to passando');
-
         Storage::delete($file->path);
         $file->delete();
         return back();
