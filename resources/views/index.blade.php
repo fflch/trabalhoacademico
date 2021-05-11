@@ -24,7 +24,7 @@
                             <option value="" selected="">- Todos os Cursos -</option>
                             @foreach (App\Models\Agendamento::cursoOptions() as $option)
                                 {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
-                                @if (old('busca_cursp') == '' and isset(Request()->busca_curso))
+                                @if (old('busca_curso') == '' and isset(Request()->busca_curso))
                                 <option value="{{$option['curso']}}" {{ ( Request()->busca_curso == $option['curso']) ? 'selected' : ''}}>
                                     {{$option['curso']}}
                                 </option>

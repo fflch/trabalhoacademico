@@ -42,6 +42,9 @@ class AgendamentoController extends Controller
             $data = Carbon::CreatefromFormat('d/m/Y', "$request->busca_data");
             $query->whereDate('data_da_defesa','=', $data);
         }
+        if($request->busca_status != ''){
+            $query->where('status','=', $request->busca_status);
+        }
         
         $agendamentos = $query->paginate(20);
         

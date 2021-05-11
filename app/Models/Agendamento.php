@@ -41,13 +41,15 @@ class Agendamento extends Model
         ];
     }
 
-    const status = [
-            "Em Elaboração",
-            "Em Avaliação",
-            "Aprovado C/ Correções",
-            "Aprovado",
-            "Reprovado",
-    ];
+    public static function statusOptions(){
+        return [
+                "Em Elaboração",
+                "Em Avaliação",
+                "Aprovado C/ Correções",
+                "Aprovado",
+                "Reprovado",
+        ];
+    }
 
     //Função para devolver valores de select
     public static function presidenteOptions(){
