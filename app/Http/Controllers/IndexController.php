@@ -30,7 +30,7 @@ class IndexController extends Controller
     }
 
     public function anteriores(Request $request){
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->where('agendamentos.publicado','Sim')->orderBy('agendamentos.data_da_defesa', 'asc')->select('agendamentos.*');
+        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->orderBy('agendamentos.data_da_defesa', 'asc')->select('agendamentos.*');
         if($request->busca_curso != ''){
             $query->where('agendamentos.curso',$request->busca_curso);
         }

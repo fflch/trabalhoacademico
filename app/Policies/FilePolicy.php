@@ -5,19 +5,24 @@ namespace App\Policies;
 use App\Models\File;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Gate;
 
 class FilePolicy
 {
     use HandlesAuthorization;
 
+    public $is_superAdmin, $biblioteca;
+    
     /**
-     * Determine whether the user can view any models.
+     * Create a new policy instance.
      *
-     * @param  \App\Models\User  $user
-     * @return mixed
+     * @return void
      */
-    public function viewAny(User $user)
+    public function __construct()
     {
+        $this->is_superAdmin = Gate::allows('ADMIN');
+        $this->biblioteca = explode(',', trim(env('CODPES_BIBLIOTECA')));
+
     }
 
     /**
@@ -29,7 +34,13 @@ class FilePolicy
      */
     public function view(User $user, File $file)
     {
-        //
+        if($file->agendamento->publicado == 'Sim'){
+            return true;
+        }
+        elseif($user->id == $file->agendamento->user_id or $user->codpes == $file->agendamento->numero_usp_do_orientador or $this->is_superAdmin or in_array($user->codpes, $this->biblioteca)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -64,20 +75,14 @@ class FilePolicy
      */
     public function delete(User $user, File $file)
     {
-
-        return true;
         # O arquivo só pode ser apagado nas condições:
         # pelo owner
         # nos status: em elaboração e aprovado com correção
-
         $status = ["Em Elaboração","Aprovado C/ Correções"];
-
-        if(in_array($file->agendamento->status,$status) && $file->agendamento->user_id == $user->id){
+        if(in_array($file->agendamento->status,$status) && ($file->agendamento->user_id == $user->id or $this->is_superAdmin)){
            return true;
         }
         return false;
-
-
     }
 
     /**

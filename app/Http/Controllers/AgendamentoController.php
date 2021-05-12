@@ -18,6 +18,7 @@ use App\Jobs\DevolucaoJob;
 use App\Jobs\BibliotecaJob;
 use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
+use App\Jobs\DeclaracaoJob;
 
 class AgendamentoController extends Controller
 {   
@@ -40,6 +41,9 @@ class AgendamentoController extends Controller
         elseif($request->filtro_busca == 'data'){
             $data = Carbon::CreatefromFormat('d/m/Y', "$request->busca_data");
             $query->whereDate('data_da_defesa','=', $data);
+        }
+        if($request->busca_status != ''){
+            $query->where('status','=', $request->busca_status);
         }
         
         $agendamentos = $query->paginate(20);
@@ -200,6 +204,11 @@ class AgendamentoController extends Controller
             $agendamento->data_resultado = date('Y-m-d');
             $agendamento->update();
             AprovacaoJob::dispatch($agendamento);
+        }
+        foreach($agendamento->bancas as $banca){
+            if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo_id != null){
+                DeclaracaoJob::dispatch($agendamento, $banca);
+            }
         }
         return redirect('/agendamentos/'.$agendamento->id);
     }

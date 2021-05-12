@@ -52,7 +52,7 @@
     </div>
     <br>
     <div class="card">
-        <div class="card-header"><h2>Trabalhos Acadêmicos Defendidos</h2></div>
+        <div class="card-header"><h2>Trabalhos Acadêmicos Aprovados</h2></div>
         <table class="table table-striped" style="text-align:center;">
             <theader>
                 <tr>

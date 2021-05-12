@@ -25,10 +25,10 @@ class AgendamentoFactory extends Factory
     public function definition()
     {
         $divulga = Agendamento::divulgaOptions();
-        $aluno = User::factory(1)->create();
+        $aluno = User::factory(1)->create()->toArray();
         $orientador = $this->faker->docente();
         return [
-            'user_id' => $aluno[0]->id,
+            'user_id' => $aluno[0]['id'],
             'outro_recomendado_' => '',
             'divulgar_e_mail_' => $divulga[array_rand($divulga)],
             'titulo' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
@@ -41,7 +41,7 @@ class AgendamentoFactory extends Factory
             'nome_do_orientador' => Pessoa::dump($orientador)['nompes'],
             'numero_usp_do_orientador' => $orientador,
             'status' => 'Em Elaboração',
-            'curso' => Graduacao::curso($aluno[0]->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'],
+            'curso' => Graduacao::curso($aluno[0]['codpes'],getenv('REPLICADO_CODUNDCLG'))['nomcur'],
             'publicado' => 'Não',
         ];
     }

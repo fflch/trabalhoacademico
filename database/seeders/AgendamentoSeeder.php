@@ -35,9 +35,9 @@ class AgendamentoSeeder extends Seeder
         ];
         Agendamento::create($agendamento1);
         
-        Agendamento::factory(5)->create()->each(function ($agendamento) {           
+        /*Agendamento::factory(5)->create()->each(function ($agendamento) {           
             $bancas = Banca::factory(4)->make();
             $agendamento->bancas()->saveMany($bancas);
-        });
+        });*/
     }
 }
