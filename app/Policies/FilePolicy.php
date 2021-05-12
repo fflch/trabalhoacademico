@@ -11,7 +11,7 @@ class FilePolicy
 {
     use HandlesAuthorization;
 
-    public $is_superAdmin;
+    public $is_superAdmin, $biblioteca;
     
     /**
      * Create a new policy instance.
@@ -21,6 +21,8 @@ class FilePolicy
     public function __construct()
     {
         $this->is_superAdmin = Gate::allows('ADMIN');
+        $this->biblioteca = explode(',', trim(env('CODPES_BIBLIOTECA')));
+
     }
 
     /**
@@ -35,7 +37,7 @@ class FilePolicy
         if($file->agendamento->publicado == 'Sim'){
             return true;
         }
-        elseif($user->id == $file->agendamento->user_id or $user->codpes == $file->agendamento->numero_usp_do_orientador or $this->is_superAdmin){
+        elseif($user->id == $file->agendamento->user_id or $user->codpes == $file->agendamento->numero_usp_do_orientador or $this->is_superAdmin or in_array($user->codpes, $this->biblioteca)){
             return true;
         }
         return false;
