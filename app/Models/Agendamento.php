@@ -108,17 +108,17 @@ class Agendamento extends Model
 
     public function setUserIdAttribute()
     {
-        if($this->user_id != null){
-            $this->attributes['user_id'] = $this->user->id;
-        }
-        else if(auth()->user()){
-                $this->attributes['user_id'] = auth()->user()->id;
-        }
-
-        # seeder case
-        /*if( config('app.env') == 'local' && config('app.debug')){
+        if(auth()->check()) {
+            if($this->user_id != null){
+                $this->attributes['user_id'] = $this->user->id;
+            }
+            else if(auth()->user()){
+                    $this->attributes['user_id'] = auth()->user()->id;
+            }
+        } else {
+            # para rodar o seeder
             $this->attributes['user_id'] = 1;
-        }*/
+        }
         
     }
 

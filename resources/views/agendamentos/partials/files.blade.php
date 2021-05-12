@@ -8,7 +8,7 @@
             @endcan 
             <br>
             <br>
-            @can('view', $agendamento->files->where('tipo','trabalho')[0])
+            @can('view', $agendamento->files->where('tipo','trabalho')->first())
             <table class="table table-striped" style="text-align: center;">
                 <theader>
                     <tr>
