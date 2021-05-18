@@ -88,8 +88,12 @@ class AgendamentoController extends Controller
 
     public function show(Agendamento $agendamento)
     {
-        //$this->authorize('LOGADO');
-        return view('agendamentos.show', compact('agendamento'));
+        if($this->authorize('LOGADO')){
+            return view('agendamentos.show', compact('agendamento'));
+        }
+        elseif(in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){
+            return view('agendamentos.show', compact('agendamento'));
+        }
     }
 
     public function edit(Agendamento $agendamento)
