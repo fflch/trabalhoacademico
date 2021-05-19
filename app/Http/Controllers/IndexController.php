@@ -11,9 +11,20 @@ use App\Models\User;
 class IndexController extends Controller
 {
     public function index(Request $request){
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','Em Avaliação')->where('agendamentos.data_da_defesa','>=',date('Y-m-d'))->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
+        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
         if($request->busca_curso != ''){
             $query->where('agendamentos.curso',$request->busca_curso);
+        }
+        if($request->busca_status != ''){
+            if($request->busca_status == 'Publicado'){
+                $query->where('agendamentos.publicado', 'Sim');
+            }
+            else{
+                $query->where('agendamentos.status','LIKE', "%$request->busca_status%");
+            }
+        }
+        else{
+            $query->where('agendamentos.status','Em Avaliação');
         }
         if($request->busca != ''){
             $query->where(function($query) use($request){
@@ -22,30 +33,12 @@ class IndexController extends Controller
                 $query->orWhere('agendamentos.titulo', 'LIKE', "%$request->busca%");
             });
         }
+        
         $agendamentos = $query->paginate(20);
         if ($agendamentos->count() == null) {
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
         return view('index', compact('agendamentos'));
-    }
-
-    public function anteriores(Request $request){
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->where('agendamentos.status','=','Aprovado')->orderBy('agendamentos.data_da_defesa', 'asc')->select('agendamentos.*');
-        if($request->busca_curso != ''){
-            $query->where('agendamentos.curso',$request->busca_curso);
-        }
-        if($request->busca != ''){
-            $query->where(function($query) use($request){
-                $query->orWhere('users.name', 'LIKE', "%$request->busca%");
-                $query->orWhere('agendamentos.nome_do_orientador', 'LIKE', "%$request->busca%");
-                $query->orWhere('agendamentos.titulo', 'LIKE', "%$request->busca%");
-            });
-        }
-        $agendamentos = $query->paginate(20);
-        if ($agendamentos->count() == null) {
-            $request->session()->flash('alert-danger', 'Não há registros!');
-        }
-        return view('anteriores')->with('agendamentos',$agendamentos);
     }
 
     public function dashboard(){

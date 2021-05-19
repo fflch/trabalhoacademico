@@ -96,17 +96,23 @@ class Agendamento extends Model
         return Agendamento::select('curso')->distinct('curso')->get();
     }
 
-    public function setCursoAttribute()
+    public function setCursoAttribute($value)
     {
-        if($this->curso == null and auth()->user()){
-            $this->attributes['curso'] = Graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+        if(auth()->check()) {
+            if($this->curso == null and auth()->user()){
+                $this->attributes['curso'] = Graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+            }
+            else {
+                $this->attributes['curso'] = Graduacao::curso($this->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+            }
         }
-        else {
-            $this->attributes['curso'] = Graduacao::curso($this->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+        else{
+            # para rodar o seeder
+            $this->attributes['curso'] = $value;
         }
     }
 
-    public function setUserIdAttribute()
+    public function setUserIdAttribute($value)
     {
         if(auth()->check()) {
             if($this->user_id != null){
@@ -117,7 +123,7 @@ class Agendamento extends Model
             }
         } else {
             # para rodar o seeder
-            $this->attributes['user_id'] = 1;
+            $this->attributes['user_id'] = $value;
         }
         
     }
