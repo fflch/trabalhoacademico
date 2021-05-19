@@ -38,16 +38,18 @@ class DeclaracaoMail extends Mailable
     {
         $subject = "Declaração de Participação da Defesa de {$this->agendamento->user->name}";
         //Busca as informações necessárias para gerar o convite que será anexado
-        $configs = Config::orderbyDesc('created_at')->first();
         $professores = Banca::where('agendamento_id',$this->agendamento->id)->orderBy('presidente','desc')->get();
         //Verifica, caso seja professor externo, para alterar a variável a ser usada no pdf
         $agendamento = $this->agendamento;
         if($this->professor->prof_externo != null){
             $professor = $this->professor->prof_externo;
+            $configs = Config::configDeclaracao($this->agendamento, $this->agendamento->user->name, $this->professor->prof_externo->nome);
         }
         else{
             $professor = $this->professor;
+            $configs = Config::configDeclaracao($this->agendamento, $this->agendamento->user->name, Pessoa::dump($this->professor->n_usp)['nompes']);
         }
+
         $pdf = PDF::loadView("pdfs.documentos_bancas.declaracao", compact(['agendamento','professores','professor','configs']));
     
         if(Pessoa::emailusp($this->professor->n_usp) != false){
