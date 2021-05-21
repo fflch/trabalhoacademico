@@ -34,6 +34,7 @@ class AgendamentoController extends Controller
         if($request->busca != ''){
             $query->where(function($query) use($request){
                 $query->orWhere('users.name', 'LIKE', "%$request->busca%");
+                $query->orWhere('users.codpes', '=', "$request->busca");
                 $query->orWhere('agendamentos.nome_do_orientador', 'LIKE', "%$request->busca%");
                 $query->orWhere('agendamentos.titulo', 'LIKE', "%$request->busca%");
             });

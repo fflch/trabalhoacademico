@@ -60,6 +60,7 @@
             <tr>
                 <th>Nº USP</th>
                 <th>Nome</th>
+                <th>Título</th>
                 <th>Data da Defesa</th>
                 <th>Orientador</th>
                 <th>Status</th>
@@ -71,6 +72,7 @@
             <tr>
                 <td>{{ $agendamento->user->codpes }}</td>
                 <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>
+                <td>{{ $agendamento->titulo }}</td>
                 <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') }}</td>
                 <td>{{ $agendamento->nome_do_orientador}}</td>
                 <td>{{ $agendamento->status}}</td>
