@@ -89,7 +89,7 @@ class AgendamentoController extends Controller
 
     public function show(Agendamento $agendamento)
     {
-        if($this->authorize('LOGADO')){
+        if(auth()->check()){
             return view('agendamentos.show', compact('agendamento'));
         }
         elseif(in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){

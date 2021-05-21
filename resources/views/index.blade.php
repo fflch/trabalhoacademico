@@ -17,7 +17,7 @@
                     <div class="col-2 form-group"> 
                         <select class="form-control" name="busca_curso">
                             <option value="" selected="">- Todos os Cursos -</option>
-                            @foreach (App\Models\Agendamento::cursoOptions() as $option)
+                            @foreach ($cursoOptions as $option)
                                 {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
                                 @if (old('busca_curso') == '' and isset(Request()->busca_curso))
                                 <option value="{{$option['curso']}}" {{ ( Request()->busca_curso == $option['curso']) ? 'selected' : ''}}>
@@ -34,14 +34,13 @@
                     </div>
                     <div class="col-2 form-group"> 
                         <select class="form-control" name="busca_status">
-                            <option value="" selected="">- Status -</option>
                             <option value="Em Avaliação" {{ ( Request()->busca_status == 'Em Avaliação') ? 'selected' : ''}}>Em Avaliação</option>
                             <option value="Aprovado" {{ ( Request()->busca_status == 'Aprovado') ? 'selected' : ''}}>Aprovado</option>
                             <option value="Publicado" {{ ( Request()->busca_status == 'Publicado') ? 'selected' : ''}}>Publicado</option>
                         </select>
                     </div>
                     <div class="col-sm form-group">
-                        <input type="text" class="form-control" name="busca" placeholder="Digite o nome do candidato, nome do orientador ou o título da tese" value="{{Request()->busca}}">
+                        <input type="text" class="form-control" name="busca" placeholder="Digite o nome do(a) candidato(a), nome do(a) orientador(a) ou o título do trabalho" value="{{Request()->busca}}">
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-success">Buscar</button>
@@ -61,6 +60,7 @@
                     <th>Nome</th>
                     <th>Título</th>
                     <th>Status</th>
+                    <th>Publicação</th>
                     <th>Orientador(a)</th>
                 </tr>
             </theader>
@@ -72,6 +72,7 @@
                     <td>@if($agendamento->returnLastFileId($agendamento->id))<a href="/agendamentos/{{ $agendamento->id }}"> @else <a href="#">@endif{{ $agendamento->user->name }}</a></td>
                     <td>{{ $agendamento->titulo }}</td>
                     <td>{{ $agendamento->status }}</td>
+                    <td>@if($agendamento->publicado == 'Sim')Publicado @else Não publicado @endif</td>
                     <td>{{ $agendamento->nome_do_orientador }}</td>
                 </tr>
             @endforeach

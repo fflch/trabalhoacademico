@@ -41,7 +41,7 @@
                         </select>
                     </div>
                     <div class="col-sm form-group" id="busca"  @if(Request()->filtro_busca == 'data') style="display:none;" @endif>
-                        <input type="text" class="form-control busca" autocomplete="off" name="busca" value="{{ Request()->busca }}" placeholder="Digite o número USP ou nome do candidato, ou o nome do orientador">
+                        <input type="text" class="form-control busca" autocomplete="off" name="busca" value="{{ Request()->busca }}" placeholder="Digite o título do trabalho, o número USP, o nome do(a) candidato(a) ou nome do(a) orientador(a)">
                     </div>
                     <div class="col-sm form-group" id="busca_data" @if(Request()->filtro_busca == 'numero_nome' or Request()->filtro_busca == '') style="display:none;" @endif>
                         <input class="form-control data datepicker" autocomplete="off" name="busca_data" value="{{ Request()->busca_data }}" placeholder="Selecione a data">
