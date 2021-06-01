@@ -40,3 +40,6 @@ Route::get('/agendamentos/{agendamento}/bancas/{banca}/{tipo}',[PdfController::c
 // rotas para login_admin
 Route::get('/login_admin',[LoginAdminController::class, 'show']);
 Route::post('/login_admin',[LoginAdminController::class, 'login']);
+
+# Logs  
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:ADMIN');
