@@ -12,19 +12,23 @@ class IndexController extends Controller
 {
     public function index(Request $request){
         $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
+        $curso = Agendamento::select('curso')->whereNotNull('curso')->distinct();
         if($request->busca_curso != ''){
             $query->where('agendamentos.curso',$request->busca_curso);
         }
         if($request->busca_status != ''){
             if($request->busca_status == 'Publicado'){
                 $query->where('agendamentos.publicado', 'Sim');
+                $curso->where('publicado', 'Sim');
             }
             else{
                 $query->where('agendamentos.status','LIKE', "%$request->busca_status%");
+                $curso->where('status','LIKE', "%$request->busca_status%");
             }
         }
         else{
             $query->where('agendamentos.status','Em Avaliação');
+            $curso->where('status','Em Avaliação');
         }
         if($request->busca != ''){
             $query->where(function($query) use($request){
@@ -35,10 +39,11 @@ class IndexController extends Controller
         }
         
         $agendamentos = $query->paginate(20);
+        $cursoOptions = $curso->get();
         if ($agendamentos->count() == null) {
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
-        return view('index', compact('agendamentos'));
+        return view('index', compact('agendamentos','cursoOptions'));
     }
 
     public function dashboard(){

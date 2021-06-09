@@ -34,6 +34,7 @@ class AgendamentoController extends Controller
         if($request->busca != ''){
             $query->where(function($query) use($request){
                 $query->orWhere('users.name', 'LIKE', "%$request->busca%");
+                $query->orWhere('users.codpes', '=', "$request->busca");
                 $query->orWhere('agendamentos.nome_do_orientador', 'LIKE', "%$request->busca%");
                 $query->orWhere('agendamentos.titulo', 'LIKE', "%$request->busca%");
             });
@@ -88,7 +89,7 @@ class AgendamentoController extends Controller
 
     public function show(Agendamento $agendamento)
     {
-        if($this->authorize('LOGADO')){
+        if(auth()->check()){
             return view('agendamentos.show', compact('agendamento'));
         }
         elseif(in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){

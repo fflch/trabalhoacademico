@@ -57,6 +57,14 @@ $right_menu = [
         'align' => 'right',
         'can' => 'ADMIN',
     ],
+    [
+        'text' => '<i class="fas fa-hard-hat"></i>',
+        'title' => 'Logs',
+        'target' => '_blank',
+        'url' => config('app.url') . '/logs',
+        'align' => 'right',
+        'can' => 'ADMIN',
+    ],
 ];
 
 # dashboard_url renomeado para app_url
