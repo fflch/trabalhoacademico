@@ -6,7 +6,6 @@
 
 @section('content')
     @include('flash')
-    @inject('graduacao','Uspdev\Replicado\Graduacao')
     <br>
     <div class="card">
         <div class="card-header"><h5><b>Pesquisa</b></h5></div>
@@ -68,7 +67,7 @@
             @foreach ($agendamentos as $agendamento)
                 <tr>
                     <td>{{ Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y H:i') }}</td>
-                    <td>{{ $graduacao::curso($agendamento->user->codpes, getenv('REPLICADO_CODUNDCLG'))['nomcur'] }}</td>
+                    <td>{{ $agendamento->curso }}</td>
                     <td>@if($agendamento->returnLastFileId($agendamento->id))<a href="/agendamentos/{{ $agendamento->id }}"> @else <a href="#">@endif{{ $agendamento->user->name }}</a></td>
                     <td>{{ $agendamento->titulo }}</td>
                     <td>{{ $agendamento->status }}</td>
