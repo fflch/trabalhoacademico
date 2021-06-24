@@ -33,14 +33,10 @@ class DevolucaoMail extends Mailable
     public function build()
     {
         $subject = "Parecer da defesa do trabalho acadêmico de {$this->agendamento->user->name}";
-        $file = File::where('agendamento_id',$this->agendamento->id)->first();
 
         return $this->view('emails.devolver_avaliacao')
         ->to(Pessoa::emailusp($this->agendamento->user->codpes))
         ->subject($subject)
-        ->attachFromStorage($file->path, $file->original_name, [
-            'mime' => 'application/pdf',
-        ])
         ->with([
             'agendamento' => $this->agendamento,
         ]);
