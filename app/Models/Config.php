@@ -58,34 +58,34 @@ class Config extends Model
         return $configs;
     }
 
-    public static function configMailEmAvaliacao($agendamento){
+    public static function configMailEmAvaliacao($agendamento, $url){
         //Busca a última configuração
         $configs = Config::orderbyDesc('created_at')->first();
         $configs['mail_avaliacao'] = str_replace(
-            ["%docente_nome","%candidato_nome", "%titulo", "%agendamento_id", "%data_defesa", "%agendamento_email"], 
-            [$agendamento->nome_do_orientador, $agendamento->user->name, $agendamento->titulo, $agendamento->id, Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') , $agendamento->user->email], 
+            ["%docente_nome","%candidato_nome", "%titulo", "%agendamento_id", "%data_defesa", "%agendamento_email", "%url"], 
+            [$agendamento->nome_do_orientador, $agendamento->user->name, $agendamento->titulo, $agendamento->id, Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') , $agendamento->user->email, $url], 
             $configs['mail_avaliacao']
         );
         return $configs;
     }
 
-    public static function configMailCorrecao($agendamento){
+    public static function configMailCorrecao($agendamento, $url){
         //Busca a última configuração
         $configs = Config::orderbyDesc('created_at')->first();
         $configs['mail_correcao'] = str_replace(
-            ["%docente_nome","%candidato_nome", "%titulo", "%agendamento_id", "%data_defesa", "%agendamento_email"], 
-            [$agendamento->nome_do_orientador, $agendamento->user->name, $agendamento->titulo, $agendamento->id, Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') , $agendamento->user->email], 
+            ["%docente_nome","%candidato_nome", "%titulo", "%agendamento_id", "%data_defesa", "%agendamento_email", "%url"], 
+            [$agendamento->nome_do_orientador, $agendamento->user->name, $agendamento->titulo, $agendamento->id, Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y') , $agendamento->user->email, $url], 
             $configs['mail_correcao']
         );
         return $configs;
     }
 
-    public static function configMailLiberacao($agendamento, $nome, $professor){
+    public static function configMailLiberacao($agendamento, $nome, $professor, $url){
         //Busca a última configuração
         $configs = Config::orderbyDesc('created_at')->first();
         $configs['mail_liberacao'] = str_replace(
-            ["%docente_nome","%candidato_nome", "%orientador", "%titulo", "%data_defesa", '%agendamento_id'], 
-            [$professor, $nome, $agendamento->nome_do_orientador, $agendamento->titulo, Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y'), $agendamento->id], 
+            ["%docente_nome","%candidato_nome", "%orientador", "%titulo", "%data_defesa", '%agendamento_id', "%url"], 
+            [$professor, $nome, $agendamento->nome_do_orientador, $agendamento->titulo, Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y'), $agendamento->id, $url], 
             $configs['mail_liberacao']
         );
         return $configs;

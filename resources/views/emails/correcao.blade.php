@@ -1,1 +1,1 @@
-{!! App\Models\Config::configMailCorrecao($agendamento)->mail_correcao !!}
+{!! App\Models\Config::configMailCorrecao($agendamento, $url)->mail_correcao !!}

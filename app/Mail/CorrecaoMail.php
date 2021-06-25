@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Agendamento;
 use App\Models\File;
 use Uspdev\Replicado\Pessoa;
+use Illuminate\Support\Facades\URL;
 
 class CorrecaoMail extends Mailable
 {
@@ -32,15 +33,16 @@ class CorrecaoMail extends Mailable
     public function build()
     {
         $subject = "Envio de correção do trabalho acadêmico de {$this->agendamento->user->name}";
-        $file = File::where('agendamento_id',$this->agendamento->id)->first();
+        $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(43200), [
+            'file_id'   => $this->agendamento->files()->first()->id,
+            'agendamento_id' => $this->agendamento->id
+        ]);
         return $this->view('emails.correcao')
         ->to(Pessoa::emailusp($this->agendamento->numero_usp_do_orientador))
         ->subject($subject)
-        ->attachFromStorage($file->path, $file->original_name, [
-            'mime' => 'application/pdf',
-        ])
         ->with([
             'agendamento' => $this->agendamento,
+            'url' => $url,
         ]);
     }
 }
