@@ -13,6 +13,7 @@ use App\Models\File;
 use App\Models\Config;
 use Uspdev\Replicado\Pessoa;
 use PDF;
+use Illuminate\Support\Facades\URL;
 
 class LiberacaoMail extends Mailable
 {
@@ -38,7 +39,10 @@ class LiberacaoMail extends Mailable
     {
         $subject = "Agendamento da Defesa de {$this->agendamento->user->name}";
         //Busca o arquivo do trabalho para enviar por anexo
-        $file = File::where('agendamento_id',$this->agendamento->id)->first();
+        $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(43200), [
+            'file_id'   => $this->agendamento->files()->first()->id,
+            'agendamento_id' => $this->agendamento->id
+        ]);
         //Busca as informações necessárias para gerar o convite que será anexado
         $configs = Config::orderbyDesc('created_at')->first();
         $professores = Banca::where('agendamento_id',$this->agendamento->id)->orderBy('presidente','desc')->get();
@@ -56,26 +60,22 @@ class LiberacaoMail extends Mailable
             return $this->view('emails.liberacao')
                 ->to(Pessoa::emailusp($this->professor->n_usp))
                 ->subject($subject)
-                ->attachFromStorage($file->path, $file->original_name, [
-                    'mime' => 'application/pdf',
-                ])
                 ->attachData($pdf->output(), Pessoa::dump($this->professor->n_usp)['nompes'].".pdf")
                 ->with([
                     'agendamento' => $this->agendamento,
                     'professor' => $this->professor,
+                    'url' => $url,
                 ]);    
         }
         if($this->professor->prof_externo->email != null){
             return $this->view('emails.liberacao')
             ->to($this->professor->prof_externo->email)
             ->subject($subject)
-            ->attachFromStorage($file->path, $file->original_name, [
-                'mime' => 'application/pdf',
-            ])
             ->attachData($pdf->output(), $this->professor->prof_externo->nome.".pdf")
             ->with([
                 'agendamento' => $this->agendamento,
                 'professor' => $this->professor->prof_externo,
+                'url' => $url,
             ]);    
         }  
     }

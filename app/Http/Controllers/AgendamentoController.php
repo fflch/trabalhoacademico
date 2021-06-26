@@ -12,6 +12,7 @@ use App\Models\Banca;
 use Storage;
 use Uspdev\Replicado\Pessoa;
 use Auth;
+use App\Models\File;
 use App\Jobs\EmAvaliacaoJob;
 use App\Jobs\LiberacaoJob;
 use App\Jobs\DevolucaoJob;
@@ -243,4 +244,16 @@ class AgendamentoController extends Controller
         $agendamento->update();
         return redirect('/agendamentos/'.$agendamento->id);
     }
+
+    public function acesso_autorizado(Request $request)
+    {
+        if ($request->hasValidSignature()) {
+            $file = File::find($request->file_id);
+            return Storage::download($file->path, $file->original_name);
+        } else {
+            $request->session()->flash('alert-danger',
+                "URL expirada!");
+            return redirect('/');
+        }
+    }  
 }

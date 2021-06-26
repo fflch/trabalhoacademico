@@ -31,7 +31,8 @@ class ConfigSeeder extends Seeder
             <b>Data da Defesa:</b> %data_defesa</br></br>
             <b>Nome:</b> %candidato_nome<br><br>
             <b>E-mail USP:</b> %agendamento_email </br>
-            
+            <b>Link do arquivo: </b> %url <br>
+
             <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>',
             'mail_liberacao' => 'Prezado(a) %docente_nome,
 
@@ -41,7 +42,8 @@ class ConfigSeeder extends Seeder
             <b>Título:</b><a href="trabalhoacademico.fflch.usp.br/agendamentos/%agendamento_id"> %titulo</a></br>
             <b>Data da Defesa:</b> %data_defesa</br></br>
             <b>Nome:</b> %candidato_nome<br><br>
-            
+            <b>Link do arquivo: </b> %url <br>
+
             <b>IMPORTANTE!</b> <br> 
             Junto com este e-mail, V. Sa está recebendo o EXEMPLAR ORIGINAL do trabalho depositado pelo(a) aluno(a) dentro do prazo regimental e que deverá servir de instrumento para as arguições feitas a(o) candidato(a) no ato da defesa. <br><br>
             
@@ -86,7 +88,8 @@ class ConfigSeeder extends Seeder
             <b>Data da Defesa:</b> %data_defesa</br></br>
             <b>Nome:</b> %candidato_nome<br><br>
             <b>E-mail USP:</b> %agendamento_email </br>
-            
+            <b>Link do arquivo: </b> %url <br>
+
             <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>',
             
         ];

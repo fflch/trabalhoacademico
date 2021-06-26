@@ -43,3 +43,6 @@ Route::post('/login_admin',[LoginAdminController::class, 'login']);
 
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:ADMIN');
+
+//Rotas para link de arquivo temporário
+Route::get('acesso/autorizado', [AgendamentoController::class,'acesso_autorizado'])->name('acesso_autorizado');
