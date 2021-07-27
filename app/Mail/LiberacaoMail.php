@@ -51,7 +51,7 @@ class LiberacaoMail extends Mailable
         if($this->professor->prof_externo != null){
             $professor = $this->professor->prof_externo;
         }
-        else{
+        elseif($this->professor->n_usp != null){
             $professor = $this->professor;
         }
         $pdf = PDF::loadView("pdfs.documentos_bancas.oficio", compact(['agendamento','professores','professor','configs']));
@@ -67,7 +67,7 @@ class LiberacaoMail extends Mailable
                     'url' => $url,
                 ]);    
         }
-        if($this->professor->prof_externo->email != null){
+        elseif($this->professor->prof_externo->email != null){
             return $this->view('emails.liberacao')
             ->to($this->professor->prof_externo->email)
             ->subject($subject)

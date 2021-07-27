@@ -32,14 +32,14 @@
     @include('agendamentos.partials.files')
 
     @can('ADMIN')
-        @if($agendamento->status != 'Em Elaboração' and $agendamento->status != 'Em Avaliação')
-        <br>
-        <div class="col-auto">
-            <form method="POST" action="/agendamentos/voltar_defesa/{{ $agendamento->id }}">
-                @csrf 
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja voltar defesa para status Em Avaliação?')"> Voltar para status 'Em Avaliação' </button>
-            </form>
-        </div>
+        @if($agendamento->data_enviado_avaliacao != null)
+            <br>
+            <div class="col-auto">
+                <form method="POST" action="/agendamentos/voltar_defesa/{{ $agendamento->id }}">
+                    @csrf 
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja voltar status?')"> Voltar para status anterior </button>
+                </form>
+            </div>
         @endif
     @endcan
 @endsection('content')

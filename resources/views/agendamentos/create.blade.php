@@ -9,7 +9,6 @@
 @endsection('styles')
 
 @section('content')
-@inject('graduacao','Uspdev\Replicado\Graduacao')
 @include('flash')
     <form action="/agendamentos" method="POST">
         @csrf

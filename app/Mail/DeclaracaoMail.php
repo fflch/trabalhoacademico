@@ -45,7 +45,7 @@ class DeclaracaoMail extends Mailable
             $professor = $this->professor->prof_externo;
             $configs = Config::configDeclaracao($this->agendamento, $this->agendamento->user->name, $this->professor->prof_externo->nome);
         }
-        else{
+        elseif($this->professor->n_usp != null){
             $professor = $this->professor;
             $configs = Config::configDeclaracao($this->agendamento, $this->agendamento->user->name, Pessoa::dump($this->professor->n_usp)['nompes']);
         }
@@ -62,7 +62,7 @@ class DeclaracaoMail extends Mailable
                     'professor' => $this->professor,
                 ]);    
         }
-        if($this->professor->prof_externo->email != null){
+        elseif($this->professor->prof_externo->email != null){
             return $this->view('emails.declaracao')
             ->to($this->professor->prof_externo->email)
             ->subject($subject)
