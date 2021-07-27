@@ -15,7 +15,11 @@
                         <th>Nome do Arquivo</th>
                         <th>Data de Envio</th>
                         <th>Status</th>
-                        @can('OWNER', $agendamento) @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Aprovado C/ Correções')<th>Ações</th>@endif @endcan
+                        @can('OWNER', $agendamento)
+                            @if(($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null) or ($agendamento->status == 'Aprovado C/ Correções' and $agendamento->data_enviado_correcao == null))
+                                <th>Ações</th>
+                            @endif 
+                        @endcan
                     </tr>
                 </theader>
                 <tbody>
