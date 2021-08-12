@@ -234,13 +234,22 @@ class AgendamentoController extends Controller
 
     public function voltar_defesa(Agendamento $agendamento){
         $this->authorize('ADMIN');
-        $agendamento->status = 'Em Avaliação';
-        $agendamento->data_publicacao = null;
-        $agendamento->url_biblioteca = '';
-        $agendamento->data_resultado = null;
-        $agendamento->data_devolucao = null;
-        $agendamento->data_enviado_correcao = null;
-        $agendamento->publicado = 'Não';
+        if($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções' or $agendamento->status == 'Reprovado'){
+            $agendamento->status = 'Em Avaliação';
+            $agendamento->data_publicacao = null;
+            $agendamento->url_biblioteca = '';
+            $agendamento->data_resultado = null;
+            $agendamento->data_devolucao = null;
+            $agendamento->data_enviado_correcao = null;
+            $agendamento->publicado = 'Não';
+        }
+        elseif($agendamento->status == 'Em Avaliação'){
+            $agendamento->status = 'Em Elaboração';
+            $agendamento->data_liberacao = null;
+        }
+        elseif($agendamento->status == 'Em Elaboração' && $agendamento->data_enviado_avaliacao != null){
+            $agendamento->data_enviado_avaliacao = null;
+        }
         $agendamento->update();
         return redirect('/agendamentos/'.$agendamento->id);
     }

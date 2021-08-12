@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Agendamento;
 use Uspdev\Replicado\Pessoa;
-use Uspdev\Replicado\Graduacao;
 use Carbon\Carbon;
 
 class Config extends Model
@@ -20,7 +19,7 @@ class Config extends Model
         $configs = Config::orderbyDesc('created_at')->first();
         $configs['declaracao'] = str_replace(
             ["%docente_nome","%candidato_nome", "%titulo", "%area", "%orientador"], 
-            [$professor, $nome, $agendamento['titulo'], Graduacao::curso($agendamento->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'], $agendamento['nome_do_orientador']], 
+            [$professor, $nome, $agendamento['titulo'], $agendamento->curso, $agendamento['nome_do_orientador']], 
             $configs['declaracao']
         );
         return $configs;

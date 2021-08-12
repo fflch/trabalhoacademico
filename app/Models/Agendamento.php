@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Uspdev\Replicado\Pessoa;
-use Uspdev\Replicado\Graduacao;
 use App\Models\User;
 use App\Models\ProfExterno;
 use App\Utils\ReplicadoUtils;
@@ -96,10 +95,16 @@ class Agendamento extends Model
     {
         if(auth()->check()) {
             if($this->curso == null and auth()->user()){
-                $this->attributes['curso'] = Graduacao::curso(Auth::user()->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+                $codpes = Auth::user()->codpes;
             }
             else {
-                $this->attributes['curso'] = Graduacao::curso($this->user->codpes,getenv('REPLICADO_CODUNDCLG'))['nomcur'];
+                $codpes = $this->user->codpes;
+            }
+            if(ReplicadoUtils::curso($codpes) != null){
+                $this->attributes['curso'] = ReplicadoUtils::curso($codpes)[0]['nomcur'];
+            }
+            else{
+                $this->attributes['curso'] = 'Curso não localizado';
             }
         }
         else{
