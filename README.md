@@ -35,7 +35,7 @@ php artisan migrate:fresh --seed
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
-## Tutoriais <img align="center" src="public/images/youtube.png" alt="Biblioteca" height="30" width="30" />
+## [<img src="public/images/youtube.png" width="40" height="30"/>](public/images/youtube.png) Tutoriais 
 
 - [Visão do Admin](https://www.youtube.com/watch?v=38DL2a8WjSE)
 - [Visão do(a) Aluno(a)](https://www.youtube.com/watch?v=u0KMsTV1F_o)
