@@ -35,23 +35,12 @@ php artisan migrate:fresh --seed
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
-## Tutoriais
+## Tutoriais <img align="center" src="public/images/youtube.png" alt="Biblioteca" height="30" width="30" />
 
-<p align="left">
-<a href="https://www.youtube.com/watch?v=38DL2a8WjSE" target="blank"><img align="center" src="public/images/youtube.png" alt="Admin" height="30" width="40" />Visão do Admin</a>
-</p>
-
-<p align="left">
-<a href="https://www.youtube.com/watch?v=u0KMsTV1F_o" target="blank"><img align="center" src="public/images/youtube.png" alt="Aluno" height="30" width="40" />Visão do(a) Aluno(a)</a>
-</p>
-
-<p align="left">
-<a href="https://www.youtube.com/watch?v=-ezAXMwrknk" target="blank"><img align="center" src="public/images/youtube.png" alt="Professor" height="30" width="40" />Visão do(a) Professor(a)</a>
-</p>
-
-<p align="left">
-<a href="https://www.youtube.com/watch?v=guVp_k34VC8" target="blank"><img align="center" src="public/images/youtube.png" alt="Biblioteca" height="30" width="40" />Visão da Biblioteca</a>
-</p>
+- [Visão do Admin](https://www.youtube.com/watch?v=38DL2a8WjSE)
+- [Visão do(a) Aluno(a)](https://www.youtube.com/watch?v=u0KMsTV1F_o)
+- [Visão do(a) Professor(a)](https://www.youtube.com/watch?v=-ezAXMwrknk)
+- [Visão da Biblioteca](https://www.youtube.com/watch?v=guVp_k34VC8)
 
 
 ## Projetos utilizados
