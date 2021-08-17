@@ -1,4 +1,5 @@
 ## Conceito
+[<img src="/public/images/logo-fflch.png" width="80"/>](/public/images/logo-fflch.png)
 
 Agendamento de TGI/TCC da FFLCH.
 
@@ -19,8 +20,6 @@ cp .env.example .env
     - Dados da conexão na base replicada
     - Nº USP dos funcionários da secretaria
 
-As diretivas específicas do sistema `trabalhoacademico` estão documentadas em `config/trabalhoacademico.php`
-
 - Configurações finais do framework e do sistema:
 
 ```bash
@@ -36,6 +35,14 @@ php artisan migrate:fresh --seed
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
+## [<img src="public/images/youtube.png" width="40" height="30"/>](public/images/youtube.png) Tutoriais 
+
+- [Visão do Admin](https://www.youtube.com/watch?v=38DL2a8WjSE)
+- [Visão do(a) Aluno(a)](https://www.youtube.com/watch?v=u0KMsTV1F_o)
+- [Visão do(a) Professor(a)](https://www.youtube.com/watch?v=-ezAXMwrknk)
+- [Visão da Biblioteca](https://www.youtube.com/watch?v=guVp_k34VC8)
+
+
 ## Projetos utilizados
 
 - [uspdev/laravel-usp-theme](https://github.com/uspdev/laravel-usp-theme)
@@ -44,13 +51,14 @@ Caso falte alguma dependência, siga as instruções do `composer`.
 - [uspdev/laravel-usp-faker](https://github.com/uspdev/laravel-usp-faker)
 - [uspdev/laravel-usp-validators](https://github.com/uspdev/laravel-usp-validators)
 
+## Contribuição
 
-## Contribuindo com o projeto
+1. Faça o _fork_ do projeto (<https://github.com/yourname/yourproject/fork>)
+2. Crie uma _branch_ para sua modificação (`git checkout -b feature/fooBar`)
+3. Faça o _commit_ (`git commit -am 'Add some fooBar'`)
+4. _Push_ (`git push origin feature/fooBar`)
+5. Crie um novo _Pull Request_
 
-### Passos iniciais
-
-Siga o guia no site do [uspdev](https://uspdev.github.io/contribua)
-
-### Padrões de Projeto
+## Padrões de Projeto
 
 Utilizamos a [PSR-2](https://www.php-fig.org/psr/psr-2/) para padrões de projeto. Ajuste seu editor favorito para a especificação.
