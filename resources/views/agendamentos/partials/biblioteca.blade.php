@@ -1,7 +1,7 @@
         @if($agendamento->status == 'Aprovado')
             <form method='post' action='agendamentos/publicar/{{$agendamento->id}}'>
                 @csrf
-                <div class="card">
+                <div class="card" style="margin-bottom: 0.5em;">
                     <div class="card-header">Publicação</div>
                     <div class="card-body">
                         <b>Publicar?</b>

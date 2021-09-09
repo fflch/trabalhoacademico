@@ -1,6 +1,6 @@
-<div class="card">
+    <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Arquivos</b></div>
-        <div class="card-body form-group">
+        <div class="card-body">
             @can('OWNER', $agendamento)
                 @if(($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null) or ($agendamento->status == 'Aprovado C/ Correções' and $agendamento->data_enviado_correcao == null))
                     @include('agendamentos.files.partials.form')

@@ -10,30 +10,24 @@
     @include('flash')
     @can('LOGADO')
         @include('agendamentos.partials.cabecalho')
+        @include('agendamentos.partials.etapas')
+        @include('agendamentos.partials.comentarios')
     @endcan
     @can('BIBLIOTECA')
-        <br>
         @include('agendamentos.partials.biblioteca')
     @endcan
-    <br>
     @include('agendamentos.partials.dados_pessoais')
-    <br>
     @include('agendamentos.partials.dados_trabalho')
-    <br>
     @include('agendamentos.partials.banca')
-    <br>
     @can('OWNER', $agendamento)
         @include('agendamentos.partials.documentos')
     @elsecan('DOCENTE', $agendamento)
         @include('agendamentos.partials.documentos')
     @endcan
-    <br>
-
     @include('agendamentos.partials.files')
 
     @can('ADMIN')
         @if($agendamento->data_enviado_avaliacao != null)
-            <br>
             <div class="col-auto">
                 <form method="POST" action="/agendamentos/voltar_defesa/{{ $agendamento->id }}">
                     @csrf 

@@ -1,4 +1,4 @@
-    <div class="card">
+    <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Dados Pessoais</b></div>
         <div class="card-body">
             <div class="row">
