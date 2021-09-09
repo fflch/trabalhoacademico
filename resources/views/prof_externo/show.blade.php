@@ -2,8 +2,7 @@
 
 @section('content')
 @inject('pessoa','Uspdev\Replicado\Pessoa')
-
-    <div class="row">
+    <div class="row" style="margin-bottom:0.5em;">
         <div class="col-sm">
             <a href="/prof_externo/create" class="btn btn-success">Cadastrar Docente</a></br>
         </div>
@@ -22,8 +21,7 @@
             </div>
         </div>
     </div>
-    <br>
-    <div class="card">
+    <div class="card" style="margin-bottom:0.5em;">
         <div class="card-header"><b>Docente</b></div>
         <div class="card-body">
             <b>Nome Completo:</b> {{$profExterno->nome}}</br>
@@ -40,8 +38,7 @@
             <b>E-mail:</b> {{$profExterno->email}}</br>
         </div>
     </div>
-    <br>
-    <div class="card">
+    <div class="card" style="margin-bottom:0.5em;">
         <div class="card-header"><b>Bancas de defesa que participou como Examinador(a)</b></div>
         <table class="table table-striped" style="text-align:center;">
             <thead class="thead-light">
@@ -65,6 +62,5 @@
                 @endforeach
             </tbody>
         </table>
-
     </div>
 @endsection('content')
