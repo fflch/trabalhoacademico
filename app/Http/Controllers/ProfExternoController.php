@@ -111,6 +111,7 @@ class ProfExternoController extends Controller
     {
         //
         $this->authorize('ADMIN');
+        $profExterno->bancas()->delete();
         $profExterno->delete();
         return redirect('/prof_externo');
     }

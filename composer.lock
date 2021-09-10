@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc4cda2f69fb043d37b33b5bcb2aae63",
+    "content-hash": "ee1e6070c189726acf79223d1735bd4d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5823,6 +5823,53 @@
                 "source": "https://github.com/uspdev/laravel-usp-theme/tree/2.1.0"
             },
             "time": "2021-06-16T15:14:11+00:00"
+        },
+        {
+            "name": "uspdev/laravel-usp-validators",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uspdev/laravel-usp-validators.git",
+                "reference": "5c171c2b7d10d83a373030ae12279c249419ebe6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/uspdev/laravel-usp-validators/zipball/5c171c2b7d10d83a373030ae12279c249419ebe6",
+                "reference": "5c171c2b7d10d83a373030ae12279c249419ebe6",
+                "shasum": ""
+            },
+            "require": {
+                "uspdev/replicado": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Uspdev\\UspdevValidatorProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Uspdev\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thiago Gomes Veríssimo",
+                    "email": "verissimotgv@gmail.com"
+                }
+            ],
+            "description": "Uma biblioteca contendo validações USPdev",
+            "support": {
+                "issues": "https://github.com/uspdev/laravel-usp-validators/issues",
+                "source": "https://github.com/uspdev/laravel-usp-validators/tree/1.0.6"
+            },
+            "time": "2020-09-23T20:33:53+00:00"
         },
         {
             "name": "uspdev/replicado",

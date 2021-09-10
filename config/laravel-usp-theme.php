@@ -65,6 +65,14 @@ $right_menu = [
         'align' => 'right',
         'can' => 'ADMIN',
     ],
+    [
+        'text' => '<i class="fas fa-users"></i>',
+        'title' => 'Users',
+        'target' => '_blank',
+        'url' => config('app.url') . '/users',
+        'align' => 'right',
+        'can' => 'ADMIN',
+    ],
 ];
 
 # dashboard_url renomeado para app_url

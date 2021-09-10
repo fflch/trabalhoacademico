@@ -9,6 +9,7 @@ use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\LoginAdminController;
 use App\Http\Controllers\ProfExternoController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/dashboard', [IndexController::class, 'dashboard'])->name('dashboard');
@@ -32,6 +33,11 @@ Route::resource('prof_externo', ProfExternoController::class);
 // rotas para configs
 Route::get('/configs',[ConfigController::class, 'edit']);
 Route::post('/configs',[ConfigController::class, 'store']);
+
+// rotas para users
+Route::get('/users',[UserController::class, 'index']);
+Route::get('/users/{user}/edit',[UserController::class, 'edit']);
+Route::match(['put','patch'],'/users/{user}',[UserController::class, 'update']);
 
 // rotas para pdfs
 Route::get('/agendamentos/{agendamento}/{tipo}',[PdfController::class, 'documentosGerais']);
