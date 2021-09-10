@@ -6,13 +6,13 @@
 
 @section('content')
     @include('flash')
-
     <div class="card">
-        <div class="card-header"><b>Cadastrar Docente</b></div>
+        <div class="card-header"><b>Editar - Usuário</b></div>
         <div class="card-body">
-            <form action="/prof_externo" method="POST">
+            <form action="/users/{{$user->id}}" method="POST">
                 @csrf
-                @include('prof_externo.form')
+                @method('PATCH')
+                @include('users.form')
             </form>
         </div>
     </div>

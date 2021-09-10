@@ -1,4 +1,4 @@
-        <div class="card">
+        <div class="card" style="margin-bottom: 0.5em;">
             <div class="card-header"><b>Dados Pessoais</b></div>
             <div class="card-body">
                 <div class="form-group">
@@ -39,8 +39,7 @@
                 </div>
             </div>
         </div>
-         <br>
-         <div class="card">
+        <div class="card" style="margin-bottom: 0.5em;">
             <div class="card-header"><b>Dados do trabalho acadêmico</b></div>
             <div class="card-body">
                 <input type="text" hidden name="status" value="">
@@ -126,7 +125,6 @@
                 </div>
             </div>
         </div>
-        <br>
         <div class="form-group">
             <button type="submit" class="btn btn-success float-right">Enviar</button> 
         </div> 

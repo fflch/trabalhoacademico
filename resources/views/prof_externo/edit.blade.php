@@ -7,7 +7,7 @@
 @section('content')
     @include('flash')
 
-    <div class="row">
+    <div class="row" style="margin-bottom:0.5em;">
         <div class="col-sm">
             <a href="/prof_externo/create" class="btn btn-primary">Cadastrar Docente</a></br>
         </div>
@@ -19,10 +19,8 @@
             </form>
         </div>
     </div>
-    <br>
-
     <div class="card">
-        <div class="card-header"><h4>Editar - Docente</h4></div>
+        <div class="card-header"><b>Editar - Docente</b></div>
         <div class="card-body">
             <form action="/prof_externo/{{$profExterno->id}}" method="POST">
                 @csrf

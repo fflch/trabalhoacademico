@@ -6,15 +6,19 @@
 
 @section('content')
     @include('flash')
-
-    <a href="/agendamentos/create" class="btn btn-primary">Agendar Trabalho Acadêmico</a>
-    </br></br>
+    <div class="row" style="margin-bottom: 0.5em;">
+        <div class="col-sm">
+            <a href="/agendamentos/create" class="btn btn-primary">Agendar Trabalho Acadêmico</a>
+        </div>
+    </div>
     <div class="card">
-        <div class="card-header"><h5><b>Pesquisa</b></h5></div>
         <div class="card-body">
             <form method="GET" action="/agendamentos">
-                <div class="row form-group">
-                    <div class="btn-group btn-group-toggle form-group col-auto" data-toggle="buttons">
+                <div class="row">
+                    <div class="col-auto">
+                        <label style="margin-top:0.35em; margin-bottom:0em;"><b>Filtros:</b></label>
+                    </div>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="padding-bottom: 1em;">
                         <label class="btn btn-light">
                             <input type="radio" name="filtro_busca" id="numero_nome" value="numero_nome" autocomplete="off" @if(Request()->filtro_busca == 'numero_nome' or Request()->filtro_busca == '') checked @endif> Número USP/Nome
                         </label>
@@ -22,7 +26,7 @@
                             <input type="radio" name="filtro_busca" id="data" value="data" autocomplete="off" @if(Request()->filtro_busca == 'data') checked @endif> Data
                         </label>
                     </div>
-                    <div class="col-auto form-group"> 
+                    <div class="col-auto"> 
                         <select class="form-control" name="busca_status">
                             <option value="" selected="">- Status -</option>
                             @foreach (App\Models\Agendamento::statusOptions() as $option)
@@ -40,15 +44,13 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-sm form-group" id="busca"  @if(Request()->filtro_busca == 'data') style="display:none;" @endif>
+                    <div class="col-sm" id="busca"  @if(Request()->filtro_busca == 'data') style="display:none;" @endif>
                         <input type="text" class="form-control busca" autocomplete="off" name="busca" value="{{ Request()->busca }}" placeholder="Digite o título do trabalho, o número USP, o nome do(a) candidato(a) ou nome do(a) orientador(a)">
                     </div>
-                    <div class="col-sm form-group" id="busca_data" @if(Request()->filtro_busca == 'numero_nome' or Request()->filtro_busca == '') style="display:none;" @endif>
+                    <div class="col-sm" id="busca_data" @if(Request()->filtro_busca == 'numero_nome' or Request()->filtro_busca == '') style="display:none;" @endif>
                         <input class="form-control data datepicker" autocomplete="off" name="busca_data" value="{{ Request()->busca_data }}" placeholder="Selecione a data">
                     </div>
-                </div>
-                <div class="row form-group float-right">
-                    <div class="col-auto form-group">
+                    <div class="col-auto">
                         <button type="submit" class="btn btn-success">Buscar</button>
                     </div>
                 </div>

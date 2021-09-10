@@ -1,8 +1,8 @@
 <form action="/bancas" method="POST">
     @csrf
     <input type="hidden" name="agendamento_id" value="{{$agendamento->id}}">
-    <div class="row">
-        <div class="col-sm form-group">
+    <div class="row form-group">
+        <div class="col-sm">
             <label for="n_usp">Docente USP </label> 
             <select class="form-control" name="n_usp">
                 <option value="" selected="">- Selecione -</option>
@@ -13,8 +13,8 @@
                 @endforeach
             </select>        
         </div>
-        <div class="col-auto form-group"><br><br>ou</div>
-        <div class="col-sm form-group">
+        <div class="col-auto"><br><br>ou</div>
+        <div class="col-sm">
             <label for="prof_externo_id">Docente Externo</label> 
             <select class="form-control" name="prof_externo_id">
                 <option value="" selected="">- Selecione -</option>
@@ -25,10 +25,8 @@
                 @endforeach
             </select>
         </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-sm">
-            <button type="submit" class="btn btn-success float-right">Inserir Membro</button> 
+        <div class="col-auto">
+            <button type="submit" style="margin-top:1.98em" class="btn btn-success float-right">Inserir Membro</button> 
         </div>
-    </div> 
+    </div>
 </form>

@@ -1,4 +1,4 @@
-    <div class="card">
+    <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Dados do Trabalho Acadêmico</b></div>
         <div class="card-body">
             <b>Modalidade:</b> {{$agendamento->tipo ?? 'Não informada'}}</br>
