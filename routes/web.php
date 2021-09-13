@@ -13,10 +13,6 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/dashboard', [IndexController::class, 'dashboard'])->name('dashboard');
-Route::get('login',[LoginController::class, 'redirectToProvider'])->name('login');
-Route::get('callback', [LoginController::class, 'handleProviderCallback']);
-Route::get('logout',[LoginController::class, 'logout'])->name('logout');
-
 
 Route::post('agendamentos/enviar_avaliacao/{agendamento}', [AgendamentoController::class,'enviar_avaliacao']);
 Route::post('agendamentos/enviar_correcao/{agendamento}', [AgendamentoController::class,'enviar_correcao']);
@@ -34,18 +30,9 @@ Route::resource('prof_externo', ProfExternoController::class);
 Route::get('/configs',[ConfigController::class, 'edit']);
 Route::post('/configs',[ConfigController::class, 'store']);
 
-// rotas para users
-Route::get('/users',[UserController::class, 'index']);
-Route::get('/users/{user}/edit',[UserController::class, 'edit']);
-Route::match(['put','patch'],'/users/{user}',[UserController::class, 'update']);
-
 // rotas para pdfs
 Route::get('/agendamentos/{agendamento}/{tipo}',[PdfController::class, 'documentosGerais']);
 Route::get('/agendamentos/{agendamento}/bancas/{banca}/{tipo}',[PdfController::class, 'documentosIndividuais']);
-
-// rotas para login_admin
-Route::get('/login_admin',[LoginAdminController::class, 'show']);
-Route::post('/login_admin',[LoginAdminController::class, 'login']);
 
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:ADMIN');

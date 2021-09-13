@@ -53,7 +53,7 @@ $right_menu = [
         'text' => '<i class="fas fa-user-shield"></i>',
         'title' => 'Admin',
         'target' => '_blank',
-        'url' => config('app.url') . '/login_admin',
+        'url' => config('app.url') . '/loginas',
         'align' => 'right',
         'can' => 'ADMIN',
     ],
@@ -80,9 +80,10 @@ $right_menu = [
 
 return [
     'title' => '',
+    
     'skin' => env('USP_THEME_SKIN', 'uspdev'),
     'app_url' => config('app.url'),
-    'logout_method' => 'GET',
+    'logout_method' => 'POST',
     'logout_url' => config('app.url') . '/logout',
     'login_url' => config('app.url') . '/login',
     'menu' => $menu,
