@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Agendamento;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Mail;
 
@@ -35,13 +36,12 @@ class RememberJob implements ShouldQueue
      */
     public function handle()
     {
-        /*
-        $agendamentos = Agendamento::where('ping_status','Down')->get();
-        foreach($agendamentos as $agendamento)
-        if(XXX) {
-            Mail::queue(new EmailPingDownRemember($equipamentos));
-        }
-        */
-        
+        $agendamentos = Agendamento::where('status','Aprovado C/Correções')->get();
+        foreach($agendamentos as $agendamento){
+            $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
+            if($dias <= 60) {
+                Mail::queue(new EnvioCorrecaoRemember($agendamento));
+            }
+        }    
     }
 }
