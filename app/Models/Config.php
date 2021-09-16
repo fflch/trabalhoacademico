@@ -111,4 +111,16 @@ class Config extends Model
         );
         return $configs;
     }
+
+    public static function configMailEnvioCorrecaoRemember($agendamento, $dias){
+        //Busca a última configuração
+        $configs = Config::orderbyDesc('created_at')->first();
+        $dias_restantes = 60-$dias;
+        $configs['mail_envio_correcao_remember'] = str_replace(
+            ["%candidato_nome", "%quantidade"], 
+            [$agendamento->user->name, $dias_restantes], 
+            $configs['mail_envio_correcao_remember']
+        );
+        return $configs;
+    }
 }

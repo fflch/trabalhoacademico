@@ -91,7 +91,16 @@ class ConfigSeeder extends Seeder
             <b>Link do arquivo: </b> %url <br>
 
             <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>',
+            'mail_envio_correcao_remember' => 'Prezado(a) %candidato_nome
+
+            Para a publicação do seu trabalho acadêmico é necessário reenviar o arquivo com as correções para a sua aprovação.
+
+            Você tem %dias restantes.
             
+            <b>Importante</b><br>
+            Lembre-se que você tem até 60 dias para acessar o sistema e fazer o upload da versão corrigida de seu trabalho.<br><br>
+            
+            <h4><b>Sistema - Trabalhos Acadêmicos - FFLCH</b></h4>',
         ];
         Config::create($config);
     }

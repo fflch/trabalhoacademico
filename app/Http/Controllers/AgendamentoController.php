@@ -90,11 +90,9 @@ class AgendamentoController extends Controller
 
     public function show(Agendamento $agendamento)
     {
-        if(auth()->check()){
-            return view('agendamentos.show', compact('agendamento'));
-        }
-        elseif(in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){
-            return view('agendamentos.show', compact('agendamento'));
+        $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
+        if(auth()->check() or in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){
+            return view('agendamentos.show', compact(['agendamento','dias']));
         }
     }
 
@@ -140,14 +138,15 @@ class AgendamentoController extends Controller
 
     public function enviar_correcao(Agendamento $agendamento, Request $request){
         $this->authorize('OWNER',$agendamento);
-        if($agendamento->files()->where('tipo', 'trabalho')->count() != 0){
+        $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
+        if($agendamento->files()->where('tipo', 'trabalho')->count() != 0 and $dias <= 60){
             $agendamento->data_enviado_correcao = date('Y-m-d');
             $agendamento->update();
             # Mandar email para orientador
             CorrecaoJob::dispatch($agendamento);
         }
         else{
-            $request->session()->flash('alert-danger', 'Não foi encontrado trabalho corrigido! Verifique se foi feito o upload do arquivo corrigido e tente novamente.');
+            $request->session()->flash('alert-danger', 'Não foi possível enviar o trabalho corrigido! Verifique se foi feito o upload do arquivo corrigido ou se está dentro do prazo e tente novamente.');
         }
         
         return redirect('/agendamentos/'.$agendamento->id);
