@@ -34,6 +34,7 @@ class ConfigRequest extends FormRequest
             'mail_devolucao' => 'required',
             'mail_aprovacao' => 'required',
             'mail_correcao' => 'required',
+            'mail_envio_correcao_remember' => 'required',
         ];
     }
 }
