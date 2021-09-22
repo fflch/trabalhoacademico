@@ -38,7 +38,7 @@ class RememberJob implements ShouldQueue
         $agendamentos = Agendamento::where('status','Aprovado C/ Correções')->get();
         foreach($agendamentos as $agendamento){
             $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
-            if($dias <= 60) {
+            if($dias <= 60 and $agendamento->data_enviado_correcao == null) {
                 Mail::queue(new MailEnvioCorrecaoRemember($agendamento, $dias));
             }
         }    
