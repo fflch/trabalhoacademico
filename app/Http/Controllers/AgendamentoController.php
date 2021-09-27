@@ -20,7 +20,7 @@ use App\Jobs\BibliotecaJob;
 use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
 use App\Jobs\DeclaracaoJob;
-use App\Services\AgendamentoStepper;
+use Fflch\LaravelFflchStepper\Stepper;
 
 class AgendamentoController extends Controller
 {   
@@ -89,7 +89,7 @@ class AgendamentoController extends Controller
         return redirect("/agendamentos/$agendamento->id");
     }
 
-    public function show(Agendamento $agendamento, AgendamentoStepper $stepper)
+    public function show(Agendamento $agendamento, Stepper $stepper)
     {
         if($agendamento->data_liberacao == null and $agendamento->data_enviado_avaliacao != null){
             $stepper->setCurrentStepName('Em Análise');
