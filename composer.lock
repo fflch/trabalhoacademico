@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1adf6b38e04f9720e52eb1c278734496",
+    "content-hash": "408c1959553a8b64919c5a657577faa9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,54 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "axn/laravel-stepper",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AXN-Informatique/laravel-stepper.git",
+                "reference": "81160b5367a7477c822ddb8db53676944e1b8314"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AXN-Informatique/laravel-stepper/zipball/81160b5367a7477c822ddb8db53676944e1b8314",
+                "reference": "81160b5367a7477c822ddb8db53676944e1b8314",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0 || ^6.0 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Axn\\LaravelStepper\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Axn\\LaravelStepper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "AXN Informatique",
+                    "email": "developpement@axn.fr"
+                }
+            ],
+            "description": "Step by step Laravel 5 helper.",
+            "homepage": "https://github.com/AXN-Informatique/laravel-stepper",
+            "support": {
+                "issues": "https://github.com/AXN-Informatique/laravel-stepper/issues",
+                "source": "https://github.com/AXN-Informatique/laravel-stepper/tree/1.5.0"
+            },
+            "time": "2021-05-23T10:15:19+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1056,6 +1104,53 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "fflch/laravel-fflch-stepper",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fflch/laravel-fflch-stepper.git",
+                "reference": "ddc93f347e1bf4549a425fd99cad18f07de3ce85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fflch/laravel-fflch-stepper/zipball/ddc93f347e1bf4549a425fd99cad18f07de3ce85",
+                "reference": "ddc93f347e1bf4549a425fd99cad18f07de3ce85",
+                "shasum": ""
+            },
+            "require": {
+                "axn/laravel-stepper": "^1.5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Fflch\\LaravelFflchStepper\\LaravelFflchStepperServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fflch\\LaravelFflchStepper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Thiago Gomes Verissimo",
+                    "email": "thiago.verissimo@usp.br"
+                }
+            ],
+            "description": "fflch stepper for laravel",
+            "support": {
+                "issues": "https://github.com/fflch/laravel-fflch-stepper/issues",
+                "source": "https://github.com/fflch/laravel-fflch-stepper/tree/2.0.2"
+            },
+            "time": "2021-09-23T02:11:43+00:00"
         },
         {
             "name": "fideloper/proxy",

@@ -17,6 +17,16 @@ class Agendamento extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    const status = [
+        'Em Elaboração',
+        'Em Análise',
+        'Em Avaliação',
+        'Aprovado C/ Correções',
+        'Aprovado',
+        'Reprovado',
+        'Publicação',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
