@@ -20,6 +20,7 @@ use App\Jobs\BibliotecaJob;
 use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
 use App\Jobs\DeclaracaoJob;
+use Fflch\LaravelFflchStepper\Stepper;
 
 class AgendamentoController extends Controller
 {   
@@ -88,11 +89,24 @@ class AgendamentoController extends Controller
         return redirect("/agendamentos/$agendamento->id");
     }
 
-    public function show(Agendamento $agendamento)
+    public function show(Agendamento $agendamento, Stepper $stepper)
     {
+        if($agendamento->data_liberacao == null and $agendamento->data_enviado_avaliacao != null){
+            $stepper->setCurrentStepName('Em Análise');
+        }
+        elseif($agendamento->publicado == 'Sim'){
+            $stepper->setCurrentStepName('Publicação');
+        }
+        else{
+            $stepper->setCurrentStepName($agendamento->status);
+        }
         $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
         if(auth()->check() or in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){
-            return view('agendamentos.show', compact(['agendamento','dias']));
+            return view('agendamentos.show')->with([
+                'agendamento' => $agendamento,
+                'dias' => $dias,
+                'stepper' => $stepper->render(),
+            ]);
         }
     }
 
@@ -113,17 +127,19 @@ class AgendamentoController extends Controller
     }
 
     
-    public function destroy(Agendamento $agendamento)
+    public function destroy(Agendamento $agendamento, Request $request)
     {
         $this->authorize('OWNER',$agendamento);
-
-        $agendamento->bancas()->delete();
-        $files = $agendamento->files;
-        foreach($files as $file){
-            Storage::delete($file->path);
+        if($agendamento->status == 'Em Elaboração'){
+            $agendamento->bancas()->delete();
+            $files = $agendamento->files;
+            foreach($files as $file){
+                Storage::delete($file->path);
+            }
+            $agendamento->files()->delete();
+            $agendamento->delete();
         }
-        $agendamento->files()->delete();
-        $agendamento->delete();
+        $request->session()->flash('alert-danger', 'Você não pode excluir uma defesa em andamento!');
         return redirect('/agendamentos');
     }
 

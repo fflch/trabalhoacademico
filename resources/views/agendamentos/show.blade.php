@@ -10,7 +10,7 @@
     @include('flash')
     @can('LOGADO')
         @include('agendamentos.partials.cabecalho')
-        @include('agendamentos.partials.etapas')
+        {!! $stepper !!}
         @include('agendamentos.partials.comentarios')
     @endcan
     @can('BIBLIOTECA')
