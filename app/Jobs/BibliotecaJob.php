@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Agendamento;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BibliotecaMail;
+use Uspdev\Replicado\Pessoa;
 
 class BibliotecaJob implements ShouldQueue
 {
@@ -37,6 +38,8 @@ class BibliotecaJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::send(new BibliotecaMail($this->agendamento, $this->codpes));
+        if(Pessoa::emailusp($this->codpes) != false){
+            Mail::send(new BibliotecaMail($this->agendamento, $this->codpes));
+        }
     }
 }

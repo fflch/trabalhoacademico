@@ -179,7 +179,7 @@ class AgendamentoController extends Controller
             $agendamento->update();
             //Mandar email para orientador
             foreach($agendamento->bancas as $banca){
-                if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo_id != null){
+                if($banca->n_usp != false or $banca->prof_externo_id != null){
                     LiberacaoJob::dispatch($agendamento, $banca);
                 }
             }
@@ -214,7 +214,7 @@ class AgendamentoController extends Controller
             if($request->aprovar){
                 $agendamento->status = 'Aprovado';
                 foreach(explode(',', trim(env('CODPES_BIBLIOTECA'))) as $codpes){
-                    if(Pessoa::emailusp($codpes) != false){
+                    if($codpes != false){
                         BibliotecaJob::dispatch($agendamento, $codpes);
                     }
                 }
@@ -227,7 +227,7 @@ class AgendamentoController extends Controller
             AprovacaoJob::dispatch($agendamento);
         }
         foreach($agendamento->bancas as $banca){
-            if(Pessoa::emailusp($banca->n_usp) != false or $banca->prof_externo_id != null){
+            if($banca->n_usp != false or $banca->prof_externo_id != null){
                 DeclaracaoJob::dispatch($agendamento, $banca);
             }
         }
