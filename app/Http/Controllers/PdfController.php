@@ -29,6 +29,8 @@ class PdfController extends Controller
         else{
             $professores = Banca::where('agendamento_id',$agendamento->id)->orderBy('presidente','desc')->get();
             $bancas = $professores;
+            //$setor = "Departamento de $agendamento->curso";
+            config(['laravel-fflch-pdf.setor' => "Departamento de $agendamento->curso"]);
             $pdf = PDF::loadView("pdfs.documentos_gerais.$tipo", compact(['agendamento','professores','bancas','configs']));
             return $pdf->download("$tipo.pdf");
         }
@@ -39,6 +41,7 @@ class PdfController extends Controller
         $this->authorize('LOGADO');
         $professores = Banca::where('agendamento_id',$agendamento->id)->orderBy('presidente','desc')->get();
         $professor = $banca;
+        config(['laravel-fflch-pdf.setor' => "Departamento de $agendamento->curso"]);
         if($tipo == 'declaracao'){
             if($professor->n_usp){
                 $configs = Config::configDeclaracao($agendamento, $agendamento->user->name, Pessoa::dump($professor->n_usp)['nompes']);
