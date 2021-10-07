@@ -50,9 +50,6 @@
     body{
         margin-left: 1.8em; font-family: DejaVu Sans, sans-serif; font-size: 12px;
     }
-    @page { margin-top: 120px; margin-bottom: 120px}
-    header { position: fixed; left: 0px; top: -90px; right: 0px; height: 150px; text-align: center; }
-    #footer { position: fixed; left: 0px; bottom: -145px; right: 0px; height: 150px; }
 </style>
 @endsection('other_styles')
 
