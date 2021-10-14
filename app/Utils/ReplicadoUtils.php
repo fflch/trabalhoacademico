@@ -21,22 +21,18 @@ class ReplicadoUtils {
      */
     public static function curso($codpes)
     {
-        $codundclgi = getenv('REPLICADO_CODUNDCLG');
-        $query = " SELECT L.codpes, L.nompes, C.codcur, C.nomcur, H.codhab, H.nomhab, V.dtainivin, V.codcurgrd";
-        $query .= " FROM LOCALIZAPESSOA L";
-        $query .= " INNER JOIN VINCULOPESSOAUSP V ON (L.codpes = V.codpes)";
-        $query .= " INNER JOIN CURSOGR C ON (V.codcurgrd = C.codcur)";
+        $codclg = getenv('REPLICADO_CODUNDCLG');
+        $query = "SELECT DISTINCT C.codcur, C.nomcur";
+        $query .= " FROM VINCSATHABILITACAOGR V";
+        $query .= " INNER JOIN CURSOGR C ON (V.codcur = C.codcur)";
         $query .= " INNER JOIN HABILITACAOGR H ON (H.codhab = V.codhab)";
-        $query .= " WHERE (L.codpes = convert(int,:codpes))";
-        $query .= " AND (L.tipvin = 'ALUNOGR' AND L.codundclg = convert(int,:codundclgi))";
-        $query .= " AND (V.codcurgrd = H.codcur AND V.codhab = H.codhab)";
+        $query .= " WHERE (V.codpes = convert(int,:codpes))";
+        $query .= " AND (V.tipvin = 'ALUNOGR' AND C.codclg = convert(int,:codclg))";
+        $query .= " AND (V.codcur = H.codcur AND V.codhab = H.codhab)";
         $param = [
             'codpes' => $codpes,
-            'codundclgi' => $codundclgi,
+            'codclg' => $codclg,
         ];
         return DBreplicado::fetchAll($query, $param);
     }
-
-
-
 } 
