@@ -108,6 +108,9 @@ class AgendamentoController extends Controller
                 'stepper' => $stepper->render(),
             ]);
         }
+        elseif(!auth()->check()){
+            return redirect('/');
+        }
     }
 
     public function edit(Agendamento $agendamento)
