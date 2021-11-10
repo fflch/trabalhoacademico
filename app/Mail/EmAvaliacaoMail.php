@@ -38,7 +38,7 @@ class EmAvaliacaoMail extends Mailable
             'agendamento_id' => $this->agendamento->id,
         ]);        
         return $this->view('emails.em_avaliacao')
-        ->to(Pessoa::emailusp($this->agendamento->numero_usp_do_orientador))
+        ->to(Pessoa::retornarEmailUsp($this->agendamento->numero_usp_do_orientador))
         ->subject($subject)
         ->with([
             'agendamento' => $this->agendamento,

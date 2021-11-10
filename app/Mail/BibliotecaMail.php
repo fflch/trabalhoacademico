@@ -34,7 +34,7 @@ class BibliotecaMail extends Mailable
     {
         $subject = "Novo trabalho acadêmico de {$this->agendamento->user->name} para ser publicado";
         return $this->view('emails.biblioteca')
-        ->to(Pessoa::emailusp($this->servidor))
+        ->to(Pessoa::retornarEmailUsp($this->servidor))
         ->subject($subject)
         ->with([
             'agendamento' => $this->agendamento,

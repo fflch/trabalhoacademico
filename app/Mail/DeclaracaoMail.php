@@ -41,7 +41,7 @@ class DeclaracaoMail extends Mailable
         $professores = Banca::where('agendamento_id',$this->agendamento->id)->orderBy('presidente','desc')->get();
         //Verifica, caso seja professor externo, para alterar a variável a ser usada no pdf
         $agendamento = $this->agendamento;
-        if($this->professor->prof_externo != null){
+        if($this->professor->prof_externo_id != null){
             $professor = $this->professor->prof_externo;
             $configs = Config::configDeclaracao($this->agendamento, $this->agendamento->user->name, $this->professor->prof_externo->nome);
         }
@@ -52,9 +52,9 @@ class DeclaracaoMail extends Mailable
 
         $pdf = PDF::loadView("pdfs.documentos_bancas.declaracao", compact(['agendamento','professores','professor','configs']));
     
-        if(Pessoa::emailusp($this->professor->n_usp) != false){
+        if(Pessoa::retornarEmailUsp($this->professor->n_usp) != null){
             return $this->view('emails.declaracao')
-                ->to(Pessoa::emailusp($this->professor->n_usp))
+                ->to(Pessoa::retornarEmailUsp($this->professor->n_usp))
                 ->subject($subject)
                 ->attachData($pdf->output(), Pessoa::dump($this->professor->n_usp)['nompes'].".pdf")
                 ->with([

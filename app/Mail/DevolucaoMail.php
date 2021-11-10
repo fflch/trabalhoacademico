@@ -35,7 +35,7 @@ class DevolucaoMail extends Mailable
         $subject = "Parecer da defesa do trabalho acadêmico de {$this->agendamento->user->name}";
 
         return $this->view('emails.devolver_avaliacao')
-        ->to(Pessoa::emailusp($this->agendamento->user->codpes))
+        ->to(Pessoa::retornarEmailUsp($this->agendamento->user->codpes))
         ->subject($subject)
         ->with([
             'agendamento' => $this->agendamento,

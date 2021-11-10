@@ -38,7 +38,7 @@ class BibliotecaJob implements ShouldQueue
      */
     public function handle()
     {
-        if(Pessoa::emailusp($this->codpes) != false){
+        if(Pessoa::retornarEmailUsp($this->codpes) != null){
             Mail::send(new BibliotecaMail($this->agendamento, $this->codpes));
         }
     }
