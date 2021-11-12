@@ -108,6 +108,9 @@ class AgendamentoController extends Controller
                 'stepper' => $stepper->render(),
             ]);
         }
+        elseif(!auth()->check()){
+            return redirect('/');
+        }
     }
 
     public function edit(Agendamento $agendamento)
@@ -179,7 +182,7 @@ class AgendamentoController extends Controller
             $agendamento->update();
             //Mandar email para orientador
             foreach($agendamento->bancas as $banca){
-                if($banca->n_usp != false or $banca->prof_externo_id != null){
+                if($banca->n_usp != null or $banca->prof_externo_id != null){
                     LiberacaoJob::dispatch($agendamento, $banca);
                 }
             }
@@ -227,7 +230,7 @@ class AgendamentoController extends Controller
             AprovacaoJob::dispatch($agendamento);
         }
         foreach($agendamento->bancas as $banca){
-            if($banca->n_usp != false or $banca->prof_externo_id != null){
+            if($banca->n_usp != null or $banca->prof_externo_id != null){
                 DeclaracaoJob::dispatch($agendamento, $banca);
             }
         }

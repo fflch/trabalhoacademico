@@ -39,7 +39,7 @@ class LiberacaoJob implements ShouldQueue
      */
     public function handle()
     {
-        if(Pessoa::emailusp($this->professor->n_usp) != false or $this->professor->prof_externo->email != null){
+        if($this->professor->n_usp != null or $this->professor->prof_externo_id != null){
             Mail::send(new LiberacaoMail($this->agendamento, $this->professor));
         }
     }

@@ -48,17 +48,17 @@ class LiberacaoMail extends Mailable
         $professores = Banca::where('agendamento_id',$this->agendamento->id)->orderBy('presidente','desc')->get();
         //Verifica, caso seja professor externo, para alterar a variável a ser usada no pdf
         $agendamento = $this->agendamento;
-        if($this->professor->prof_externo != null){
-            $professor = $this->professor->prof_externo;
-        }
-        elseif($this->professor->n_usp != null){
+        if($this->professor->n_usp != null){
             $professor = $this->professor;
+        }
+        elseif($this->professor->prof_externo_id != null){
+            $professor = $this->professor->prof_externo;
         }
         $pdf = PDF::loadView("pdfs.documentos_bancas.oficio", compact(['agendamento','professores','professor','configs']));
     
-        if(Pessoa::emailusp($this->professor->n_usp) != false){
+        if(Pessoa::retornarEmailUsp($this->professor->n_usp) != null){
             return $this->view('emails.liberacao')
-                ->to(Pessoa::emailusp($this->professor->n_usp))
+                ->to(Pessoa::retornarEmailUsp($this->professor->n_usp))
                 ->subject($subject)
                 ->attachData($pdf->output(), Pessoa::dump($this->professor->n_usp)['nompes'].".pdf")
                 ->with([

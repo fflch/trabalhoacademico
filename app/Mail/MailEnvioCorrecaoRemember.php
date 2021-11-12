@@ -35,7 +35,7 @@ class MailEnvioCorrecaoRemember extends Mailable
         $subject = "Prazo para envio da correção do TGI - {$this->agendamento->user->name}";
 
         return $this->view('emails.envio_correcao_remember')
-        ->to(Pessoa::emailusp($this->agendamento->user->codpes))
+        ->to(Pessoa::retornarEmailUsp($this->agendamento->user->codpes))
         ->subject($subject)
         ->with([
             'agendamento' => $this->agendamento,
