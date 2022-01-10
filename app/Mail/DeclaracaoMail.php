@@ -44,33 +44,32 @@ class DeclaracaoMail extends Mailable
         if($this->professor->prof_externo_id != null){
             $professor = $this->professor->prof_externo;
             $configs = Config::configDeclaracao($this->agendamento, $this->agendamento->user->name, $this->professor->prof_externo->nome);
+            $pdf = PDF::loadView("pdfs.documentos_bancas.declaracao", compact(['agendamento','professores','professor','configs']));
+            if($this->professor->prof_externo->email != null){
+                return $this->view('emails.declaracao')
+                ->to($this->professor->prof_externo->email)
+                ->subject($subject)
+                ->attachData($pdf->output(), $this->professor->prof_externo->nome.".pdf")
+                ->with([
+                    'agendamento' => $this->agendamento,
+                    'professor' => $this->professor->prof_externo,
+                ]);    
+            }
         }
         elseif($this->professor->n_usp != null){
             $professor = $this->professor;
             $configs = Config::configDeclaracao($this->agendamento, $this->agendamento->user->name, Pessoa::dump($this->professor->n_usp)['nompes']);
+            $pdf = PDF::loadView("pdfs.documentos_bancas.declaracao", compact(['agendamento','professores','professor','configs']));
+            if(Pessoa::retornarEmailUsp($this->professor->n_usp) != null){
+                return $this->view('emails.declaracao')
+                    ->to(Pessoa::retornarEmailUsp($this->professor->n_usp))
+                    ->subject($subject)
+                    ->attachData($pdf->output(), Pessoa::dump($this->professor->n_usp)['nompes'].".pdf")
+                    ->with([
+                        'agendamento' => $this->agendamento,
+                        'professor' => $this->professor,
+                    ]);    
+            }
         }
-
-        $pdf = PDF::loadView("pdfs.documentos_bancas.declaracao", compact(['agendamento','professores','professor','configs']));
-    
-        if(Pessoa::retornarEmailUsp($this->professor->n_usp) != null){
-            return $this->view('emails.declaracao')
-                ->to(Pessoa::retornarEmailUsp($this->professor->n_usp))
-                ->subject($subject)
-                ->attachData($pdf->output(), Pessoa::dump($this->professor->n_usp)['nompes'].".pdf")
-                ->with([
-                    'agendamento' => $this->agendamento,
-                    'professor' => $this->professor,
-                ]);    
-        }
-        elseif($this->professor->prof_externo->email != null){
-            return $this->view('emails.declaracao')
-            ->to($this->professor->prof_externo->email)
-            ->subject($subject)
-            ->attachData($pdf->output(), $this->professor->prof_externo->nome.".pdf")
-            ->with([
-                'agendamento' => $this->agendamento,
-                'professor' => $this->professor->prof_externo,
-            ]);    
-        }  
     }
 }
