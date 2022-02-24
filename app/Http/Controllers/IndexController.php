@@ -11,6 +11,12 @@ use App\Models\User;
 class IndexController extends Controller
 {
     public function index(Request $request){
+        if(Auth::check()) return $this->dashboard();
+
+        return $this->agendamentos($request);
+    }
+
+    public function agendamentos(Request $request){
         $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
         $curso = Agendamento::select('curso')->whereNotNull('curso')->distinct();
         if($request->busca_curso != ''){
