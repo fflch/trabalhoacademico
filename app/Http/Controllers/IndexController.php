@@ -58,6 +58,6 @@ class IndexController extends Controller
             $query = Agendamento::where('user_id', Auth::user()->id)->orderBy('data_da_defesa','asc');
         }
         $agendamentos = $query->paginate(20);
-        return view('dashboard', compact('agendamentos'));
+        return view('index', compact('agendamentos'));
     }
 }
