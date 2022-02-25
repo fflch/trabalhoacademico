@@ -39,7 +39,7 @@ class LiberacaoMail extends Mailable
     {
         $subject = "Agendamento da Defesa de {$this->agendamento->user->name}";
         //Busca o arquivo do trabalho para enviar por anexo
-        $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(43200), [
+        $url = URL::temporarySignedRoute('acesso_autorizado', now()->addDays(730), [
             'file_id'   => $this->agendamento->files()->first()->id,
             'agendamento_id' => $this->agendamento->id
         ]);

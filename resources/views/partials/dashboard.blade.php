@@ -1,9 +1,3 @@
-@extends('laravel-usp-theme::master')
-
-@section('content')
-@inject('pessoa','Uspdev\Replicado\Pessoa')
-@include('flash')
-
 @can('DOCENTE')
     <div class="card">
         <div class="card-header"><b>Defesas Agendadas para Liberação</b></div>
@@ -143,4 +137,3 @@
     </div>
 @endcan
 {{ $agendamentos->appends(request()->query())->links() }}
-@endsection('content')

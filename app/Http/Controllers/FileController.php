@@ -18,12 +18,6 @@ class FileController extends Controller
             'tipo' => 'required',
             'agendamento_id' => 'required|integer|exists:agendamentos,id',
         ]);
-        //Primeiro deleta o arquivo anterior, caso exista
-        $file_old = File::where('agendamento_id',$request->agendamento_id)->where('tipo', $request->tipo)->first();
-        if($file_old){
-            Storage::delete($file_old->path);
-            $file_old->delete();
-        }
         //Depois faz upload de novo arquivo
         $file = new File;
         $file->agendamento_id = $request->agendamento_id;
