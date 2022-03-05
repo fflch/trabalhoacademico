@@ -104,7 +104,7 @@ class Agendamento extends Model
 
     public function setCursoAttribute($value)
     {
-        if(auth()->check()) {
+        if(auth()->check() && $value == null) {
             if($this->curso == null and auth()->user()){
                 $codpes = Auth::user()->codpes;
             }
@@ -115,7 +115,7 @@ class Agendamento extends Model
             if($dados_curso != false){
                 $this->attributes['curso'] = $dados_curso['nomcur'];
             }
-            else{
+            elseif($dados_curso == false && $this->curso == null){
                 $this->attributes['curso'] = 'Curso não localizado';
             }
         }
