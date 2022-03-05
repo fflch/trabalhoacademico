@@ -127,6 +127,7 @@ class AgendamentoController extends Controller
         $validated = $request->validated();
         $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
+        $agendamento->setCursoAttribute($validated['curso']);
         $agendamento->update($validated);
         return redirect("/agendamentos/$agendamento->id");
     }
