@@ -35,7 +35,7 @@ Route::get('/agendamentos/{agendamento}/{tipo}',[PdfController::class, 'document
 Route::get('/agendamentos/{agendamento}/bancas/{banca}/{tipo}',[PdfController::class, 'documentosIndividuais']);
 
 # Logs  
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:ADMIN');
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
 
 //Rotas para link de arquivo temporário
 Route::get('acesso/autorizado', [AgendamentoController::class,'acesso_autorizado'])->name('acesso_autorizado');

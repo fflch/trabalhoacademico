@@ -13,7 +13,8 @@ use \Uspdev\SenhaunicaSocialite\Traits\HasSenhaunica;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, HasSenhaunica;
-
+    use \Spatie\Permission\Traits\HasRoles;
+    use \Uspdev\SenhaunicaSocialite\Traits\HasSenhaunica;
 
     protected $guarded = ['id'];
 

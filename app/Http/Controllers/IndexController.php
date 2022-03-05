@@ -53,7 +53,7 @@ class IndexController extends Controller
     }
 
     public function dashboard(){
-        $this->authorize('LOGADO');
+        $this->authorize('logado');
         if(in_array(Auth::user()->codpes,explode(',', trim(env('CODPES_BIBLIOTECA'))))){
             $query = Agendamento::where('status','=','Aprovado')->orderBy('data_da_defesa', 'asc')->select('agendamentos.*');
         }

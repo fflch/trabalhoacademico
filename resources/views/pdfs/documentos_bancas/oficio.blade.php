@@ -67,7 +67,7 @@
     </div><br>
     <p>
         <i>Data e hora da defesa:  </i> <b> {{Carbon\Carbon::parse($agendamento->data_da_defesa)->format('d/m/Y')}}, às {{Carbon\Carbon::parse($agendamento->data_da_defesa)->format('H:i')}} </b> <br> 
-        <i>Local:</i> <b> {{$agendamento->sala}} </b> - Departamento de {{$agendamento->curso}} 
+        <i>Local:</i> <b> {{$agendamento->sala}} </b> - Departamento de {{$agendamento->departamento}} 
     </p>  
     <i>Composição da banca examinadora:</i> 
 
@@ -86,7 +86,7 @@
         Atenciosamente, 
 		<br>
         <b> 
-            Secretaria do Departamento de {{$agendamento->curso}}
+            Secretaria do Departamento de {{$agendamento->departamento}}
 		</b>
     </p>
     <br><br>
@@ -107,5 +107,5 @@
 @endsection('content')
 
 @section('footer')
-    {!! $configs->configRodape($agendamento->curso)->rodape_oficios !!}
+    {!! $configs->configRodape($agendamento->departamento)->rodape_oficios !!}
 @endsection('footer')

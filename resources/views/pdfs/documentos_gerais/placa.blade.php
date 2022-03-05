@@ -23,7 +23,7 @@
 	<div class="cabecalho">
 		Universidade de São Paulo<br>
 		Faculdade de Filosofia, Letras e Ciências Humanas <br> 
-		Secretaria do Departamento de {{$agendamento->curso}} 
+		Secretaria do Departamento de {{$agendamento->departamento}} 
 	</div>
 	<br><br><br>
 	<div class="candidato">Candidato(a): {{$agendamento->user->name}}</div> 

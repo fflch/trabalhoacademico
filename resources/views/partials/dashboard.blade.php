@@ -1,4 +1,4 @@
-@can('DOCENTE')
+@can('docente')
     <div class="card">
         <div class="card-header"><b>Defesas Agendadas para Liberação</b></div>
         <table class="table table-striped">
@@ -50,7 +50,7 @@
             </tbody>
         </table>
     </div>
-@elsecan('BIBLIOTECA')
+@elsecan('biblioteca')
     <br>
     <div class="card">
         <div class="card-header"><h3>Trabalhos Acadêmicos Aprovados</h3></div>
@@ -122,7 +122,7 @@
             </theader>
             <tbody>
             @foreach ($agendamentos as $agendamento)
-                @can('OWNER', $agendamento)
+                @can('owner', $agendamento)
                     <tr>
                         <td>{{ $agendamento->user->codpes }}</td>
                         <td><a href="/agendamentos/{{$agendamento->id}}">{{ $agendamento->user->name }}</a></td>

@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $query = User::orderBy('name','asc');
 
         if($request->busca != null){
@@ -39,7 +39,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         return view('users.edit')->with('user', $user);
     }
 
@@ -52,7 +52,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $validated = $request->validated();
         $user->update($validated);
         return redirect("/users");

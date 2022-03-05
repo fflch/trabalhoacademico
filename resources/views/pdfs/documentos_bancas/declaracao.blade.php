@@ -1,4 +1,5 @@
 @inject('pessoa','Uspdev\Replicado\Pessoa')
+@inject('replicado','\App\Utils\ReplicadoUtils')
 
 @extends('laravel-fflch-pdf::main')
 @section('other_styles')
@@ -79,11 +80,11 @@
 	<div style="margin-top:2cm;" align="center"> 
         Atenciosamente,<br>  
         <b>
-            Secretaria do Departamento de {{$agendamento->curso}} - FFLCH/USP
+            Secretaria do Departamento de {{$agendamento->departamento}} - FFLCH/USP
         </b>
     </div> 
 @endsection('content')
 
 @section('footer')
-    {!! $configs->configRodape($agendamento->curso)->rodape_oficios !!}
+    {!! $configs->configRodape($agendamento->departamento)->rodape_oficios !!}
 @endsection('footer')

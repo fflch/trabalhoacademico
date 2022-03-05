@@ -83,7 +83,7 @@
         <div style="margin-top:2cm;" align="center"> 
             Atenciosamente,<br>  
             <b>
-                Secretaria do Departamento de {{$agendamento->curso}} - FFLCH/USP 
+                Secretaria do Departamento de {{$agendamento->departamento}} - FFLCH/USP 
             </b>
         </div>
     </p>
@@ -92,5 +92,5 @@
 @endsection('content')
 
 @section('footer')
-    {!! $configs->configRodape($agendamento->curso)->rodape_oficios !!}
+    {!! $configs->configRodape($agendamento->departamento)->rodape_oficios !!}
 @endsection('footer')

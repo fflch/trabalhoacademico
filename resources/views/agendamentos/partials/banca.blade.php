@@ -1,7 +1,7 @@
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Banca</b></div>
         <div class="card-body form-group">
-            @can('OWNER', $agendamento)
+            @can('owner', $agendamento)
                 @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')
                     @include('agendamentos.bancas.partials.form')
                 @endif
@@ -9,23 +9,23 @@
             <table class="table table-striped" style="text-align: center;">
                 <theader>
                     <tr>
-                        @can('LOGADO')<th>Nº USP</th>@endcan
+                        @can('logado')<th>Nº USP</th>@endcan
                         <th>Nome</th>
                         <th>Presidente</th>
-                        @can('ADMIN')
+                        @can('admin')
                             <th>Ofício de Agendamento</th>
                             <th>Declaração de participação</th>
                         @endcan
-                        @can('OWNER', $agendamento)<th>Ações</th>@endcan
+                        @can('owner', $agendamento)<th>Ações</th>@endcan
                     </tr>
                 </theader>
                 <tbody>
                 @foreach ($agendamento->bancas as $banca)
                     <tr>
-                        @can('LOGADO')<td>{{ $banca->n_usp ?? '' }}</td>@endcan
+                        @can('logado')<td>{{ $banca->n_usp ?? '' }}</td>@endcan
                         <td>@if($banca->n_usp){{ $pessoa::dump($banca->n_usp)['nompes']}}@else {{ $agendamento->dadosProfExterno($banca->prof_externo_id)['nome'] }}@endif</td>
                         <td>{{ $banca->presidente }}</td>
-                        @can('ADMIN')
+                        @can('admin')
                             <td>
                                 <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/oficio" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
                             </td>
@@ -33,7 +33,7 @@
                                 <a href="/agendamentos/{{$agendamento->id}}/bancas/{{$banca->id}}/declaracao" class="btn btn-info"><i class="fas fa-file-pdf"></i></a>
                             </td>
                         @endcan
-                        @can('OWNER', $agendamento)
+                        @can('owner', $agendamento)
                             <td>
 
                                 @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')

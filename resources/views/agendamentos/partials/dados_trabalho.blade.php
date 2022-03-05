@@ -19,7 +19,7 @@
                 <div class="card-header">Dados do Orientador</div>
                 <div class="card-body">
                     <b>Nome do Orientador:</b> {{$agendamento->nome_do_orientador}}</br>
-                    @can('LOGADO')<b>Número USP do orientador:</b> {{$agendamento->numero_usp_do_orientador}}</br>@endcan
+                    @can('logado')<b>Número USP do orientador:</b> {{$agendamento->numero_usp_do_orientador}}</br>@endcan
                 </div>
             </div>
         </div>

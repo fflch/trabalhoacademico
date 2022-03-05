@@ -33,7 +33,7 @@ class Config extends Model
             [$curso], 
             $configs['rodape_oficios']
         );
-        if($curso == 'Filosofia' or $curso == 'Ciências Sociais'){
+        if($curso == 'Filosofia' or in_array($curso,['Ciência Política','Antropologia','Sociologia'])){
             $configs['rodape_oficios'] = str_replace(
                 ["%endereco"], 
                 [' Av. Prof. Luciano Gualberto, 315 | Cidade Universitária | São Paulo-SP | CEP 05508-010'], 
@@ -47,7 +47,7 @@ class Config extends Model
                 $configs['rodape_oficios']
             );
         }
-        elseif($curso == 'Letras'){
+        else{
             $configs['rodape_oficios'] = str_replace(
                 ["%endereco"], 
                 ['Av. Prof. Luciano Gualberto, 403 | Cidade Universitária | São Paulo-SP | CEP 05508-010'], 

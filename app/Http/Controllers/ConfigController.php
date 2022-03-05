@@ -15,7 +15,7 @@ class ConfigController extends Controller
     
     public function edit()
     {
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $config = Config::orderByDesc('created_at')->first();
         if(!$config) $config =  new Config;
         return view('configs.edit', compact('config'));
@@ -23,7 +23,7 @@ class ConfigController extends Controller
 
     public function store(ConfigRequest $request)
     {
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $validated = $request->validated();
         Config::create($validated);
         return redirect('/configs');

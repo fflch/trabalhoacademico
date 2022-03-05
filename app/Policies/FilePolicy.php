@@ -20,7 +20,7 @@ class FilePolicy
      */
     public function __construct()
     {
-        $this->is_superAdmin = Gate::allows('ADMIN');
+        $this->is_superAdmin = Gate::allows('admin');
         $this->biblioteca = explode(',', trim(env('CODPES_BIBLIOTECA')));
 
     }

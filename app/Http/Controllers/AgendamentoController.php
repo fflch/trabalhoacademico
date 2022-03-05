@@ -26,8 +26,17 @@ class AgendamentoController extends Controller
 {   
     public function index(Request $request)
     {        
-        $this->authorize('LOGADO');
+        $this->authorize('logado');
         
+        $agendamentos = $this->search($request);
+        
+        if ($agendamentos->count() == null and $request->busca != '') {
+            $request->session()->flash('alert-danger', 'Não há registros!');
+        }
+        return view('agendamentos.index')->with('agendamentos',$agendamentos);
+    }
+
+    public function search(Request $request){
         $request->validate([
             'busca_data' => 'required_if:filtro_busca,data|dateformat:d/m/Y|nullable',
         ]);
@@ -48,32 +57,25 @@ class AgendamentoController extends Controller
         if($request->busca_status != ''){
             $query->where('status','=', $request->busca_status);
         }
-        
-        $agendamentos = $query->paginate(20);
-        
-        if ($agendamentos->count() == null and $request->busca != '') {
-            $request->session()->flash('alert-danger', 'Não há registros!');
-        }
-        return view('agendamentos.index')->with('agendamentos',$agendamentos);
+        return $query->paginate(20);
     }
 
     public function create(Request $request)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('logado');
         $agendamento = Agendamento::where('user_id', Auth::user()->id)->first();
         if($agendamento == null or ($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções' or $agendamento->status == 'Reprovado')){
             $agendamento = new Agendamento;
             return view('agendamentos.create')->with('agendamento', $agendamento);
         }
-        else{
-            $request->session()->flash('alert-danger', 'Você já tem uma defesa em andamento!');
-            return redirect('/agendamentos');
-        }
+        
+        $request->session()->flash('alert-danger', 'Você já tem uma defesa em andamento!'); 
+        return redirect('/agendamentos');
     }
 
     public function store(AgendamentoRequest $request)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('logado');
         $validated = $request->validated();
         $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
@@ -101,6 +103,9 @@ class AgendamentoController extends Controller
             $stepper->setCurrentStepName($agendamento->status);
         }
         $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
+        
+        if(!auth()->check()) return redirect('/');
+
         if(auth()->check() or in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){
             return view('agendamentos.show')->with([
                 'agendamento' => $agendamento,
@@ -108,20 +113,17 @@ class AgendamentoController extends Controller
                 'stepper' => $stepper->render(),
             ]);
         }
-        elseif(!auth()->check()){
-            return redirect('/');
-        }
     }
 
     public function edit(Agendamento $agendamento)
     {
-        $this->authorize('OWNER',$agendamento);
+        $this->authorize('owner',$agendamento);
         return view('agendamentos.edit')->with('agendamento', $agendamento);
     }
 
     public function update(AgendamentoRequest $request, Agendamento $agendamento)
     {
-        $this->authorize('OWNER',$agendamento);
+        $this->authorize('owner',$agendamento);
         $validated = $request->validated();
         $validated['data_da_defesa'] = $validated['data_da_defesa']." $request->horario";
         $validated['nome_do_orientador'] = Pessoa::dump($validated['numero_usp_do_orientador'])['nompes'];
@@ -132,7 +134,7 @@ class AgendamentoController extends Controller
     
     public function destroy(Agendamento $agendamento, Request $request)
     {
-        $this->authorize('OWNER',$agendamento);
+        $this->authorize('owner',$agendamento);
         if($agendamento->status == 'Em Elaboração'){
             $agendamento->bancas()->delete();
             $files = $agendamento->files;
@@ -147,7 +149,7 @@ class AgendamentoController extends Controller
     }
 
     public function enviar_avaliacao(Agendamento $agendamento){
-        $this->authorize('OWNER',$agendamento);
+        $this->authorize('owner',$agendamento);
         $agendamento->data_enviado_avaliacao = date('Y-m-d');
         $agendamento->update();
         # Mandar email para orientador
@@ -156,7 +158,7 @@ class AgendamentoController extends Controller
     }
 
     public function enviar_correcao(Agendamento $agendamento, Request $request){
-        $this->authorize('OWNER',$agendamento);
+        $this->authorize('owner',$agendamento);
         $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
         if($agendamento->files()->where('tipo', 'trabalho')->count() != 0 and $dias <= 60){
             $agendamento->data_enviado_correcao = date('Y-m-d');
@@ -172,7 +174,7 @@ class AgendamentoController extends Controller
     }
 
     public function liberar(Agendamento $agendamento, Request $request){
-        $this->authorize('DOCENTE',$agendamento);
+        $this->authorize('docente',$agendamento);
         if($request->comentario){
             $agendamento->comentario = $request->comentario;
         }
@@ -196,7 +198,7 @@ class AgendamentoController extends Controller
     }
 
     public function resultado(Agendamento $agendamento, Request $request){
-        $this->authorize('DOCENTE',$agendamento);
+        $this->authorize('docente',$agendamento);
         $request->validate([
             'parecer' => '',
             'nota' => 'required',
@@ -204,9 +206,7 @@ class AgendamentoController extends Controller
         if($request->parecer){
             $agendamento->parecer = $request->parecer;
         }
-        if($request->nota){
-            $agendamento->nota = $request->nota;  
-        }
+        $agendamento->nota = $request->nota;  
         if($request->devolver){
             $agendamento->status = 'Aprovado C/ Correções';
             $agendamento->data_devolucao = date('Y-m-d');
@@ -238,7 +238,7 @@ class AgendamentoController extends Controller
     }
 
     public function publicar(Agendamento $agendamento, Request $request){
-        $this->authorize('BIBLIOTECA');
+        $this->authorize('biblioteca');
         $request->validate([
             'url_biblioteca' => 'required_if:publicado,Sim|nullable',
             'publicado' => 'required',
@@ -251,7 +251,7 @@ class AgendamentoController extends Controller
     }
 
     public function voltar_defesa(Agendamento $agendamento){
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         if($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções' or $agendamento->status == 'Reprovado'){
             $agendamento->status = 'Em Avaliação';
             $agendamento->data_publicacao = null;
@@ -276,11 +276,17 @@ class AgendamentoController extends Controller
     {
         if ($request->hasValidSignature()) {
             $file = File::find($request->file_id);
-            return Storage::download($file->path, $file->original_name);
-        } else {
-            $request->session()->flash('alert-danger',
-                "URL expirada!");
-            return redirect('/');
+
+            if ($file) {
+                return Storage::download($file->path, $file->original_name);
+            }
+            else{
+                $file = File::where('agendamento_id', $request->agendamento_id)->orderBy('created_at', 'desc')->first();
+                return Storage::download($file->path, $file->original_name);
+            }
         }
+
+        $request->session()->flash('alert-danger', "URL expirada!");
+        return redirect('/');
     }  
 }
