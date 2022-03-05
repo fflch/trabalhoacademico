@@ -44,6 +44,12 @@
             <div class="card-body">
                 <input type="text" hidden name="status" value="">
                 <input type="text" hidden name="curso" value="">
+                @can('admin')
+                    <div class="form-group">
+                        <label for="curso" class="required"><b>Curso</b></label>
+                        <input type="text" class="form-control" name="curso" value="{{ old('curso', $agendamento->curso) }}">
+                    </div>
+                @endcan
                 <div class="form-group">
                     <label for="tipo" class="required"><b>Modalidade de Defesa</b></label>
                     <select class="form-control" name="tipo" @if($agendamento->status == 'Aprovado')readonly @endif>

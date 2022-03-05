@@ -6,27 +6,28 @@
 @endsection('styles')
 
 @section('content')
+    @inject('graduacao','Uspdev\Replicado\Graduacao')
     @inject('pessoa','Uspdev\Replicado\Pessoa')
     @include('flash')
-    @can('LOGADO')
+    @can('logado')
         @include('agendamentos.partials.cabecalho')
         {!! $stepper !!}
         @include('agendamentos.partials.comentarios')
     @endcan
-    @can('BIBLIOTECA')
+    @can('biblioteca')
         @include('agendamentos.partials.biblioteca')
     @endcan
     @include('agendamentos.partials.dados_pessoais')
     @include('agendamentos.partials.dados_trabalho')
     @include('agendamentos.partials.banca')
-    @can('OWNER', $agendamento)
+    @can('owner', $agendamento)
         @include('agendamentos.partials.documentos')
-    @elsecan('DOCENTE', $agendamento)
+    @elsecan('docente', $agendamento)
         @include('agendamentos.partials.documentos')
     @endcan
     @include('agendamentos.partials.files')
 
-    @can('ADMIN')
+    @can('admin')
         @if($agendamento->data_enviado_avaliacao != null)
             <div class="col-auto">
                 <form method="POST" action="/agendamentos/voltar_defesa/{{ $agendamento->id }}">

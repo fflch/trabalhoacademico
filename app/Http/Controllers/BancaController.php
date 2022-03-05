@@ -17,7 +17,7 @@ class BancaController extends Controller
     
     public function store(BancaRequest $request)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('logado');
         $validated = $request->validated();
         $validated['presidente'] = 'Não';
         Banca::create($validated);
@@ -26,7 +26,7 @@ class BancaController extends Controller
 
     public function destroy(Banca $banca)
     {
-        $this->authorize('LOGADO');
+        $this->authorize('logado');
         $banca->delete();
         return back();
     }

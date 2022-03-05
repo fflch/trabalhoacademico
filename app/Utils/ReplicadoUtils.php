@@ -3,6 +3,7 @@
 namespace App\Utils;
 use Uspdev\Replicado\DB as DBreplicado;
 use Uspdev\Replicado\Uteis;
+use Uspdev\Replicado\Graduacao;
 
 class ReplicadoUtils {
 
@@ -12,27 +13,20 @@ class ReplicadoUtils {
         return DBreplicado::fetchAll($query);
     }
 
-    /**
-     * Método para retornar dados do curso de um aluno na unidade
-     *
-     * @param Int $codpes
-     * @param Int $codundclgi
-     * @return array(codpes, nompes, codcur, nomcur, codhab, nomhab, dtainivin, codcurgrd)
-     */
-    public static function curso($codpes)
-    {
-        $codclg = getenv('REPLICADO_CODUNDCLG');
-        $query = "SELECT DISTINCT C.codcur, C.nomcur";
-        $query .= " FROM VINCSATHABILITACAOGR V";
-        $query .= " INNER JOIN CURSOGR C ON (V.codcur = C.codcur)";
-        $query .= " INNER JOIN HABILITACAOGR H ON (H.codhab = V.codhab)";
-        $query .= " WHERE (V.codpes = convert(int,:codpes))";
-        $query .= " AND (V.tipvin = 'ALUNOGR' AND C.codclg = convert(int,:codclg))";
-        $query .= " AND (V.codcur = H.codcur AND V.codhab = H.codhab)";
-        $param = [
-            'codpes' => $codpes,
-            'codclg' => $codclg,
-        ];
-        return DBreplicado::fetchAll($query, $param);
+    public static function nomeSetorAluno($codpes){
+        $codundclg = intval(getenv('REPLICADO_CODUNDCLG'));
+        $sigla_setor = Graduacao::setorAluno($codpes,$codundclg)['nomabvset'];
+
+        if($sigla_setor == 'DEPARTAMENTO NÃO ENCONTRADO') return '';
+
+        $query = "SELECT S.codset, S.tipset, S.nomabvset, S.nomset, S.codsetspe FROM SETOR S";
+        $query .= " WHERE S.codund = {$codundclg} AND S.nomabvset = '{$sigla_setor}'";
+        $query .= " AND S.tipset = 'Departamento de Ensino'";
+
+        $result = DBreplicado::fetchAll($query);
+
+        if($result == []) return '';
+
+        return $result;
     }
 } 

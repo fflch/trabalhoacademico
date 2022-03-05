@@ -28,39 +28,40 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('ADMIN', function ($user) {
-            $admins = explode(',', trim(env('ADMINS')));
+        
+        Gate::define('admin', function ($user) {
+            $admins = explode(',', trim(env('SENHAUNICA_ADMINS')));
             return in_array($user->codpes, $admins);
         });
-        
-        Gate::define('LOGADO', function ($user) {
+
+        Gate::define('logado', function ($user) {
+            if(Gate::allows('admin')) return true;
             return true;
         });
 
-        Gate::define('OWNER', function ($user, $model) {
-            if(Gate::allows('ADMIN')) return true;
+        Gate::define('owner', function ($user, $model) {
+            if(Gate::allows('admin')) return true;
             if($model->user_id == $user->id) return true;
             return false;
         });
 
-        Gate::define('DOCENTE', function ($user, $agendamento = null) {
-            if(Gate::allows('ADMIN')) return true;
+        Gate::define('docente', function ($user, $agendamento = null) {
+            if(Gate::allows('admin')) return true;
             $is_docente = in_array('Docente',Pessoa::vinculosSetores($user->codpes,8));
             if($is_docente && $agendamento == null) return true;
             if($is_docente && $agendamento->numero_usp_do_orientador == $user->codpes) return true;
             return false;
         });
 
-        Gate::define('ALUNO', function ($user) {
-            if(Gate::allows('ADMIN')) return true;
+        Gate::define('aluno', function ($user) {
+            if(Gate::allows('admin')) return true;
             $is_aluno = in_array('Aluno de Graduação',Pessoa::vinculosSetores($user->codpes,8));
             if($is_aluno) return true;
             return false;
         });
 
-        Gate::define('BIBLIOTECA', function ($user) {
-            if(Gate::allows('ADMIN')) return true;
+        Gate::define('biblioteca', function ($user) {
+            if(Gate::allows('admin')) return true;
             $biblioteca = explode(',', trim(env('CODPES_BIBLIOTECA')));
             return in_array($user->codpes, $biblioteca);
         });

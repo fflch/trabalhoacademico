@@ -79,14 +79,14 @@
                 <td>{{ $agendamento->nome_do_orientador}}</td>
                 <td>{{ $agendamento->status}}</td>
                 <td>
-                    @can('OWNER', $agendamento)
+                    @can('owner', $agendamento)
                         @if($agendamento->status == 'Em Elaboração' or $agendamento->status == 'Em Avaliação')
                             <a href="/agendamentos/{{$agendamento->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
                         @endif
                     @endcan
                 </td>
                 <td>
-                    @can('OWNER', $agendamento)
+                    @can('owner', $agendamento)
                         @if($agendamento->status == 'Em Elaboração')
                             <form method="POST" action="/agendamentos/{{ $agendamento->id }}">
                                 @csrf 

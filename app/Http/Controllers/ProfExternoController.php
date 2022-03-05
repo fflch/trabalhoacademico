@@ -16,7 +16,7 @@ class ProfExternoController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $query = ProfExterno::orderBy('nome','asc');
 
         if($request->busca != null){
@@ -37,7 +37,7 @@ class ProfExternoController extends Controller
     public function create()
     {
         //
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $profExterno = new ProfExterno;
         return view('prof_externo.create')->with('profExterno', $profExterno);
     }
@@ -51,7 +51,7 @@ class ProfExternoController extends Controller
     public function store(ProfExternoRequest $request)
     {
         //
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $validated = $request->validated();
         $validated['last_user'] = Auth::user()->codpes;
         $profExterno = ProfExterno::create($validated);
@@ -67,7 +67,7 @@ class ProfExternoController extends Controller
     public function show(ProfExterno $profExterno)
     {
         //
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         return view('prof_externo.show', compact('profExterno'));
     }
 
@@ -80,7 +80,7 @@ class ProfExternoController extends Controller
     public function edit(ProfExterno $profExterno)
     {
         //
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         return view('prof_externo.edit')->with('profExterno', $profExterno);
     }
 
@@ -94,7 +94,7 @@ class ProfExternoController extends Controller
     public function update(ProfExternoRequest $request, ProfExterno $profExterno)
     {
         //
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $validated = $request->validated();
         $validated['last_user'] = Auth::user()->codpes;
         $profExterno->update($validated);
@@ -110,7 +110,7 @@ class ProfExternoController extends Controller
     public function destroy(ProfExterno $profExterno)
     {
         //
-        $this->authorize('ADMIN');
+        $this->authorize('admin');
         $profExterno->bancas()->delete();
         $profExterno->delete();
         return redirect('/prof_externo');

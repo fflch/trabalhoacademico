@@ -2,7 +2,7 @@
         <div class="card-header"><b>Documentos Gerais</b></div>
         <table class="table table-striped">
             <tbody>
-                @can('DOCENTE', $agendamento)
+                @can('docente', $agendamento)
                     @if($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções')
                         <tr>
                             <td>
@@ -13,7 +13,7 @@
                             </td>
                         </tr>
                     @endif
-                @elsecan('OWNER', $agendamento)
+                @elsecan('owner', $agendamento)
                     @if($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções')
                         <tr>
                             <td>
@@ -25,7 +25,7 @@
                         </tr>
                     @endif
                 @endcan
-                @can('OWNER', $agendamento)
+                @can('owner', $agendamento)
                     <tr>
                         <td>
                             Placa
@@ -35,7 +35,7 @@
                         </td>
                     </tr>
                 @endcan
-                @can('DOCENTE', $agendamento)
+                @can('docente', $agendamento)
                     <tr>
                         <td>
                             Ofícios de Agendamento
@@ -53,7 +53,7 @@
                         </td>
                     </tr>
                 @endcan
-                @can('OWNER', $agendamento)
+                @can('owner', $agendamento)
                     @if($agendamento->files->where('tipo', 'ata')->first())
                     <tr>
                         <td>
@@ -67,7 +67,7 @@
                 @endcan
             </tbody>
         </table>
-        @can('DOCENTE', $agendamento)
+        @can('docente', $agendamento)
             <div class="card">
                 <div class="card-header">Parecer da Defesa</div>
                 <div class="card-body">

@@ -26,17 +26,17 @@ $menu = [
     [
         'text'    => '<i class="fas fa-home"></i> Dashboard',
         'url' => config('app.url') . '/dashboard',
-        'can' => 'LOGADO',
+        'can' => 'logado',
     ],
     [
         'text'    => '<i class="fas fa-calendar-alt"></i> Agendamentos',
         'submenu' => $submenu1,
-        'can' => 'LOGADO',
+        'can' => 'logado',
     ],
     [
         'text'    => '<i class="fas fa-chalkboard-teacher"></i> Professor Externo',
         'submenu' => $submenu2,
-        'can' => 'ADMIN',
+        'can' => 'admin',
     ],
 ];
 
@@ -47,7 +47,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/configs',
         'align' => 'right',
-        'can' => 'ADMIN',
+        'can' => 'admin',
     ],
     [
         'text' => '<i class="fas fa-user-shield"></i>',
@@ -55,7 +55,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/loginas',
         'align' => 'right',
-        'can' => 'ADMIN',
+        'can' => 'admin',
     ],
     [
         'text' => '<i class="fas fa-hard-hat"></i>',
@@ -63,7 +63,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/logs',
         'align' => 'right',
-        'can' => 'ADMIN',
+        'can' => 'admin',
     ],
     [
         'text' => '<i class="fas fa-users"></i>',
@@ -71,7 +71,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/users',
         'align' => 'right',
-        'can' => 'ADMIN',
+        'can' => 'admin',
     ],
 ];
 

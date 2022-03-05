@@ -1,6 +1,6 @@
 <div class="row" style="margin-bottom: 0.5em;">
     <div class="col-sm">
-        @can('DOCENTE', $agendamento)
+        @can('docente', $agendamento)
             @if(($agendamento->data_enviado_avaliacao != null and $agendamento->data_liberacao != null and $agendamento->status == 'Em Avaliação') or ($agendamento->data_enviado_correcao != null and $agendamento->status == 'Aprovado C/ Correções'))
                 <br>
                 <div class="card">
@@ -39,7 +39,7 @@
                 </div>
             @endif
         @endcan
-        @can('OWNER', $agendamento)
+        @can('owner', $agendamento)
             @if($agendamento->parecer != '' and ($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções' or $agendamento->status == 'Reprovado'))
                 <br>
                 <div class="card">
@@ -50,7 +50,7 @@
                 </div>
             @endif
         @endcan
-        @can('DOCENTE', $agendamento)
+        @can('docente', $agendamento)
             @if($agendamento->status == 'Em Elaboração' and $agendamento->files()->count() != 0 and $agendamento->data_enviado_avaliacao != null)
                 <br>
                 <div class="card">
@@ -70,7 +70,7 @@
                 </div>
             @endif
         @endcan
-        @can('OWNER', $agendamento)
+        @can('owner', $agendamento)
             @if($agendamento->comentario != '' and ($agendamento->status != 'Aprovado' and $agendamento->status != 'Aprovado C/ Correções'))
                 <br>
                 <div class="card">
