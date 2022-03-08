@@ -23,7 +23,8 @@ class PdfController extends Controller
         $this->authorize('logado');
         $configs = Config::orderbyDesc('created_at')->first();
         
-        $agendamento->departamento = Graduacao::nomeSetorAluno($agendamento->user->codpes, getenv('REPLICADO_CODUNDCLG'));
+        $agendamento->departamento = Graduacao::retornarNomeSetorAluno($agendamento->user->codpes);
+        dd($agendamento->departamento);
         if(!$agendamento->departamento){
             $agendamento->departamento = $agendamento->curso;
         }
@@ -50,7 +51,7 @@ class PdfController extends Controller
         $professores = Banca::where('agendamento_id',$agendamento->id)->orderBy('presidente','desc')->get();
         $professor = $banca;
         
-        $agendamento->departamento = Graduacao::nomeSetorAluno($agendamento->user->codpes, getenv('REPLICADO_CODUNDCLG'));
+        $agendamento->departamento = Graduacao::retornarNomeSetorAluno($agendamento->user->codpes);
         if(!$agendamento->departamento){
             $agendamento->departamento = $agendamento->curso;
         }
