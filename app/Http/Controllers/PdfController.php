@@ -10,7 +10,7 @@ use App\Models\Banca;
 use App\Models\Config;
 use Carbon\Carbon;
 use Uspdev\Replicado\Pessoa;
-use App\Utils\ReplicadoUtils;
+use Uspdev\Replicado\Graduacao;
 
 class PdfController extends Controller
 {
@@ -22,8 +22,15 @@ class PdfController extends Controller
     public function documentosGerais(Agendamento $agendamento, $tipo){
         $this->authorize('logado');
         $configs = Config::orderbyDesc('created_at')->first();
-        $agendamento->departamento = ReplicadoUtils::nomeSetorAluno($agendamento->user->codpes)[0]['nomset'];
-        if($agendamento->departamento == '') $agendamento->departamento = $agendamento->curso;
+        
+        $agendamento->departamento = Graduacao::nomeSetorAluno($agendamento->user->codpes, getenv('REPLICADO_CODUNDCLG'));
+        if(!$agendamento->departamento){
+            $agendamento->departamento = $agendamento->curso;
+        }
+        else{
+            $agendamento->departamento = $agendamento->departamento[0]['nomset'];
+        }
+
         if($tipo == 'placa'){
             $pdf = PDF::loadView('pdfs.documentos_gerais.placa', compact('agendamento'))->setPaper('a4', 'landscape');
             return $pdf->download('placa.pdf');
@@ -42,8 +49,15 @@ class PdfController extends Controller
         $this->authorize('logado');
         $professores = Banca::where('agendamento_id',$agendamento->id)->orderBy('presidente','desc')->get();
         $professor = $banca;
-        $agendamento->departamento = ReplicadoUtils::nomeSetorAluno($agendamento->user->codpes)[0]['nomset'];
-        if($agendamento->departamento == '') $agendamento->departamento = $agendamento->curso;
+        
+        $agendamento->departamento = Graduacao::nomeSetorAluno($agendamento->user->codpes, getenv('REPLICADO_CODUNDCLG'));
+        if(!$agendamento->departamento){
+            $agendamento->departamento = $agendamento->curso;
+        }
+        else{
+            $agendamento->departamento = $agendamento->departamento[0]['nomset'];
+        }
+        
         config(['laravel-fflch-pdf.setor' => "Departamento de $agendamento->departamento"]);
         if($tipo == 'declaracao'){
             if($professor->n_usp){
