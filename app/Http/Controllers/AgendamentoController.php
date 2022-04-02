@@ -131,7 +131,6 @@ class AgendamentoController extends Controller
         $agendamento->update($validated);
         return redirect("/agendamentos/$agendamento->id");
     }
-
     
     public function destroy(Agendamento $agendamento, Request $request)
     {

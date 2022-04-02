@@ -22,13 +22,10 @@ Route::post('agendamentos/publicar/{agendamento}', [AgendamentoController::class
 Route::post('agendamentos/voltar_defesa/{agendamento}', [AgendamentoController::class,'voltar_defesa']);
 
 Route::resource('agendamentos', AgendamentoController::class);
-Route::resource('bancas', BancaController::class);
-Route::resource('files', FileController::class);
+Route::resource('bancas', BancaController::class)->only(['store', 'destroy']);
+Route::resource('files', FileController::class)->only(['store', 'show', 'destroy']);
 Route::resource('prof_externo', ProfExternoController::class);
-
-// rotas para configs
-Route::get('/configs',[ConfigController::class, 'edit']);
-Route::post('/configs',[ConfigController::class, 'store']);
+Route::resource('configs', ConfigController::class)->only(['edit','store']);
 
 // rotas para pdfs
 Route::get('/agendamentos/{agendamento}/{tipo}',[PdfController::class, 'documentosGerais']);

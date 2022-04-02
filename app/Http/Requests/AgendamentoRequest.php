@@ -19,21 +19,21 @@ class AgendamentoRequest extends FormRequest
         $agendamento = new Agendamento;
         return [
             'user_id' => '',
-            'outro_recomendado_' => 'email|nullable',
-            'divulgar_e_mail_' => ['required',Rule::in($agendamento->divulgaOptions())],
-            'tipo' => ['required',Rule::in($agendamento->tipoOptions())],
-            'titulo' => 'required',
+            'outro_recomendado_' => 'email|nullable|max:255',
+            'divulgar_e_mail_' => ['required',Rule::in($agendamento->divulgaOptions()),'max:255'],
+            'tipo' => ['required',Rule::in($agendamento->tipoOptions()), 'max:255'],
+            'titulo' => 'required|max:255',
             'resumo' => 'required', 
-            'palavras_chave' => 'required',
-            'titulo_ingles' => '',
-            'keywords' => '',
+            'palavras_chave' => 'required|max:255',
+            'titulo_ingles' => 'max:255',
+            'keywords' => 'max:255',
             'abstract' => '',
             'data_da_defesa' => 'required|dateformat:d/m/Y',
             'horario' => 'required',
             'sala' => 'required',
-            'nome_do_orientador' => '',
+            'nome_do_orientador' => 'max:255',
             'numero_usp_do_orientador' => 'required|integer',
-            'curso' => '',
+            'curso' => 'max:255',
         ];
     }
 }
