@@ -25,7 +25,7 @@ Route::resource('agendamentos', AgendamentoController::class);
 Route::resource('bancas', BancaController::class)->only(['store', 'destroy']);
 Route::resource('files', FileController::class)->only(['store', 'show', 'destroy']);
 Route::resource('prof_externo', ProfExternoController::class);
-Route::resource('configs', ConfigController::class)->only(['edit','store']);
+Route::resource('configs', ConfigController::class)->only(['index','store']);
 
 // rotas para pdfs
 Route::get('/agendamentos/{agendamento}/{tipo}',[PdfController::class, 'documentosGerais']);
