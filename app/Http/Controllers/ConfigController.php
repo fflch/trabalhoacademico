@@ -13,7 +13,7 @@ class ConfigController extends Controller
         $this->middleware('auth');
     }
     
-    public function edit()
+    public function index()
     {
         $this->authorize('admin');
         $config = Config::orderByDesc('created_at')->first();
