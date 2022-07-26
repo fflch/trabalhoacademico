@@ -8,6 +8,7 @@ use Uspdev\Replicado\Graduacao;
 use Uspdev\Replicado\Pessoa;
 use App\Models\File;
 use App\Policies\FilePolicy;
+use App\Utils\ReplicadoUtils;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -47,7 +48,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('docente', function ($user, $agendamento = null) {
             if(Gate::allows('admin')) return true;
-            $is_docente = in_array('Docente',Pessoa::vinculosSetores($user->codpes,8));
+            $is_docente = ReplicadoUtils::isDocente($user->codpes);
             if($is_docente && $agendamento == null) return true;
             if($is_docente && $agendamento->numero_usp_do_orientador == $user->codpes) return true;
             return false;
