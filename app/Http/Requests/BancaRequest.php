@@ -22,4 +22,12 @@ class BancaRequest extends FormRequest
             'agendamento_id' => 'required|integer',
         ];
     }
+    public function messages()
+    {
+        return [
+            'n_usp.required_without' => 'O campo Docente USP precisa ser preenchido quando o campo Docente Externo não estiver preenchido',   
+            'prof_externo_id.required_without' => 'O campo Docente Externo precisa ser preenchido quando o campo Docente USP não estiver preenchido',    
+            'agendamento_id.required' => 'Você precisa marcar se quer divulgar seu e-mail',    
+        ];
+    }
 }

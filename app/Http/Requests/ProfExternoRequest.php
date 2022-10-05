@@ -41,6 +41,14 @@ class ProfExternoRequest extends FormRequest
         }
         return $rules;
     }
+
+    public function messages()
+    {
+        return [
+            'nome.required' => 'Você precisa preencher o campo Nome',   
+            'instituicao.required' => 'Você precisa marcar qual a Instituição',    
+        ];
+    }
     
     public function validationData()
     {
