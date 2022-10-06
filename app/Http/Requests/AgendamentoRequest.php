@@ -36,4 +36,19 @@ class AgendamentoRequest extends FormRequest
             'curso' => 'max:255',
         ];
     }
+    public function messages()
+    {
+        return [
+            'divulgar_e_mail_.required' => 'Você precisa marcar se quer divulgar seu e-mail',
+            'tipo.required' => '',
+            'titulo.required' => 'Você precisa preencher o campo Titulo',
+            'resumo.required' => 'Você precisa preencher o campo Resumo',
+            'palavras_chave.required' => 'Você precisa preencher o campo Palavra Chave',
+            'data_da_defesa.required' => 'Você precisa preencher a Data da Defesa',
+            'horario.required' => 'Você precisa preencher o Horário da Defesa',
+            'sala.required' => 'Você precisa preencher o Local da Defesa',
+            'numero_usp_do_orientador.required' => 'Você precisa preencher qual o Orientador',
+            'numero_usp_do_orientador.integer' => 'Orientador precisa ser inteiro'
+        ];
+    }
 }
