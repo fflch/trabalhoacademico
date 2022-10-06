@@ -8,7 +8,7 @@ use App\Models\Agendamento;
 
 class AgendamentoRequest extends FormRequest
 {
-    
+
     public function authorize()
     {
         return true;
@@ -23,7 +23,7 @@ class AgendamentoRequest extends FormRequest
             'divulgar_e_mail_' => ['required',Rule::in($agendamento->divulgaOptions()),'max:255'],
             'tipo' => ['required',Rule::in($agendamento->tipoOptions()), 'max:255'],
             'titulo' => 'required|max:255',
-            'resumo' => 'required', 
+            'resumo' => 'required',
             'palavras_chave' => 'required|max:255',
             'titulo_ingles' => 'max:255',
             'keywords' => 'max:255',
@@ -40,7 +40,7 @@ class AgendamentoRequest extends FormRequest
     {
         return [
             'divulgar_e_mail_.required' => 'Você precisa marcar se quer divulgar seu e-mail',
-            'tipo.required' => '',
+            'tipo.required' => 'Você precisa preencher a Modalidade de Defesa',
             'titulo.required' => 'Você precisa preencher o campo Titulo',
             'resumo.required' => 'Você precisa preencher o campo Resumo',
             'palavras_chave.required' => 'Você precisa preencher o campo Palavra Chave',
