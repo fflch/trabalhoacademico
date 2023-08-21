@@ -160,7 +160,7 @@ class AgendamentoController extends Controller
     public function enviar_correcao(Agendamento $agendamento, Request $request){
         $this->authorize('owner',$agendamento);
         $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
-        if($agendamento->files()->where('tipo', 'trabalho')->count() != 0 and $dias <= 60){
+        if($agendamento->files()->where('tipo', 'trabalho')->count() != 0){
             $agendamento->data_enviado_correcao = date('Y-m-d');
             $agendamento->update();
             # Mandar email para orientador

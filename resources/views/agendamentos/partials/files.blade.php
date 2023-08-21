@@ -2,7 +2,7 @@
         <div class="card-header"><b>Arquivos</b></div>
         <div class="card-body">
             @can('owner', $agendamento)
-                @if(($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null) or ($agendamento->status == 'Aprovado C/ Correções' and $agendamento->data_enviado_correcao == null and $dias <= 60))
+                @if(($agendamento->status == 'Em Elaboração' and $agendamento->data_enviado_avaliacao == null) or ($agendamento->status == 'Aprovado C/ Correções' and $agendamento->data_enviado_correcao == null))
                     @include('agendamentos.files.partials.form')
                 @endif
             @endcan 
