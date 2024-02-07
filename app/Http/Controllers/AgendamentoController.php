@@ -162,6 +162,7 @@ class AgendamentoController extends Controller
         $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
         if($agendamento->files()->where('tipo', 'trabalho')->count() != 0){
             $agendamento->data_enviado_correcao = date('Y-m-d');
+            $agendamento->status = 'Em Avaliação';
             $agendamento->update();
             # Mandar email para orientador
             CorrecaoJob::dispatch($agendamento);

@@ -14,7 +14,7 @@
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja enviar para Avaliação?')"> Enviar para Avaliação do(a) orientador(a) </button>
                         </form>
                     </div>
-                @elseif($agendamento->status == 'Aprovado C/ Correções' and $agendamento->data_enviado_correcao == null)
+                @elseif($agendamento->status == 'Aprovado C/ Correções')
                     <div class="col-auto">
                         <form method="POST" action="/agendamentos/enviar_correcao/{{ $agendamento->id }}">
                             @csrf 

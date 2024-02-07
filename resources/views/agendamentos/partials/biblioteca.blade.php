@@ -1,4 +1,4 @@
-        @if($agendamento->status == 'Aprovado')
+        @if($agendamento->status == 'Aprovado' or $agendamento->status == 'Aprovado C/ Correções')
             <form method='post' action='agendamentos/publicar/{{$agendamento->id}}'>
                 @csrf
                 <div class="card" style="margin-bottom: 0.5em;">
