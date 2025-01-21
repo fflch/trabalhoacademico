@@ -21,15 +21,20 @@ use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
 use App\Jobs\DeclaracaoJob;
 use Fflch\LaravelFflchStepper\Stepper;
+use Illuminate\Support\Facades\Gate;
 
 class AgendamentoController extends Controller
 {   
     public function index(Request $request)
-    {        
-        $this->authorize('logado');
-        
-        $agendamentos = $this->search($request);
-        
+    {   
+        if(Gate::allows('admin')){
+            $agendamentos = $this->search($request);
+        }else{
+            $agendamentos = Agendamento::where('user_id',auth()->user()->id)
+                                        ->orwhere('numero_usp_do_orientador',auth()->user()->codpes)
+                                        ->paginate(20);
+        }
+
         if ($agendamentos->count() == null and $request->busca != '') {
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
@@ -93,6 +98,11 @@ class AgendamentoController extends Controller
 
     public function show(Agendamento $agendamento, Stepper $stepper)
     {
+        $this->authorize('logado');
+        if($agendamento->numero_usp_do_orientador != auth()->user()->codpes){
+            Gate::authorize('owner',$agendamento);
+        }
+
         if($agendamento->data_liberacao == null and $agendamento->data_enviado_avaliacao != null){
             $stepper->setCurrentStepName('Em Análise');
         }
