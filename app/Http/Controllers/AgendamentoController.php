@@ -312,6 +312,6 @@ class AgendamentoController extends Controller
         ->toArray();
 
         $export = new ExcelExport($data, $headings);
-        return $excel->download($export, 'exemplo.xlsx');
+        return $excel->download($export, 'Agendamentos.xlsx');
     }
 }
