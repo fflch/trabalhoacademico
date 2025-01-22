@@ -101,8 +101,12 @@ class AgendamentoController extends Controller
     public function show(Agendamento $agendamento, Stepper $stepper)
     {
         $this->authorize('logado');
-        if($agendamento->numero_usp_do_orientador != auth()->user()->codpes){
-            Gate::authorize('owner',$agendamento);
+        if($agendamento->numero_usp_do_orientador == auth()->user()->codpes){
+            Gate::authorize('docente',$agendamento);
+        }elseif($agendamento->user_id == auth()->user()->id){
+            Gate::authorize('owner', $agendamento);
+        }else{
+            Gate::authorize("biblioteca");
         }
 
         if($agendamento->data_liberacao == null and $agendamento->data_enviado_avaliacao != null){
