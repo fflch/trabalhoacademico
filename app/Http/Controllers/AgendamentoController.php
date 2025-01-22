@@ -22,6 +22,8 @@ use App\Jobs\CorrecaoJob;
 use App\Jobs\DeclaracaoJob;
 use Fflch\LaravelFflchStepper\Stepper;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Excel;
+use App\Exports\ExcelExport;
 
 class AgendamentoController extends Controller
 {   
@@ -300,4 +302,16 @@ class AgendamentoController extends Controller
         $request->session()->flash('alert-danger', "URL expirada!");
         return redirect('/');
     }  
+
+    public function excel(Excel $excel, Agendamento $agendamento){
+        Gate::authorize('admin');
+        $headings = $agendamento::camposCompletos();
+        $data = $agendamento::join('users','agendamentos.user_id','users.id')
+        ->select($headings)
+        ->get()
+        ->toArray();
+
+        $export = new ExcelExport($data, $headings);
+        return $excel->download($export, 'exemplo.xlsx');
+    }
 }

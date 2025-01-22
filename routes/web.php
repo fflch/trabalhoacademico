@@ -21,6 +21,8 @@ Route::post('agendamentos/liberar/{agendamento}', [AgendamentoController::class,
 Route::post('agendamentos/publicar/{agendamento}', [AgendamentoController::class,'publicar']);
 Route::post('agendamentos/voltar_defesa/{agendamento}', [AgendamentoController::class,'voltar_defesa']);
 
+Route::post('excel', [AgendamentoController::class, 'excel']);
+
 Route::resource('agendamentos', AgendamentoController::class);
 Route::resource('bancas', BancaController::class)->only(['store', 'destroy']);
 Route::resource('files', FileController::class)->only(['store', 'show', 'destroy']);

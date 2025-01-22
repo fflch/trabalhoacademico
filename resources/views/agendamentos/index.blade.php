@@ -10,6 +10,12 @@
         <div class="col-sm">
             <a href="/agendamentos/create" class="btn btn-primary">Agendar Trabalho Acadêmico</a>
         </div>
+        <div class="col-g">
+            <form method="post" action="excel">
+                @csrf
+                <button type="submit" class="btn btn-success"><i class="fas fa-file-export"></i> Baixar para Excel</button>
+            </form>
+        </div>
     </div>
     <div class="card">
         <div class="card-body">
