@@ -10,6 +10,7 @@ use Uspdev\Replicado\Graduacao;
 use App\Models\User;
 use App\Models\ProfExterno;
 use App\Utils\ReplicadoUtils;
+use Illuminate\Support\Facades\Schema;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -141,4 +142,12 @@ class Agendamento extends Model
         
     }
 
+    public static function camposCompletos(){
+        $agendamento = Schema::getColumnListing('agendamentos');
+        $user = Schema::getColumnListing('users');
+        $camposAgendamento = array_slice($agendamento, 4);
+        $camposUser = [$user[2], $user[1]];
+        $camposCompletos = array_merge($camposAgendamento, $camposUser);
+        return $camposCompletos;
+    }
 }

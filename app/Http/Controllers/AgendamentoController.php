@@ -21,15 +21,22 @@ use App\Jobs\AprovacaoJob;
 use App\Jobs\CorrecaoJob;
 use App\Jobs\DeclaracaoJob;
 use Fflch\LaravelFflchStepper\Stepper;
+use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Excel;
+use App\Exports\ExcelExport;
 
 class AgendamentoController extends Controller
-{   
+{
     public function index(Request $request)
-    {        
-        $this->authorize('logado');
-        
-        $agendamentos = $this->search($request);
-        
+    {
+        if(Gate::allows('admin')){
+            $agendamentos = $this->search($request);
+        }else{
+            $agendamentos = Agendamento::where('user_id',auth()->user()->id)
+                                        ->orwhere('numero_usp_do_orientador',auth()->user()->codpes)
+                                        ->paginate(20);
+        }
+
         if ($agendamentos->count() == null and $request->busca != '') {
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
@@ -40,8 +47,8 @@ class AgendamentoController extends Controller
         $request->validate([
             'busca_data' => 'required_if:filtro_busca,data|dateformat:d/m/Y|nullable',
         ]);
-        
-        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*'); 
+
+        $query = Agendamento::join('users', 'users.id', '=', 'agendamentos.user_id')->orderBy('agendamentos.data_da_defesa', 'desc')->select('agendamentos.*');
         if($request->busca != ''){
             $query->where(function($query) use($request){
                 $query->orWhere('users.name', 'LIKE', "%$request->busca%");
@@ -68,8 +75,8 @@ class AgendamentoController extends Controller
             $agendamento = new Agendamento;
             return view('agendamentos.create')->with('agendamento', $agendamento);
         }
-        
-        $request->session()->flash('alert-danger', 'Você já tem uma defesa em andamento!'); 
+
+        $request->session()->flash('alert-danger', 'Você já tem uma defesa em andamento!');
         return redirect('/agendamentos');
     }
 
@@ -85,7 +92,7 @@ class AgendamentoController extends Controller
         //Salva o orientador na banca
         $banca = new Banca;
         $banca->n_usp = $validated['numero_usp_do_orientador'];
-        $banca->presidente = 'Sim'; 
+        $banca->presidente = 'Sim';
         $banca->agendamento_id = $agendamento->id;
         $agendamento->bancas()->save($banca);
         return redirect("/agendamentos/$agendamento->id");
@@ -93,6 +100,15 @@ class AgendamentoController extends Controller
 
     public function show(Agendamento $agendamento, Stepper $stepper)
     {
+        $this->authorize('logado');
+        if($agendamento->numero_usp_do_orientador == auth()->user()->codpes){
+            Gate::authorize('docente',$agendamento);
+        }elseif($agendamento->user_id == auth()->user()->id){
+            Gate::authorize('owner', $agendamento);
+        }else{
+            Gate::authorize("biblioteca");
+        }
+
         if($agendamento->data_liberacao == null and $agendamento->data_enviado_avaliacao != null){
             $stepper->setCurrentStepName('Em Análise');
         }
@@ -103,7 +119,7 @@ class AgendamentoController extends Controller
             $stepper->setCurrentStepName($agendamento->status);
         }
         $dias = Carbon::now()->diff($agendamento->data_da_defesa)->days;
-        
+
         if(!auth()->check()) return redirect('/');
 
         if(auth()->check() or in_array($agendamento->status,['Em Avaliação', 'Aprovado', 'Aprovado C/ Correções'])){
@@ -131,7 +147,7 @@ class AgendamentoController extends Controller
         $agendamento->update($validated);
         return redirect("/agendamentos/$agendamento->id");
     }
-    
+
     public function destroy(Agendamento $agendamento, Request $request)
     {
         $this->authorize('owner',$agendamento);
@@ -170,7 +186,7 @@ class AgendamentoController extends Controller
         else{
             $request->session()->flash('alert-danger', 'Não foi possível enviar o trabalho corrigido! Verifique se foi feito o upload do arquivo corrigido ou se está dentro do prazo e tente novamente.');
         }
-        
+
         return redirect('/agendamentos/'.$agendamento->id);
     }
 
@@ -207,7 +223,7 @@ class AgendamentoController extends Controller
         if($request->parecer){
             $agendamento->parecer = $request->parecer;
         }
-        $agendamento->nota = $request->nota;  
+        $agendamento->nota = $request->nota;
         if($request->devolver){
             $agendamento->status = 'Aprovado C/ Correções';
             $agendamento->data_devolucao = date('Y-m-d');
@@ -222,7 +238,7 @@ class AgendamentoController extends Controller
                         BibliotecaJob::dispatch($agendamento, $codpes);
                     }
                 }
-            } 
+            }
             elseif($request->reprovar){
                 $agendamento->status = 'Reprovado';
             }
@@ -289,5 +305,18 @@ class AgendamentoController extends Controller
 
         $request->session()->flash('alert-danger', "URL expirada!");
         return redirect('/');
-    }  
+    }
+
+    public function excel(Excel $excel, Agendamento $agendamento){
+        Gate::authorize('admin');
+        $headings = $agendamento::camposCompletos();
+        $data = $agendamento::join('users','agendamentos.user_id','users.id')
+        ->select($headings)
+        ->orderBy('agendamentos.data_da_defesa', 'desc')
+        ->get()
+        ->toArray();
+
+        $export = new ExcelExport($data, $headings);
+        return $excel->download($export, 'Agendamentos.xlsx');
+    }
 }
