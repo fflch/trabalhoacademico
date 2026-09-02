@@ -8245,16 +8245,16 @@
         },
         {
             "name": "uspdev/replicado",
-            "version": "1.27.12",
+            "version": "1.28.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uspdev/replicado.git",
-                "reference": "2feec97a58b92b108e74eba83f61d29fee69a472"
+                "reference": "18d85d4963a94c10f41c48854e6ae2ed0837fcb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uspdev/replicado/zipball/2feec97a58b92b108e74eba83f61d29fee69a472",
-                "reference": "2feec97a58b92b108e74eba83f61d29fee69a472",
+                "url": "https://api.github.com/repos/uspdev/replicado/zipball/18d85d4963a94c10f41c48854e6ae2ed0837fcb6",
+                "reference": "18d85d4963a94c10f41c48854e6ae2ed0837fcb6",
                 "shasum": ""
             },
             "require": {
@@ -8288,22 +8288,22 @@
             "homepage": "https://github.com/uspdev/replicado",
             "support": {
                 "issues": "https://github.com/uspdev/replicado/issues",
-                "source": "https://github.com/uspdev/replicado/tree/1.27.12"
+                "source": "https://github.com/uspdev/replicado/tree/1.28.3"
             },
-            "time": "2026-05-13T14:04:10+00:00"
+            "time": "2026-08-20T22:39:26+00:00"
         },
         {
             "name": "uspdev/senhaunica-socialite",
-            "version": "4.5.8",
+            "version": "4.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uspdev/senhaunica-socialite.git",
-                "reference": "8f78488132fefa7f4198fba71c681195b659502a"
+                "reference": "2830f14a38e63cd2ffd7798d1fa57c399445e38a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uspdev/senhaunica-socialite/zipball/8f78488132fefa7f4198fba71c681195b659502a",
-                "reference": "8f78488132fefa7f4198fba71c681195b659502a",
+                "url": "https://api.github.com/repos/uspdev/senhaunica-socialite/zipball/2830f14a38e63cd2ffd7798d1fa57c399445e38a",
+                "reference": "2830f14a38e63cd2ffd7798d1fa57c399445e38a",
                 "shasum": ""
             },
             "require": {
@@ -8345,9 +8345,9 @@
             "homepage": "https://github.com/uspdev/senhaunica-socialite",
             "support": {
                 "issues": "https://github.com/uspdev/senhaunica-socialite/issues",
-                "source": "https://github.com/uspdev/senhaunica-socialite/tree/4.5.8"
+                "source": "https://github.com/uspdev/senhaunica-socialite/tree/4.5.9"
             },
-            "time": "2026-03-20T14:12:15+00:00"
+            "time": "2026-08-28T21:38:17+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

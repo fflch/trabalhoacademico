@@ -1,5 +1,6 @@
 services:
   trabalhoacademico:
+    build: .
     image: trabalhoacademico:latest
     container_name: trabalhoacademico
     ports:
@@ -36,7 +37,23 @@ services:
     networks:
       - trabalhoacademico-network
     shm_size: 2gb
-    
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: trabalhoacademico_phpmyadmin
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: trabalhoacademico
+    networks:
+      - trabalhoacademico-network
+
   senhaunica-faker:
     image: uspdev/senhaunica-faker
     container_name: trabalhoacademico_senhaunica-faker
@@ -49,6 +66,14 @@ services:
         aliases:
           - auth.local
 
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: trabalhoacademico_mailpit
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Interface Web
+    networks:
+      - trabalhoacademico-network
 networks:
   trabalhoacademico-network:
 
