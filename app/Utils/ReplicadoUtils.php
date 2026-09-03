@@ -83,7 +83,7 @@ class ReplicadoUtils {
      * Verifica se uma pessoa é docente, docente aposentado ou docente visitante
      */
     public static function isDocente($codpes){
-        $vinculos = Pessoa::vinculosSetores($codpes,8);
+        $vinculos = Pessoa::listarVinculosSetores($codpes,8);
         $vinculos = implode(' ',$vinculos);
         return strpos($vinculos, 'Docente') !== false;
     }
