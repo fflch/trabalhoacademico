@@ -16,7 +16,8 @@ class LoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
                 ->clicklink('Entrar')
-                ->type('#loginUsuario', 111111)
+                ->assertSee('Senhaunica-faker')
+                ->type('loginUsuario', 111111)
                 ->press('Login')
                 ->waitForText('Sair')
                 ->assertSee('Sair');
