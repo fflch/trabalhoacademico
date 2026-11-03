@@ -9,7 +9,7 @@
 @endsection('styles')
 
 @section('content')
-@include('flash')
+    @include('flash')
     <form action="/agendamentos" method="POST">
         @csrf
         @include('agendamentos.partials.form')
