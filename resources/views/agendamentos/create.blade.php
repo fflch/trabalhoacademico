@@ -10,8 +10,5 @@
 
 @section('content')
 @include('flash')
-    <form action="/agendamentos" method="POST">
-        @csrf
         @include('agendamentos.partials.form')
-    </form>
 @endsection('content')
