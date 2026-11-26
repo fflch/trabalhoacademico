@@ -8,6 +8,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Illuminate\Support\Collection;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
+use Laravel\Dusk\Browser;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -24,6 +25,30 @@ abstract class DuskTestCase extends BaseTestCase
         }
     }
 
+    protected function loginSenhaUnica(Browser $browser, int $codpes = 111111): void
+    {
+        $browser->visit('/');
+
+        if ($browser->element('a[href*="logout"], button:contains("Sair")')) {
+            return;
+        }
+
+        $browser->clickLink('Entrar')
+            ->waitForText('Senhaunica-faker')
+            ->type('loginUsuario', (string) $codpes)
+            ->press('Login')
+            ->waitForText('Sair');
+    }
+
+    protected function logoutSenhaUnica(Browser $browser): void
+    {
+        $browser->visit('/');
+
+        if ($browser->element('a[href*="logout"]')) {
+            $browser->clickLink('Sair')
+                ->waitForText('Entrar');
+        }
+    }
     /**
      * Create the RemoteWebDriver instance.
      */

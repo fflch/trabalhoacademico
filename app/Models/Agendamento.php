@@ -84,7 +84,7 @@ class Agendamento extends Model
     }
 
     public function docentes(){
-        return ReplicadoUtils::listarDocentes();
+        return Pessoa::listarDocentes();
     }
 
     public function returnLastFileId($value){

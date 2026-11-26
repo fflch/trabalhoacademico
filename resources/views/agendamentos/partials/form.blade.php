@@ -80,7 +80,7 @@
                 <textarea class="form-control" name="resumo" id="resumo" rows="5" cols="60" @if($agendamento->status == 'Aprovado')readonly @endif>{{ old('resumo', $agendamento->resumo) }}</textarea>
             </div>
             <div class="form-group">
-                <label for="palavras_chave"class="required"><b>Palavras-Chave</b></label>
+                <label for="palavras_chave" class="required"><b>Palavras-Chave</b></label>
                 <input type="text" class="form-control" name="palavras_chave" value="{{ old('palavras_chave', $agendamento->palavras_chave) }}" @if($agendamento->status == 'Aprovado')readonly @endif>
             </div>
             <div class="form-group">

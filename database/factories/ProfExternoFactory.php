@@ -22,7 +22,18 @@ class ProfExternoFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nome' => $this->faker->name(),
+            'cpf' => $this->faker->unique()->cpf(),
+            'rg' => $this->faker->unique()->rg(), // Preenche a coluna 'documento' (input 'rg' do form)
+            'instituicao' => 'Universidade de São Paulo - USP',
+            'endereco' => $this->faker->streetAddress(),
+            'bairro' => 'Butantã',
+            'cep' => '05508-000',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'pais' => 'Brasil',
+            'email' => $this->faker->unique()->safeEmail(),
+            'telefone' => '(11) 99999-9999',
         ];
     }
 }
